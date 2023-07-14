@@ -6,163 +6,164 @@
 /*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 22:18:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/07/13 19:34:29 by egervais         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:45:47 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
-int args_count(char *command)// too big
+bool is_sep(char c)
 {
+    char sep[5] = {'|', ' ', '<', '>', 0};
     int i;
-    int count;
 
     i = 0;
-    count = 0;
-    while(*command != '|')
+    while(sep[i])
+        if(c == sep[i++])
+            return (1);
+    return (0);
+}
+int llen(char *str)
+{
+    int i;
+    int c;
+
+    i = 0;
+    c = 0;
+    while(*str && !is_sep(*str))
     {
-        if(*command == '\"' || *command == '\'')
+        if(*str == '\'' || *str == '\"')
         {
             i = 1;
-            while(command[i] && command[i] != '\"' && command[i] != '\'')//put this check into a function that returns index if positive and 0 if negative
+            while(str[i] && str[i] != *str)
                 i++;
-            if(!command[i])
+            if(!str[i])
                 return (0);
-            else
-            {
-                command = &command[i + 1];
-                count++;
-            }
+            str += i;
+            c += i;
         }
-        while(*command != ' ' && *command != '|' && *command)
-            command++;
-        while(*command && command[1] == ' ')
-            command++;
-        command++;
-        if(*command != '|')
-            count++;
+        str++;
+        c++;
     }
-    return (count);
+    if(!c)
+    {
+        while(str[i] == '|' || str[i] == '<' || str[i] == '>')// check len
+            i++;
+        return (i);
+    }
+    return (c);
 }
-int ft_llen(char *str)
+
+bool valid_sep(char *in)
 {
     int i;
-    int count;
 
     i = 0;
-    count = 0;
-    if(str[i] == '\'' || str[i] == '\"')
+    while(*in && *in == ' ')
+        in++;
+    while(is_sep(in[i]) && in[i] != ' ')
     {
+        if(in[i] != *in)
+            return (0);
         i++;
-        count++;
+        if(((*in == '<' || *in == '>' )&& i > 2) || (*in == '|' && i > 1))
+            return (0);
     }
-    if(!count)
+    in += i;
+    while(*in && *in == ' ')
+        in++;
+    if(is_sep(*in))
+        return (0);
+    return (1);
+}
+int count_args(char *in)
+{
+    int count;
+    int i;
+
+    count = 0;
+    while(*in && *in == ' ')
+        in++;
+    while(*in)
     {
-        while(str[i] && str[i] != ' ')
+        if(*in == '\'' || *in == '\"')
         {
-            i++;
+            i = 1;
+            while(in[i] && in[i] != *in)
+                i++;
+            if(!in[i])
+                return (0);
+            in += i + 1;
             count++;
         }
-    }
-    else
-    {
-        while(str[i] != '\'' && str[i] != '\"')
+        else if(is_sep(*in))
         {
-            i++;
+            if(!valid_sep(in))
+            {
+                printf("error\n");
+                exit (1);
+            }
+            while(*in && is_sep(*in) && *in == ' ')
+                in++;
+            if(*in && *in != ' ' && is_sep(*in))
+                count++;
+            while(*in && is_sep(*in))
+                in++;
+        }
+        else
+        {
+            while(*in && !is_sep(*in) && *in != '\'' && *in != '\"')
+                in++;
             count++;
         }
     }
     return (count);
 }
-int fill_point(char *command, char **temp)
+char **pre_pars(char *input)
 {
     char *line;
-    int l;
-    int i;
-    int total_len;
-
-    total_len = 0;
-    i = 0;
-    while(*command && *command != '|')
-    {
-        l = ft_llen(command);
-        total_len += l;//fuck with quotes
-        line = malloc(sizeof(char) * (l + 1));
-        line[l] = '\0';
-        l = 0;
-        while(*command && *command != '|' && *command != ' ')
-        {
-            line[l++] = *command;
-            command++;
-        }
-        if(*command && *command != '|')
-            command++;
-        temp[i++] = line;
-    }
-}
-int fill_tokens(char *input, char ***commands)
-{
+    char **a;
+    int len;
     int i;
     int k;
-    int l;
-    char **temp;
 
-    i = 0;
     k = 0;
-    l = 0;
+    len = count_args(input);
+    if(!len)
+        exit(1);
+    a = malloc(sizeof(char *) * (len + 1));
+    a[len] = NULL;
     while(*input)
     {
-        //if(*input == '<' || *input == '>')
-        //    input = input/unput(input); //for input and output
+        i = 0;
         while(*input == ' ')
             input++;
-        if(*input == '|')//maybe prob with pipe at the beginning
+        len = llen(input);
+        line = malloc(sizeof(char) * (len + 1));
+        if(!line)
+            exit(1);
+        line[len] = '\0';
+        while(i < len)
         {
+            line[i++] = *input;
             input++;
-            k++;
         }
-        while(*input == ' ')
-            input++;
-        i = args_count(input);
-        temp = malloc(sizeof(char *) * (i + 1));
-        temp[i] = NULL;
-        i = fill_point(input, temp);
-        input += i;
-        commands[k] = temp;
-        printf("%s\n", temp[l++]);
+        a[k] = line;
+        printf("%d : %s\n", k, a[k++]);
     }
-}
-int count_commands(char *line)
-{
-    int i;
-    int count;
-
-    count = 1;
-    i = -1;
-    while(line[++i])
-        if(line[i] == '|')
-            count++;
-    return (count);
-}
-char ***get_tokens(char *input)
-{
-    int count;
-    char ***commands;
-
-    count = count_commands(input);
-    commands = malloc(sizeof(char **) * (count + 1));
-    commands[count] = NULL;
-    fill_tokens(input, commands);
+    return (a);
 }
 void lsh_loop(void)
 {
     char *input;
     char ***tokens;
     input = readline("minishell : ");
-    tokens = get_tokens(input);
+    char **pars = pre_pars(input);
+    //tokens = get_tokens(input);
     //printf("%s\n", input);
     free(input);
 }
