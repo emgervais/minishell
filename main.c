@@ -6,7 +6,7 @@
 /*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 22:18:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/07/14 17:45:47 by egervais         ###   ########.fr       */
+/*   Updated: 2023/07/14 18:14:28 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,12 @@ int llen(char *str)
         }
         str++;
         c++;
+        if(*str == '\'' || *str == '\"')
+            return(i + 1);
     }
     if(!c)
     {
-        while(str[i] == '|' || str[i] == '<' || str[i] == '>')// check len
+        while(str[i] == '|' || str[i] == '<' || str[i] == '>')
             i++;
         return (i);
     }
@@ -143,6 +145,7 @@ char **pre_pars(char *input)
         while(*input == ' ')
             input++;
         len = llen(input);
+        printf("%d\n", len);
         line = malloc(sizeof(char) * (len + 1));
         if(!line)
             exit(1);
