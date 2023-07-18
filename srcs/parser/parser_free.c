@@ -6,11 +6,11 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:04:11 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/14 17:46:21 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/18 16:24:37 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parser.h"
+#include "../../includes/minishell.h"
 
 void	free_command(t_cmds *command)
 {

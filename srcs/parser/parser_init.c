@@ -6,11 +6,11 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 13:52:58 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/14 18:51:23 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/18 16:02:36 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parser.h"
+#include "../../includes/minishell.h"
 
 static t_cmds	*init_command(void)
 {
@@ -22,7 +22,7 @@ static t_cmds	*init_command(void)
 	command->args = NULL;
 	command->argc = 0;
 	command->pipe = 0;
-	command->redir = 1;
+	command->redir = 0;
 	command->redir_type = 0;
 	command->redir_file = NULL;
 	command->next = NULL;
@@ -72,22 +72,48 @@ static int	add_command(t_cmds **commands, t_cmds *command)
 	return (SUCCESS);
 }
 
-static int	parse_arg(t_cmds *command, char *str)
+static int is_redir(t_cmds *command, char **str, int i)
 {
-	if (ft_strncmp(str, "<", 1) == 0)
-		command->redir_type = 1;
-	else if (ft_strncmp(str, ">", 1) == 0)
-		command->redir_type = 2;
-	else if (ft_strncmp(str, ">>", 2) == 0)
+	command->redir = 1;
+	if (ft_strncmp(str[i], ">>", 2) == 0)
 		command->redir_type = 3;
-	else if (ft_strncmp(str, "<<", 2) == 0)
+	else if (ft_strncmp(str[i], "<<", 2) == 0)
 		command->redir_type = 4;
+	else if (ft_strncmp(str[i], "<", 1) == 0)
+		command->redir_type = 1;
+	else if (ft_strncmp(str[i], ">", 1) == 0)
+		command->redir_type = 2;
+	else
+		command->redir = 0;
+	if (command->redir)
+	{
+		command->redir_file = ft_strdup(str[i + 1]);
+		return (1);
+	}
+	return (0);
+}
+
+static t_cmds *parse_arg(t_cmds **commands, t_cmds *command, char **str, int i)
+{
+	t_cmds	*new_command;
+
+	if (ft_strncmp(str[i], "|", 1) == 0)
+		command->pipe = 1;
+	else if (is_redir(command, str, i))
+		new_command = NULL;
 	else
 	{
-		command->redir = 0;
-		return (add_arg(&command, str));
+		if (add_arg(&command, str[i]))
+			return (NULL);
+		return (command);
 	}
-	return (SUCCESS);
+	if (add_command(commands, command))
+		return (NULL);
+	new_command = init_command();
+	if (!new_command)
+		return (NULL);
+	return (new_command);
+
 }
 
 // str is the command line that has been split into an array of strings by spaces
@@ -97,27 +123,18 @@ int	parse_commands(char **str, t_cmds **commands)
 	int		i;
 
 	command = init_command();
+	if (!command)
+		return (ERROR);
 	i = 0;
 	while (str[i])
 	{
+		command = parse_arg(commands, command, str, i);
 		if (!command)
 			return (ERROR);
-		if (ft_strncmp(str[i], "|", 1) == 0)
-		{
-			command->pipe = 1;
-			if (add_command(commands, command))
-				return (ERROR);
-			if (str[i + 1])
-				command = init_command();
-		}
-		else
-		{
-			if (parse_arg(command, str[i]))
-				return (ERROR);
-		}
 		i++;
 	}
-	add_command(commands, command);
+	if (add_command(commands, command))
+		return (ERROR);
 	ft_free_split(str);
 	return (SUCCESS);
 }

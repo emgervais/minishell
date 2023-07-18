@@ -6,11 +6,11 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:48:35 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/14 18:53:40 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/18 16:53:12 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parser.h"
+#include "../../includes/minishell.h"
 
 t_cmds	*init_commands(char **str)
 {
@@ -56,6 +56,8 @@ void	parser(char **str)
 	commands = init_commands(str);
 	if (!commands)
 		return ;
+	check_double_quotes(commands);
+	replace_env_var(commands);
 	print_args(commands);
 	free_commands(commands);
 }

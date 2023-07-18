@@ -6,7 +6,7 @@
 #    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/07/14 19:38:27 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/07/18 16:36:54 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRC			:=	lexer/lexer.c \
 				parser/parser_free.c \
 				parser/parser_init.c \
 				parser/parser.c \
-				parser/valid_args.c \
+				parser/double_quotes.c \
+				parser/env_var.c \
 				main.c
 
 INC			:=	minishell.h \

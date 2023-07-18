@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:01:18 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/14 18:15:13 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/18 16:36:36 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,9 @@ void	free_commands(t_cmds *commands);
 // init
 int		parse_commands(char **str, t_cmds **commands);
 t_cmds	*init_commands(char **str);
-void	verify_commands(t_cmds *commands);
+
+void	check_double_quotes(t_cmds *commands);
+void	replace_env_var(t_cmds *commands);
 
 void	parser(char **str);
 
