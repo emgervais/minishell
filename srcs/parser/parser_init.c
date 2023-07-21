@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 13:52:58 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/18 16:02:36 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/20 22:29:37 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ static t_cmds	*init_command(void)
 		return (NULL);
 	command->args = NULL;
 	command->argc = 0;
-	command->pipe = 0;
-	command->redir = 0;
-	command->redir_type = 0;
-	command->redir_file = NULL;
+	command->redir = NULL;
 	command->next = NULL;
 	command->prev = NULL;
 	return (command);
@@ -72,24 +69,54 @@ static int	add_command(t_cmds **commands, t_cmds *command)
 	return (SUCCESS);
 }
 
+static int	init_redir(t_redir **redir, t_redir_type type, char *file)
+{
+	*redir = (t_redir *)malloc(sizeof(t_redir));
+	if (!*redir)
+		return (ERROR);
+	(*redir)->type = type;
+	(*redir)->file = ft_strdup(file);
+	(*redir)->next = NULL;
+	return (SUCCESS);
+}
+
+static int	add_redir(t_cmds **command, t_redir *redir)
+{
+	t_redir	*tmp;
+
+	if (!command || !redir)
+		return (ERROR);
+	if (!(*command)->redir)
+	{
+		(*command)->redir = redir;
+		return (SUCCESS);
+	}
+	tmp = (*command)->redir;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = redir;
+	return (SUCCESS);
+}
+
 static int is_redir(t_cmds *command, char **str, int i)
 {
-	command->redir = 1;
+	t_redir			*redir;
+	t_redir_type 	type;
+
 	if (ft_strncmp(str[i], ">>", 2) == 0)
-		command->redir_type = 3;
+		type = DOUBLE_GREAT;
 	else if (ft_strncmp(str[i], "<<", 2) == 0)
-		command->redir_type = 4;
-	else if (ft_strncmp(str[i], "<", 1) == 0)
-		command->redir_type = 1;
+		type = DOUBLE_LESS;
 	else if (ft_strncmp(str[i], ">", 1) == 0)
-		command->redir_type = 2;
+		type = GREAT;
+	else if (ft_strncmp(str[i], "<", 1) == 0)
+		type = LESS;
 	else
-		command->redir = 0;
-	if (command->redir)
-	{
-		command->redir_file = ft_strdup(str[i + 1]);
+		return (0);
+	if (init_redir(&redir, type, str[i + 1]))
 		return (1);
-	}
+	if (add_redir(&command, redir))
+		return (1);
 	return (0);
 }
 
@@ -98,22 +125,19 @@ static t_cmds *parse_arg(t_cmds **commands, t_cmds *command, char **str, int i)
 	t_cmds	*new_command;
 
 	if (ft_strncmp(str[i], "|", 1) == 0)
-		command->pipe = 1;
-	else if (is_redir(command, str, i))
-		new_command = NULL;
-	else
 	{
-		if (add_arg(&command, str[i]))
+		if (add_command(commands, command))
 			return (NULL);
-		return (command);
+		new_command = init_command();
+		if (!new_command)
+			return (NULL);
+		return (new_command);
 	}
-	if (add_command(commands, command))
+	if (is_redir(command, str, i))
 		return (NULL);
-	new_command = init_command();
-	if (!new_command)
+	if (add_arg(&command, str[i]))
 		return (NULL);
-	return (new_command);
-
+	return (command);
 }
 
 // str is the command line that has been split into an array of strings by spaces
@@ -135,6 +159,5 @@ int	parse_commands(char **str, t_cmds **commands)
 	}
 	if (add_command(commands, command))
 		return (ERROR);
-	ft_free_split(str);
 	return (SUCCESS);
 }

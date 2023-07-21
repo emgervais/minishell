@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:04:11 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/18 16:24:37 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/20 22:14:05 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,15 @@ void	free_command(t_cmds *command)
 		}
 		free(command->args);
 	}
-	if (command->redir_file)
-		free(command->redir_file);
+	if (command->redir)
+	{
+		while (command->redir)
+		{
+			free(command->redir->file);
+			free(command->redir);
+			command->redir = command->redir->next;
+		}
+	}
 	free(command);
 }
 
@@ -42,3 +49,18 @@ void	free_commands(t_cmds *commands)
 		commands = tmp;
 	}
 }
+
+void    free_all_env_vars(t_env_var *env_var)
+{
+    t_env_var    *tmp;
+
+    while (env_var)
+    {
+        tmp = env_var->next;
+        free(env_var->key);
+        free(env_var->value);
+        free(env_var);
+        env_var = tmp;
+    }
+}
+

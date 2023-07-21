@@ -6,91 +6,77 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:55:10 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/18 17:37:17 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/20 22:36:39 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*get_env_var_value(char *var, t_cmds *cmds)
+static t_env_var    *init_env_var(char *key, char *value)
 {
-	t_cmds	*tmp;
-	int		i;
-	char	*value;
+    t_env_var    *env_var;
 
-	tmp = cmds;
-	while (tmp)
-	{
-		i = 0;
-		while (tmp->args[i])
-		{
-			if (ft_strncmp(tmp->args[i], var, ft_strlen(var)) == 0)
-			{
-				value = ft_strdup(tmp->args[i] + ft_strlen(var) + 1);
-				return (value);
-			}
-			i++;
-		}
-		tmp = tmp->next;
-	}
-	return (NULL);
+    env_var = (t_env_var *)malloc(sizeof(t_env_var));
+    if (!env_var)
+        return (NULL);
+    env_var->key = ft_strdup(key);
+    if (!env_var->key)
+    {
+        free(env_var);
+        return (NULL);
+    }
+    env_var->value = ft_strdup(value);
+    if (!env_var->value)
+    {
+        free(env_var->key);
+        free(env_var);
+        return (NULL);
+    }
+    env_var->next = NULL;
+    return (env_var);
 }
 
-static char	**is_env_var(char *str)
+static int  add_env_var(t_env_var **env_var, t_env_var *new_env_var)
 {
-	int	i;
-	int count;
-	char	**env_var;
+    t_env_var    *tmp;
 
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (str[i] == '$')
-			count++;
-		i++;
-	}
-	if (count == 0)
-		return (NULL);
-	env_var = ft_split(str, '$');
-	if (!env_var)
-		return (NULL);
-	return (&env_var[ft_splitlen(env_var) - count]);	
+    if (!*env_var)
+    {
+        *env_var = new_env_var;
+        return (SUCCESS);
+    }
+    tmp = *env_var;
+    while (tmp->next)
+        tmp = tmp->next;
+    tmp->next = new_env_var;
+    return (SUCCESS);
 }
 
-void	replace_env_var(t_cmds *commands)
+t_env_var    *init_env_var_list(char **str)
 {
-	t_cmds	*tmp;
-	t_cmds	*tmp2;
-	int		i;
-	int		j;
-	char	**env_var;
-	char	*value;
+    t_env_var   *env_var;
+    t_env_var   *new_env_var;
+    int         i;
 
-	tmp = commands;
-	tmp2 = commands;
-	while (tmp)
-	{
-		i = 0;
-		while (i < tmp->argc)
-		{
-			env_var = is_env_var(tmp->args[i]);
-			if (env_var)
-			{
-				j = 0;
-				while (env_var[j])
-				{
-					value = get_env_var_value(env_var[j], tmp2);
-					if (value)
-					{
-						free(tmp->args[i]);
-						tmp->args[i] = value;
-					}
-					j++;
-				}
-			}
-			i++;
-		}
-		tmp = tmp->next;
-	}
+    env_var = NULL;
+    i = 0;
+    while (str[i])
+    {
+        if (ft_strchr(str[i], '='))
+        {
+            new_env_var = init_env_var(ft_substr(str[i], 0, ft_strchr(str[i], '=') - str[i]), ft_strchr(str[i], '=') + 1);
+            if (!new_env_var)
+            {
+                free_all_env_vars(env_var);
+                return (NULL);
+            }
+            if (add_env_var(&env_var, new_env_var))
+            {
+                free_all_env_vars(env_var);
+                return (NULL);
+            }
+        }
+        i++;
+    }
+    return (env_var);
 }
