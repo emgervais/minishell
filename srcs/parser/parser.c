@@ -6,26 +6,11 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:48:35 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/20 22:30:18 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/21 14:57:38 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-t_cmds	*init_commands(char **str)
-{
-	t_cmds	*commands;
-
-	commands = NULL;
-	if (parse_commands(str, &commands))
-	{
-		printf("Error: parse_commands\n");
-		free_commands(commands);
-		return (NULL);
-	}
-	return (commands);
-}
-
 
 void	print_args(t_cmds *commands)
 {
@@ -62,22 +47,41 @@ void	print_env_var(t_env_var *env_var)
 	}
 }
 
-void	parser(char **str)
+// static void	print_str(char **str)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		printf("str[%d]: %s\n", i, str[i]);
+// 		i++;
+// 	}
+// }
+
+t_cmds	*parser(char **str)
 {
-	t_cmds	*commands;
+	t_cmds		*commands;
 	t_env_var	*env_var;
 
+	env_var = NULL;
+	if (init_env_var_list(str, &env_var))
+	{
+		printf("no var\n");
+		return (NULL);
+	}
+	check_double_quotes(str);
+	if (replace_env_vars(str, env_var))
+	{
+		printf("no str\n");
+		return (NULL);
+	}
+	// print_str(str);
 	commands = init_commands(str);
 	if (!commands)
-	{
-		printf("Error: init_commands\n");
-		return ;
-	}
-	check_double_quotes(commands);
-	env_var = init_env_var_list(str);
+		return (NULL);
 	print_args(commands);
-	print_env_var(env_var);
-	free_all_env_vars(env_var);
-	free_commands(commands);
-	ft_free_split(str);
+	//print_env_var(env_var);
+	free_all(commands, env_var, str);
+	return (NULL);
 }

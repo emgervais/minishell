@@ -6,7 +6,7 @@
 #    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/07 10:24:39 by ele-sage          #+#    #+#              #
-#    Updated: 2023/02/27 19:13:21 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/07/21 16:45:56 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,7 @@ LST_STRINGS			:=	ft_int_strchr.c			ft_split.c			\
 					ft_strnstr.c				ft_strrchr.c		\
 					ft_strstr.c					ft_strtrim.c		\
 					ft_substr.c					ft_unsplit.c		\
-					ft_int_strrchr.c
+					ft_int_strrchr.c			ft_str_replace.c	\
 
 # Directories
 P_INCS			:=	include/

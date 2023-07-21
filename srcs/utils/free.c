@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_free.c                                      :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:04:11 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/20 22:14:05 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:53:37 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	free_commands(t_cmds *commands)
 	}
 }
 
-void    free_all_env_vars(t_env_var *env_var)
+void    free_env_vars(t_env_var *env_var)
 {
     t_env_var    *tmp;
 
@@ -64,3 +64,9 @@ void    free_all_env_vars(t_env_var *env_var)
     }
 }
 
+void	free_all(t_cmds *commands, t_env_var *env_var, char **str)
+{
+	ft_free_split(str);
+	free_commands(commands);
+	free_env_vars(env_var);
+}

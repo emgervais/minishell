@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 13:52:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/18 16:51:09 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/21 12:12:27 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static void	is_var_in_double_quotes(char *str)
 	
 	len = ft_strlen(str);
 	i = 0;
-	//printf("str: %s\n", str);
 	if (str[0] == '\"')
 	{
 		while (i < len-3)
@@ -58,17 +57,14 @@ static void	is_var_in_double_quotes(char *str)
 	}
 }
 
-void	check_double_quotes(t_cmds *commands)
+void	check_double_quotes(char **str)
 {
-	t_cmds	*tmp;
-	int		i;
+	int	i;
 
-	tmp = commands;
-	while (tmp)
+	i = 0;
+	while (str[i])
 	{
-		i = 0;
-		while (tmp->args[i])
-			is_var_in_double_quotes(tmp->args[i++]);
-		tmp = tmp->next;
+		is_var_in_double_quotes(str[i]);
+		i++;
 	}
 }

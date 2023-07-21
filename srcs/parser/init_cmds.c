@@ -1,101 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_init.c                                      :+:      :+:    :+:   */
+/*   init_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 13:52:58 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/20 22:29:37 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/21 17:04:15 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static t_cmds	*init_command(void)
+// is built-in command
+int	is_builtin(char *str, t_cmds *command)
 {
-	t_cmds	*command;
-
-	command = (t_cmds *)malloc(sizeof(t_cmds));
-	if (!command)
-		return (NULL);
-	command->args = NULL;
-	command->argc = 0;
-	command->redir = NULL;
-	command->next = NULL;
-	command->prev = NULL;
-	return (command);
-}
-
-static int add_arg(t_cmds **command, char *arg)
-{
-	char	**tmp;
-	int		i;
-
-	i = 0;
-	tmp = (char **)malloc(sizeof(char *) * ((*command)->argc + 2));
-	if (!tmp)
-		return (ERROR);
-	while (i < (*command)->argc)
-	{
-		tmp[i] = (*command)->args[i];
-		i++;
-	}
-	tmp[i] = ft_strdup(arg);
-	tmp[i + 1] = NULL;
-	if ((*command)->args)
-		free((*command)->args);
-	(*command)->args = tmp;
-	(*command)->argc++;
-	return (SUCCESS);
-}
-
-static int	add_command(t_cmds **commands, t_cmds *command)
-{
-	t_cmds	*tmp;
-
-	if (!commands || !command)
-		return (ERROR);
-	if (!*commands)
-	{
-		*commands = command;
-		return (SUCCESS);
-	}
-	tmp = *commands;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = command;
-	command->prev = tmp;
-	return (SUCCESS);
-}
-
-static int	init_redir(t_redir **redir, t_redir_type type, char *file)
-{
-	*redir = (t_redir *)malloc(sizeof(t_redir));
-	if (!*redir)
-		return (ERROR);
-	(*redir)->type = type;
-	(*redir)->file = ft_strdup(file);
-	(*redir)->next = NULL;
-	return (SUCCESS);
-}
-
-static int	add_redir(t_cmds **command, t_redir *redir)
-{
-	t_redir	*tmp;
-
-	if (!command || !redir)
-		return (ERROR);
-	if (!(*command)->redir)
-	{
-		(*command)->redir = redir;
-		return (SUCCESS);
-	}
-	tmp = (*command)->redir;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = redir;
-	return (SUCCESS);
+	if (ft_strncmp(str, "echo", 5) == 0)
+		command->builtin = ECHO;
+	else if (ft_strncmp(str, "cd", 3) == 0)
+		command->builtin = CD;
+	else if (ft_strncmp(str, "pwd", 4) == 0)
+		command->builtin = PWD;
+	else if (ft_strncmp(str, "export", 7) == 0)
+		command->builtin = EXPORT;
+	else if (ft_strncmp(str, "unset", 6) == 0)
+		command->builtin = UNSET;
+	else if (ft_strncmp(str, "env", 4) == 0)
+		command->builtin = ENV;
+	else if (ft_strncmp(str, "exit", 5) == 0)
+		command->builtin = EXIT;
+	else
+		return (0);
+	return (1);
 }
 
 static int is_redir(t_cmds *command, char **str, int i)
@@ -140,8 +76,7 @@ static t_cmds *parse_arg(t_cmds **commands, t_cmds *command, char **str, int i)
 	return (command);
 }
 
-// str is the command line that has been split into an array of strings by spaces
-int	parse_commands(char **str, t_cmds **commands)
+static int	parse_commands(char **str, t_cmds **commands)
 {
 	t_cmds	*command;
 	int		i;
@@ -160,4 +95,18 @@ int	parse_commands(char **str, t_cmds **commands)
 	if (add_command(commands, command))
 		return (ERROR);
 	return (SUCCESS);
+}
+
+t_cmds	*init_commands(char **str)
+{
+	t_cmds	*commands;
+
+	commands = NULL;
+	if (parse_commands(str, &commands))
+	{
+		printf("Error: parse_commands\n");
+		free_commands(commands);
+		return (NULL);
+	}
+	return (commands);
 }

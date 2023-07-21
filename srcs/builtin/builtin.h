@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/19 21:10:06 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/19 21:11:32 by ele-sage         ###   ########.fr       */
+/*   Created: 2023/07/18 15:22:47 by egervais          #+#    #+#             */
+/*   Updated: 2023/07/21 17:05:43 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#ifndef BUILTIN_H
+# define BUILTIN_H
 
-void	error_redir(t_cmds *commands)
+# include "minishell.h"
+
+typedef enum e_builtin
 {
-    t_cmds	*tmp;
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT
+}	t_builtin;
 
-    tmp = commands;
-    while (tmp)
-    {
-        if (tmp->redir_type != NO_REDIR && tmp->redir_file == NULL)
-        {
-            printf("minishell: syntax error near unexpected token `newline'\n");
-            return ;
-        }
-        tmp = tmp->next;
-    }
-}
+
+char *add_one_char(char *s1, char c, int malloced);
+
+#endif

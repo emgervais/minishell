@@ -6,7 +6,7 @@
 #    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/07/18 16:36:54 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/07/21 13:28:51 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,15 @@ P_SRCS		:=	srcs/
 P_INCS		:=	includes/
 
 SRC			:=	lexer/lexer.c \
-				parser/parser_free.c \
-				parser/parser_init.c \
+				utils/free.c \
+				utils/error.c \
+				utils/unix_signals.c \
+				parser/init_cmds.c \
+				parser/init_cmds_utils.c \
 				parser/parser.c \
 				parser/double_quotes.c \
-				parser/env_var.c \
+				parser/init_env_vars.c \
+				parser/repl_env_vars.c \
 				main.c
 
 INC			:=	minishell.h \

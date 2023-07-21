@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_count_word.c                                    :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/07 10:05:45 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/21 14:33:15 by ele-sage         ###   ########.fr       */
+/*   Created: 2023/07/21 11:42:32 by ele-sage          #+#    #+#             */
+/*   Updated: 2023/07/21 13:52:55 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
+#ifndef UTILS_H
+# define UTILS_H
 
-size_t	ft_count_word(const char *str, const char c)
-{
-	size_t	a;
-	size_t	count;
+# include "minishell.h"
 
-	a = 0;
-	count = 0;
-	while (str[a])
-	{
-		if (a == 0)
-		{
-			if (str[a] != c)
-				count++;
-		}
-		else
-		{
-			if (str[a - 1] == c && str[a] != c)
-				count++;
-		}
-		a++;
-	}
-	return (count);
-}
+// free
+void	free_command(t_cmds *command);
+void	free_commands(t_cmds *commands);
+void    free_env_vars(t_env_var *env_var);
+void	free_all(t_cmds *commands, t_env_var *env_var, char **str);
+
+// unix signals
+// void	sigint_handler(int sig);
+// void	sigquit_handler(int sig);
+// void	init_signals(void);
+// void	reset_signals(void);
+
+// error
+
+#endif

@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 22:18:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/07/14 19:36:13 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/21 11:56:35 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,19 @@ void    lsh_loop(void)
     int     status;
 
     status = 1;
+    //init_signals();
     while (status)
     {
         line = readline("minishell : ");
-        add_history(line);
+        if (!line)
+            break ;
+        if (line[0] != '\0')
+            add_history(line);
         char **pars = pre_pars(line);
         parser(pars);
         free(line);
     }
+    //reset_signals();
 }
 
 int main()
