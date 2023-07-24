@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:55:10 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 14:32:49 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:45:20 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,11 @@ int	add_env_var(t_env_var *env_var, char *envp)
 
 // This function will initialize the env_var list
 // It will return SUCCESS or ERROR
-static int	init_env_var_list(t_env_var *env_var)
+static int	init_env_var_list(t_env_var *env_var, char **envp)
 {
     int		i;
-    char	**envp;
 
     i = 0;
-    envp = get_envp();
     while (envp[i])
     {
         if (add_env_var(env_var, envp[i]) == ERROR)
@@ -63,7 +61,7 @@ static int	init_env_var_list(t_env_var *env_var)
 }
 
 // This function will initialize the env_var
-t_env_var	*init_env_var(void)
+t_env_var	*init_env_var(char **envp)
 {
 	t_env_var	*env_var;
 
@@ -73,7 +71,7 @@ t_env_var	*init_env_var(void)
 	env_var->key = NULL;
 	env_var->value = NULL;
 	env_var->next = NULL;
-	if (init_env_var_list(env_var) == ERROR)
+	if (init_env_var_list(env_var, envp) == ERROR)
 		return (NULL);
 	return (env_var);
 }

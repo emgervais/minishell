@@ -6,7 +6,7 @@
 #    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/07/24 14:30:43 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/07/24 15:41:39 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,26 +24,12 @@ INCDIR   	:= includes
 
 
 ################################### SOURCES ####################################
-# Builtin
-SRCFILES 	:=  builtin/cd.c builtin/echo.c builtin/env.c \
-
-# Lexer
 SRCFILES 	:=  lexer/lexer.c lexer/double_quotes.c \
-
-# Parser
-SRCFILES 	:=  parser/init_cmds_utils.c parser/init_cmds.c parser/parser.c \
-
-# Expander
-SRCFILES 	:=  expander/init_env_vars.c expander/expander.c \
-
-# Executor
-SRCFILES 	:=  executor/executor.c \
-
-# Utils
-SRCFILES 	:=  utils/error.c utils/free.c utils/unix_signals.c \
-
-# Main
-SRCFILES 	:=  main_loop.c main.c \
+				parser/init_cmds_utils.c parser/init_cmds.c parser/parser.c \
+				expander/init_env_vars.c expander/expander.c \
+				executor/executor.c \
+				utils/error.c utils/free.c utils/unix_signals.c \
+				main_loop.c main.c \
 
 
 

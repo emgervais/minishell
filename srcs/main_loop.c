@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 14:34:18 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:46:04 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 static char *lsh_read_line(void)
 {
     char    *line;
-    int     status;
 
     line = readline("\033[1;32mminishell$ \033[0m");
     if (!line)
@@ -24,9 +23,7 @@ static char *lsh_read_line(void)
         ft_putstr_fd("exit\n", 1);
         exit(0);
     }
-    status = add_history(line);
-    if (status == -1)
-        ft_putstr_fd("Error: could not add to history\n", 2);
+    add_history(line);
     return (line);
 }
 
@@ -58,7 +55,7 @@ static int  lsh_execute(char **args, t_env_var *env_var)
     return (status);
 }
 
-void    lsh_loop(void)
+void    lsh_loop(char **envp)
 {
     t_env_var   *env_var;
     char        *line;
@@ -67,7 +64,7 @@ void    lsh_loop(void)
 
     status = 1;
     init_signals();
-    env_var = init_env_var();
+    env_var = init_env_var(envp);
     while (status)
     {
         line = lsh_read_line();

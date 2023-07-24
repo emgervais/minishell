@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 13:52:58 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 14:08:31 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:51:21 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,6 @@
 
 int	is_builtin(char *str, t_cmds *command)
 {
-	// if (ft_strncmp(str, "echo", 5) == 0)
-	// 	command->builtin = echo;
-	// else if (ft_strncmp(str, "cd", 3) == 0)
-	// 	command->builtin = cd;
-	// else if (ft_strncmp(str, "pwd", 4) == 0)
-	// 	command->builtin = pwd;
-	// else if (ft_strncmp(str, "export", 7) == 0)
-	// 	command->builtin = 
-	// else if (ft_strncmp(str, "unset", 6) == 0)
-	// 	command->builtin = 
-	// else if (ft_strncmp(str, "env", 4) == 0)
-	// 	command->builtin = 
-	// else 
 	if (ft_strncmp(str, "exit", 5) == 0)
 	{
 		(void)command;
@@ -112,7 +99,8 @@ t_cmds	*init_commands(char **str)
 	{
 		printf("Error: parse_commands\n");
 		free_commands(commands);
-		return (NULL);
+		ft_free_split(str);
+		exit(1);
 	}
 	return (commands);
 }
