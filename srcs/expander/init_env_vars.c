@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:55:10 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 15:45:20 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:44:24 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_env_var	*new_env_var(char *key, char *value)
     env_var = (t_env_var *)malloc(sizeof(t_env_var));
     if (!env_var)
         return (NULL);
-    env_var->key = ft_strdup(key);
+    env_var->key = ft_substr(key, 0, ft_int_strchr(key, '='));
     env_var->value = ft_strdup(value);
     env_var->next = NULL;
     return (env_var);

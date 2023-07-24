@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:34:31 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 14:09:19 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/24 16:31:54 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	sigint_handler(int sig)
     rl_redisplay();
 }
 
-// This function is called when the user presses Ctrl-\ 
+// This function is called when the user presses Ctrl-D
 // It will print "exit", and then exit the program
 void	sigquit_handler(int sig)
 {
