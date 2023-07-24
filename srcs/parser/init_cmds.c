@@ -6,31 +6,35 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 13:52:58 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/21 17:04:15 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:08:31 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-// is built-in command
 int	is_builtin(char *str, t_cmds *command)
 {
-	if (ft_strncmp(str, "echo", 5) == 0)
-		command->builtin = ECHO;
-	else if (ft_strncmp(str, "cd", 3) == 0)
-		command->builtin = CD;
-	else if (ft_strncmp(str, "pwd", 4) == 0)
-		command->builtin = PWD;
-	else if (ft_strncmp(str, "export", 7) == 0)
-		command->builtin = EXPORT;
-	else if (ft_strncmp(str, "unset", 6) == 0)
-		command->builtin = UNSET;
-	else if (ft_strncmp(str, "env", 4) == 0)
-		command->builtin = ENV;
-	else if (ft_strncmp(str, "exit", 5) == 0)
-		command->builtin = EXIT;
+	// if (ft_strncmp(str, "echo", 5) == 0)
+	// 	command->builtin = echo;
+	// else if (ft_strncmp(str, "cd", 3) == 0)
+	// 	command->builtin = cd;
+	// else if (ft_strncmp(str, "pwd", 4) == 0)
+	// 	command->builtin = pwd;
+	// else if (ft_strncmp(str, "export", 7) == 0)
+	// 	command->builtin = 
+	// else if (ft_strncmp(str, "unset", 6) == 0)
+	// 	command->builtin = 
+	// else if (ft_strncmp(str, "env", 4) == 0)
+	// 	command->builtin = 
+	// else 
+	if (ft_strncmp(str, "exit", 5) == 0)
+	{
+		(void)command;
+		return (-1);
+	}
 	else
 		return (0);
+
 	return (1);
 }
 
@@ -70,6 +74,8 @@ static t_cmds *parse_arg(t_cmds **commands, t_cmds *command, char **str, int i)
 		return (new_command);
 	}
 	if (is_redir(command, str, i))
+		return (NULL);
+	if (is_builtin(str[i], command) == -1)
 		return (NULL);
 	if (add_arg(&command, str[i]))
 		return (NULL);

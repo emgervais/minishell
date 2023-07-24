@@ -6,11 +6,11 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 13:52:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/21 12:12:27 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:13:11 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static void remove_double_quotes_from_arg(char *arg)
 {

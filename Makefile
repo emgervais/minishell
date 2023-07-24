@@ -6,101 +6,73 @@
 #    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/07/21 13:28:51 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/07/24 14:30:43 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:=	minishell
+CC			:=	gcc
+CFLAGS		:=	-Wall -Wextra -g -fsanitize=address
+READLINE_DIR = $(shell brew --prefix readline)
 
-#//////////////////////////////////////////////////////////////////////////////
-#		ALL FILES
-#//////////////////////////////////////////////////////////////////////////////
+READLINE_LIB = -lreadline -lhistory -L $(READLINE_DIR)/lib
 
 # Directories
-P_SRCS		:=	srcs/
-P_INCS		:=	includes/
-
-SRC			:=	lexer/lexer.c \
-				utils/free.c \
-				utils/error.c \
-				utils/unix_signals.c \
-				parser/init_cmds.c \
-				parser/init_cmds_utils.c \
-				parser/parser.c \
-				parser/double_quotes.c \
-				parser/init_env_vars.c \
-				parser/repl_env_vars.c \
-				main.c
-
-INC			:=	minishell.h \
-				lexer.h \
-				parser.h
-
-# Sources
-SRCS		:=	$(addprefix $(P_SRCS), $(SRC))
-
-# Objects
-OBJS		:=	$(SRCS:.c=.o)
-
-# Includes
-INCS		:=	$(addprefix $(P_INCS), $(INC))
+SRCDIR   	:= srcs
+OBJDIR   	:= obj
+INCDIR   	:= includes
 
 
-#//////////////////////////////////////////////////////////////////////////////
-#		FLAGS & TEXT MODIFIERS
-#//////////////////////////////////////////////////////////////////////////////
+################################### SOURCES ####################################
+# Builtin
+SRCFILES 	:=  builtin/cd.c builtin/echo.c builtin/env.c \
 
+# Lexer
+SRCFILES 	:=  lexer/lexer.c lexer/double_quotes.c \
+
+# Parser
+SRCFILES 	:=  parser/init_cmds_utils.c parser/init_cmds.c parser/parser.c \
+
+# Expander
+SRCFILES 	:=  expander/init_env_vars.c expander/expander.c \
+
+# Executor
+SRCFILES 	:=  executor/executor.c \
+
+# Utils
+SRCFILES 	:=  utils/error.c utils/free.c utils/unix_signals.c \
+
+# Main
+SRCFILES 	:=  main_loop.c main.c \
+
+
+
+SRCFILES 	:= $(addprefix $(SRCDIR)/,$(SRCFILES))
+OBJFILES 	:= $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SRCFILES))
+INCS    	:= -Iincludes -I$(READLINE_DIR)/include -Ilibft/include -I$(INCDIR)
+
+# Rules
 # Compilation
-CC			:=	gcc
-CFLAGS		:=	-Wall -Wextra -fsanitize=address -g3 -lreadline
-INCFLAGS	:=	-I $(P_INCS)
-LIBFLAGS	:=	-L libft -lft
-
-# Text modifiers
-DEFAULT		:=	\033[0m
-BOLD		:=	\033[1m
-DIM			:=	\033[2m
-ITALIC		:=	\033[3m
-UNDERLINE	:=	\033[4m
-BLINK		:=	\033[5m
-REVERSE		:=	\033[7m
-HIDDEN		:=	\033[8m
-
-# Colors
-BLACK		:=	\033[30m
-RED			:=	\033[31m
-GREEN		:=	\033[32m
-YELLOW		:=	\033[33m
-BLUE		:=	\033[34m
-MAGENTA		:=	\033[35m
-CYAN		:=	\033[36m
-WHITE		:=	\033[37m
-
-#//////////////////////////////////////////////////////////////////////////////
-#		RULES
-#//////////////////////////////////////////////////////////////////////////////
-
-all: $(NAME)
-
-$(NAME): $(OBJS)
+$(NAME): $(OBJFILES)
 	@make -C libft
-	@$(CC) $(CFLAGS) $(INCFLAGS) $(LIBFLAGS) $(OBJS) -o $(NAME)
-	@echo "$(GREEN)$(BOLD)$(NAME)$(DEFAULT)$(GREEN) created.$(DEFAULT)"
+	@$(CC) $(CFLAGS) $(OBJFILES) -L libft -lft $(READLINE_LIB) -o $(NAME)
+	@echo "Minishell created."
 
-%.o: %.c $(INCS)
-	@$(CC) $(CFLAGS) $(INCFLAGS) -c $< -o $@
-	@echo "$(GREEN)$(BOLD)$(notdir $<)$(DEFAULT)$(GREEN) created.$(DEFAULT)"
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) -I $(INCS) -c $< -o $@
 
+# Cleaning Up
 clean:
+	@rm -rf $(OBJDIR)
 	@make clean -C libft
-	@rm -f $(OBJS)
-	@echo "$(YELLOW)$(BOLD)$(NAME)$(DEFAULT)$(YELLOW) objects deleted.$(DEFAULT)"
+	@echo "Objects deleted."
 
 fclean: clean
+	@rm -rf $(NAME)
 	@make fclean -C libft
-	@rm -f $(NAME)
-	@echo "$(RED)$(BOLD)$(NAME)$(DEFAULT)$(RED) deleted.$(DEFAULT)"
+	@echo "Minishell deleted."
 
 re: fclean all
 
-.PHONY: all clean fclean re 
+.PHONY: all clean fclean re

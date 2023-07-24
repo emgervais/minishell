@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:03:22 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/21 11:58:09 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/24 15:08:10 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,13 @@
 
 # include "../libft/include/libft.h"
 
+# include "builtin.h"
 # include "lexer.h"
 # include "parser.h"
+# include "expander.h"
+# include "executor.h"
 # include "utils.h"
+
 
 # define ERROR 1
 # define SUCCESS 0
@@ -37,5 +41,6 @@
 # define TRUE 1
 # define FALSE 0
 
+void    lsh_loop(void);
 
 # endif

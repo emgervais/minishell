@@ -6,11 +6,11 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:04:11 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/21 13:53:37 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:17:40 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	free_command(t_cmds *command)
 {
@@ -62,11 +62,4 @@ void    free_env_vars(t_env_var *env_var)
         free(env_var);
         env_var = tmp;
     }
-}
-
-void	free_all(t_cmds *commands, t_env_var *env_var, char **str)
-{
-	ft_free_split(str);
-	free_commands(commands);
-	free_env_vars(env_var);
 }

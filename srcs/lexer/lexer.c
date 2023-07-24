@@ -6,11 +6,11 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 18:55:45 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/14 18:57:45 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:12:44 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/lexer.h"
+#include "minishell.h"
 
 static int is_sep(char c)
 {
@@ -124,7 +124,7 @@ static int count_args(char *in)
     return (count);
 }
 
-char **pre_pars(char *input)
+char **lexer(char *input)
 {
     char *line;
     char **a;

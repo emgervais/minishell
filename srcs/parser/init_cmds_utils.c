@@ -6,13 +6,13 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 12:00:57 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/21 12:03:21 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/24 14:08:27 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
-t_cmds	*init_command(void)
+t_cmds	*init_command()
 {
 	t_cmds	*command;
 
