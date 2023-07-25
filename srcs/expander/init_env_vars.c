@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env_vars.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:55:10 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 16:44:24 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/24 21:10:37 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ static int	init_env_var_list(t_env_var *env_var, char **envp)
 t_env_var	*init_env_var(char **envp)
 {
 	t_env_var	*env_var;
+    t_env_var   *temp;
 
 	env_var = malloc(sizeof(t_env_var));
 	if (!env_var)
@@ -73,5 +74,8 @@ t_env_var	*init_env_var(char **envp)
 	env_var->next = NULL;
 	if (init_env_var_list(env_var, envp) == ERROR)
 		return (NULL);
+    temp = env_var;
+    env_var = env_var->next;
+    free(temp);
 	return (env_var);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 16:34:52 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/24 21:18:21 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void    lsh_loop(char **envp)
     status = 1;
     init_signals();
     env_var = init_env_var(envp);
+    printf("%d\n", export(args, env_var));
     print_env(env_var);
     while (status)
     {
