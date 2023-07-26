@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:22:47 by egervais          #+#    #+#             */
-/*   Updated: 2023/07/24 21:13:34 by egervais         ###   ########.fr       */
+/*   Updated: 2023/07/26 04:42:28 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,7 @@
 # include <signal.h>
 # include <stdbool.h>
 
-typedef enum e_builtin
-{
-	ECHO,
-	CD,
-	PWD,
-	EXPORT,
-	UNSET,
-	ENV,
-	EXIT
-}	t_builtin;
-
-
-char *add_one_char(char *s1, char c, int malloced);
-char *env(t_env_var *list, int ac);
-int export(char **args, t_env_var *list);
+char 	*add_one_char(char *s1, char c, int malloced);
+char 	*env(t_env_var *list, int ac);
 
 #endif

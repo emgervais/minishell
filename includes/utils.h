@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:42:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 14:18:15 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/26 05:35:10 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	sigquit_handler(int sig);
 void	init_signals(void);
 void	reset_signals(void);
 
-// error
+// print utils
+void	print_env_var(t_env_var *env_var);
+void	print_commands(t_cmds *commands);
 
 #endif

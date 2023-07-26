@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 13:52:58 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 15:51:21 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/26 05:01:03 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,22 @@
 
 int	is_builtin(char *str, t_cmds *command)
 {
-	if (ft_strncmp(str, "exit", 5) == 0)
-	{
-		(void)command;
-		return (-1);
-	}
+	if (ft_strncmp(str, "echo", 5) == 0)
+		command->builtin = ECHO;
+	else if (ft_strncmp(str, "cd", 3) == 0)
+		command->builtin = CD;
+	else if (ft_strncmp(str, "pwd", 4) == 0)
+		command->builtin = PWD;
+	else if (ft_strncmp(str, "export", 7) == 0)
+		command->builtin = EXPORT;
+	else if (ft_strncmp(str, "unset", 6) == 0)
+		command->builtin = UNSET;
+	else if (ft_strncmp(str, "env", 4) == 0)
+		command->builtin = ENV;
+	else if (ft_strncmp(str, "exit", 5) == 0)
+		command->builtin = EXIT;
 	else
 		return (0);
-
 	return (1);
 }
 
@@ -51,7 +59,9 @@ static t_cmds *parse_arg(t_cmds **commands, t_cmds *command, char **str, int i)
 {
 	t_cmds	*new_command;
 
-	if (ft_strncmp(str[i], "|", 1) == 0)
+	if (is_redir(command, str, i))
+		return (command);
+	if (str[i][0] == '|' && str[i][1] == '\0')
 	{
 		if (add_command(commands, command))
 			return (NULL);
@@ -60,10 +70,8 @@ static t_cmds *parse_arg(t_cmds **commands, t_cmds *command, char **str, int i)
 			return (NULL);
 		return (new_command);
 	}
-	if (is_redir(command, str, i))
-		return (NULL);
-	if (is_builtin(str[i], command) == -1)
-		return (NULL);
+	if (command->argc == 0 && is_builtin(str[i], command))
+		return (command);
 	if (add_arg(&command, str[i]))
 		return (NULL);
 	return (command);
@@ -96,11 +104,6 @@ t_cmds	*init_commands(char **str)
 
 	commands = NULL;
 	if (parse_commands(str, &commands))
-	{
-		printf("Error: parse_commands\n");
-		free_commands(commands);
-		ft_free_split(str);
-		exit(1);
-	}
+		return (NULL);
 	return (commands);
 }

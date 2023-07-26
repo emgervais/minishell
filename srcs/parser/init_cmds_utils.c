@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 12:00:57 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 15:41:55 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/26 02:25:11 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_cmds	*init_command()
 		return (NULL);
 	command->args = NULL;
 	command->argc = 0;
+	command->builtin = NO_BUILTIN;
 	command->redir = NULL;
 	command->next = NULL;
 	command->prev = NULL;

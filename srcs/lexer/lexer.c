@@ -6,11 +6,13 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 18:55:45 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 14:12:44 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/26 04:54:14 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// To do:
 
 static int is_sep(char c)
 {

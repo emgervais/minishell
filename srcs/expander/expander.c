@@ -6,11 +6,12 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/07/24 18:35:28 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/26 04:48:22 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 // This function will get the value of the env_var
 // It will return the value of the env_var
@@ -36,37 +37,50 @@ static char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 	i = 0;
 	j = 0;
 	new_arg = ft_strdup("");
-	if (!new_arg)
-		return (NULL);
-	while (arg[i])
+	while (arg[i] && new_arg && keys[j])
 	{
-		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != ' ')
+		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ')
 		{
-			new_arg = ft_strjoin(new_arg, get_value(keys[j], env_var));	
-			if (!new_arg)
-				return (NULL);
+			new_arg = ft_strjoin(new_arg, get_value(keys[j], env_var));
 			i += ft_strlen(keys[j++]) + 1;
 		}
 		else
 			new_arg = ft_strjoin(new_arg, ft_substr(arg, i++, 1));
 	}
+	if (new_arg && arg[i])
+		new_arg = ft_strjoin(new_arg, ft_substr(arg, i, ft_strlen(arg) - i));
 	return (new_arg);
 }
 
-static int dollar_count(char *arg)
+// This function will get the keys of the argument
+// It will return the keys
+static char	**get_keys(char *arg)
 {
 	int		i;
-	int		count;
+	int		j;
+	char	**keys;
 
 	i = 0;
-	count = 0;
-	while (arg[i])
+	j = 0;
+	keys = malloc(sizeof(char *) * (ft_count_word(arg, '$') + 1));
+	if (!keys)
+		return (NULL);
+	keys[0] = ft_strdup("");
+	while (arg[i] && keys[j])
 	{
-		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != ' ')
-			count++;
+		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ')
+		{
+			while (arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ')
+				keys[j] = add_one_char(keys[j], arg[++i], 1);
+			keys[++j] = ft_strdup("");
+		}
 		i++;
 	}
-	return (count);
+	if (keys[j])
+		keys[j] = NULL;
+	else
+		return (NULL);
+	return (keys);
 }
 
 // This function will expand the variables in the arguments
@@ -74,53 +88,21 @@ static int dollar_count(char *arg)
 static char	**expand_args(char **args, t_env_var *env_var)
 {
 	int		i;
-	char	*tmp;
 	char	**keys;
 
 	i = 0;
 	while (args[i])
 	{
-		tmp = args[i];
-		keys = ft_split(args[i], '$');
+		keys = get_keys(args[i]);
 		if (!keys)
 			return (NULL);
-		if (dollar_count(args[i]) == 0)
-			args[i] = ft_strdup(args[i]);
-		else if (dollar_count(args[i]) < (int) ft_splitlen(keys))
-			args[i] = expand_arg(args[i], env_var, &keys[1]);
-		else
-			args[i] = expand_arg(args[i], env_var, keys);
+		args[i] = expand_arg(args[i], env_var, keys);
 		if (!args[i])
 			return (NULL);
-		free(tmp);
-		free(keys);
+		ft_free_split(keys);
 		i++;
 	}
 	return (args);
-}
-
-static void	print_after_expander(t_cmds *cmds)
-{
-	t_cmds	*tmp;
-	t_redir	*tmp_redir;
-
-	tmp = cmds;
-	while (tmp)
-	{
-		printf("args: ");
-		for (int i = 0; tmp->args[i]; i++)
-			printf("%s ", tmp->args[i]);
-		printf("\n");
-		printf("redir: ");
-		tmp_redir = tmp->redir;
-		while (tmp_redir)
-		{
-			printf("%d %s ", tmp_redir->type, tmp_redir->file);
-			tmp_redir = tmp_redir->next;
-		}
-		printf("\n");
-		tmp = tmp->next;
-	}
 }
 
 // This function will expand the variables in the cmds
@@ -135,6 +117,5 @@ t_cmds	*expander(t_cmds *cmds, t_env_var *env_var)
 		tmp->args = expand_args(tmp->args, env_var);
 		tmp = tmp->next;
 	}
-	print_after_expander(cmds);
 	return (cmds);
 }

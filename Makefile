@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: egervais <egervais@student.42.fr>          +#+  +:+       +#+         #
+#    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/07/24 20:52:37 by egervais         ###   ########.fr        #
+#    Updated: 2023/07/26 05:36:57 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCFILES 	:=  lexer/lexer.c lexer/double_quotes.c \
 				parser/init_cmds_utils.c parser/init_cmds.c parser/parser.c \
 				expander/init_env_vars.c expander/expander.c \
 				executor/executor.c \
-				utils/error.c utils/free.c utils/unix_signals.c \
+				utils/error.c utils/free.c utils/unix_signals.c utils/print_utils.c \
 				main_loop.c main.c \
 				builtin/env.c builtin/echo.c builtin/cd.c builtin/export.c\
 

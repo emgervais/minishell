@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:04:11 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 14:17:40 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/26 05:16:36 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	free_command(t_cmds *command)
 		while (command->redir)
 		{
 			free(command->redir->file);
-			free(command->redir);
 			command->redir = command->redir->next;
 		}
 	}

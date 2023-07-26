@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:01:18 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 16:11:01 by egervais         ###   ########.fr       */
+/*   Updated: 2023/07/26 02:24:38 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,19 @@
 # define PARSER_H
 
 # include "minishell.h"
+# include "builtin.h"
+
+typedef enum e_builtin
+{
+	NO_BUILTIN,
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT
+}	t_builtin;
 
 typedef struct s_env_var
 {
@@ -42,6 +55,7 @@ typedef struct s_cmds
 {
 	char			**args;
 	int				argc;
+	t_builtin		builtin;
 	t_redir			*redir;
 	struct s_cmds	*next;
 	struct s_cmds	*prev;
