@@ -6,7 +6,7 @@
 /*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:56:47 by egervais          #+#    #+#             */
-/*   Updated: 2023/07/24 21:26:58 by egervais         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:37:35 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ void list_swap(t_env_var *list)
 	temp3->next = temp2;
 	temp2->next = NULL;
 }
-int export(char **args, t_env_var *list)
+
+int add_var(char *args, t_env_var *list)
 {
 	//char *arg[3] = {"export", "var=mahahahahahahah", NULL};
 	t_env_var *temp;
@@ -76,21 +77,30 @@ int export(char **args, t_env_var *list)
 	i = 0;
 	l = -1;
 	temp2 = list;
-    if(is_var_valid(args[1]))
+    if(is_var_valid(args))
         return (4);
-	while(args[1][i] != '=')
+	while(args[i] != '=')
 		i++;
-	if(is_exist(args[1], list, i++))
+	if(is_exist(args, list, i++))
 		return(2);
 	key = malloc(sizeof(char) * i);
-	while(args[1][++l] != '=')
-		key[l] = args[1][l];
+	while(args[++l] != '=')
+		key[l] = args[l];
 	key[l] = '\0';
-	temp = new_env_var(key, args[1] + i);
+	temp = new_env_var(key, args + i);
 	free(key);
 	while(temp2->next)
 		temp2 = temp2->next;
 	temp2->next = temp;
 	list_swap(list);
     return (0);
+}
+
+int export(char **args, t_env_var *list)
+{
+	int i;
+
+	i = 1;
+	while(args[i])
+		add_var(args[i++], list);
 }

@@ -6,13 +6,24 @@
 /*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:53:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/07/18 18:28:30 by egervais         ###   ########.fr       */
+/*   Updated: 2023/07/31 18:22:17 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int cd(char **args, int ac)
+void change_var(char *path, t_env_var *var)
+{
+    t_env_var *temp;
+
+    temp = var;
+    while(ft_strncmp(temp->key, "PWD", 4))
+        temp = temp->next;
+    free(temp->next->value);
+    temp->next->value = temp->value;
+    temp->value = temp;
+}
+int cd(char **args, int ac, t_env_var *var)
 {
     char *temp;
     char *cwd;
@@ -30,6 +41,8 @@ int cd(char **args, int ac)
         free(cwd);
         return (1);
     }
+    change_var(temp, var);
+    free(cwd);
     return (0);
 }
 
@@ -45,4 +58,3 @@ char *pwd(int ac)
     getcwd(a, sizeof(char) * 1025);
     return (a);
 }
-
