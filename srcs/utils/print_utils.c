@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 05:34:41 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/26 05:36:31 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/01 16:18:09 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,27 @@ void	print_commands(t_cmds *commands)
         else if (tmp->builtin == EXIT)
             printf("exit ");
         printf("\033[1;36m");
-        if (tmp->redir)
-        {
-            printf("\033[1;33m");
-        }
-        while (tmp->args[i])
+        while (tmp->args && tmp->args[i])
         {
             printf("%s ", tmp->args[i]);
             i++;
+        }
+        if (tmp->redir)
+        {
+            printf("\033[1;33m");
+            while (tmp->redir)
+            {
+                if (tmp->redir->type == GREAT)
+                    printf(">");
+                else if (tmp->redir->type == DOUBLE_GREAT)
+                    printf(">>");
+                else if (tmp->redir->type == LESS)
+                    printf("<");
+                else if (tmp->redir->type == DOUBLE_LESS)
+                    printf("<<");
+                printf(" %s ", tmp->redir->file);
+                tmp->redir = tmp->redir->next;
+            }
         }
         if (tmp->next)
             printf("\033[0m| ");

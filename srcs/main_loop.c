@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/26 05:36:03 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/01 16:16:42 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,9 @@ static int  lsh_execute(char **args, t_env_var *env_var)
     cmds = parser(args);
     if (!cmds)
         return (ERROR);
-    cmds = expander(cmds, env_var);
-    if (!cmds)
-        return (ERROR);
     status = executor(cmds, env_var);
     print_commands(cmds);
-    //print_env_var(env_var);
+    // print_env_var(env_var);
     free_commands(cmds);
     return (status);
 }

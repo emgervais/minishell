@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/07/26 04:48:22 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/07/31 19:13:55 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,10 @@ static char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 
 // This function will get the keys of the argument
 // It will return the keys
-static char	**get_keys(char *arg)
+static char	**get_keys(char *arg, int i, int j)
 {
-	int		i;
-	int		j;
 	char	**keys;
 
-	i = 0;
-	j = 0;
 	keys = malloc(sizeof(char *) * (ft_count_word(arg, '$') + 1));
 	if (!keys)
 		return (NULL);
@@ -85,7 +81,7 @@ static char	**get_keys(char *arg)
 
 // This function will expand the variables in the arguments
 // It will return the new arguments
-static char	**expand_args(char **args, t_env_var *env_var)
+char	**expand_args(char **args, t_env_var *env_var)
 {
 	int		i;
 	char	**keys;
@@ -93,13 +89,16 @@ static char	**expand_args(char **args, t_env_var *env_var)
 	i = 0;
 	while (args[i])
 	{
-		keys = get_keys(args[i]);
-		if (!keys)
-			return (NULL);
-		args[i] = expand_arg(args[i], env_var, keys);
-		if (!args[i])
-			return (NULL);
-		ft_free_split(keys);
+		if (args[i][0] != '\'')
+		{
+			keys = get_keys(args[i], 0, 0);
+			if (!keys)
+				return (NULL);
+			args[i] = expand_arg(args[i], env_var, keys);
+			if (!args[i])
+				return (NULL);
+			ft_free_split(keys);
+		}
 		i++;
 	}
 	return (args);
