@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:01:18 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/26 02:24:38 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/02 23:16:28 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ typedef struct s_env_var
 typedef enum e_redir_type
 {
 	NO_REDIR,
-	LESS,
-	GREAT,
-	DOUBLE_LESS,
-	DOUBLE_GREAT
+	IN,
+	OUT,
+	APPEND,
+	HEREDOC
 }	t_redir_type;
 
 typedef struct s_redir
@@ -51,8 +51,17 @@ typedef struct s_redir
 	struct s_redir	*next;
 }	t_redir;
 
+typedef struct s_fd
+{
+	int	fd_in;
+	int	fd_out;
+    int	pid;
+    int	status;
+}	t_fd;
+
 typedef struct s_cmds
 {
+    t_fd        	fd;
 	char			**args;
 	int				argc;
 	t_builtin		builtin;
@@ -61,16 +70,16 @@ typedef struct s_cmds
 	struct s_cmds	*prev;
 }	t_cmds;
 
+
 // init commands utils
 t_cmds	*init_command();
 int 	add_arg(t_cmds **command, char *arg);
 int		add_command(t_cmds **commands, t_cmds *command);
-int		init_redir(t_redir **redir, t_redir_type type, char *file);
 int		add_redir(t_cmds **command, t_redir *redir);
+int		init_redir(t_redir **redir, t_redir_type type, char *file);
 
 // init commands
-t_cmds	*parser(char **str);
-t_cmds	*init_commands(char **str);
+int		parser(char **str, t_cmds **cmds);
 
 
 #endif

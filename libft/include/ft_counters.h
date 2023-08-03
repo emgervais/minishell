@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:01:19 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/02/13 19:32:22 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:30:23 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlen(const char *str);
 
 size_t	ft_count_word(const char *str, const char c);
+size_t	ft_count_word_array(const char **args, const char c);
 size_t	ft_count_char(long nb);
 size_t	ft_splitlen(char **split);
 size_t	ft_atoi_check(const char *str, int *negative);

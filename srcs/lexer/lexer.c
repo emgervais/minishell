@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 18:55:45 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/26 04:54:14 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/02 12:51:59 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,8 +155,7 @@ char **lexer(char *input)
             line[i++] = *input;
             input++;
         }
-        a[k] = line;
-        printf("%d : %s\n", k, a[k++]);
+        a[k++] = line;
     }
     return (a);
 }

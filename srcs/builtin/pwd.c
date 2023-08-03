@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/19 21:10:06 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/02 15:23:43 by ele-sage         ###   ########.fr       */
+/*   Created: 2023/08/02 12:31:34 by ele-sage          #+#    #+#             */
+/*   Updated: 2023/08/02 12:42:23 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int    error_fd(char *str, char *err, int ret, int fd)
+int pwd(int ac)
 {
-    ft_putstr_fd("minishell: ", fd);
-    ft_putstr_fd(str, fd);
-    if (err)
+    char *cwd;
+
+    if (ac > 1)
     {
-        ft_putstr_fd(": ", fd);
-        ft_putstr_fd(err, fd);
+        ft_putendl_fd("pwd: too many arguments", STDERR_FILENO);
+        return (ERROR);
     }
-    ft_putstr_fd("\n", fd);
-    return (ret);
+    cwd = malloc(sizeof(char) * 1025);
+    if (!cwd)
+        return (ERROR);
+    getcwd(cwd, sizeof(char) * 1025);
+    ft_putendl_fd(cwd, STDOUT_FILENO);
+    free(cwd);
+    return (SUCCESS);
 }

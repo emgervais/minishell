@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 05:34:41 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/01 16:18:09 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/02 20:08:35 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ void	print_commands(t_cmds *commands)
             printf("\033[1;33m");
             while (tmp->redir)
             {
-                if (tmp->redir->type == GREAT)
+                if (tmp->redir->type == OUT)
                     printf(">");
-                else if (tmp->redir->type == DOUBLE_GREAT)
+                else if (tmp->redir->type == APPEND)
                     printf(">>");
-                else if (tmp->redir->type == LESS)
+                else if (tmp->redir->type == IN)
                     printf("<");
-                else if (tmp->redir->type == DOUBLE_LESS)
+                else if (tmp->redir->type == HEREDOC)
                     printf("<<");
                 printf(" %s ", tmp->redir->file);
                 tmp->redir = tmp->redir->next;

@@ -5,107 +5,98 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/14 13:52:58 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/01 16:14:39 by ele-sage         ###   ########.fr       */
+/*   Created: 2023/07/21 12:00:57 by ele-sage          #+#    #+#             */
+/*   Updated: 2023/08/02 22:04:11 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_builtin(char *str, t_cmds *command)
-{
-	if (ft_strncmp(str, "echo", 5) == 0)
-		command->builtin = ECHO;
-	else if (ft_strncmp(str, "cd", 3) == 0)
-		command->builtin = CD;
-	else if (ft_strncmp(str, "pwd", 4) == 0)
-		command->builtin = PWD;
-	else if (ft_strncmp(str, "export", 7) == 0)
-		command->builtin = EXPORT;
-	else if (ft_strncmp(str, "unset", 6) == 0)
-		command->builtin = UNSET;
-	else if (ft_strncmp(str, "env", 4) == 0)
-		command->builtin = ENV;
-	else if (ft_strncmp(str, "exit", 5) == 0)
-		command->builtin = EXIT;
-	else
-		return (0);
-	add_arg(&command, str);
-	return (1);
-}
-
-static t_cmds *is_redir(t_cmds *command, char **str, int *i)
-{
-	t_redir			*redir;
-	t_redir_type 	type;
-
-	if (ft_strncmp(str[*i], ">>", 2) == 0)
-		type = DOUBLE_GREAT;
-	else if (ft_strncmp(str[*i], "<<", 2) == 0)
-		type = DOUBLE_LESS;
-	else if (ft_strncmp(str[*i], ">", 1) == 0)
-		type = GREAT;
-	else if (ft_strncmp(str[*i], "<", 1) == 0)
-		type = LESS;
-	else
-		return (NULL);
-	if (init_redir(&redir, type, str[++(*i)]))
-		return (NULL);
-	if (add_redir(&command, redir))
-		return (NULL);
-	return (command);
-}
-
-static t_cmds *parse_arg(t_cmds **commands, t_cmds *command, char **str, int *i)
-{
-	t_cmds	*new_command;
-
-	if (is_redir(command, str, i))
-		return (command);
-	if (str[*i][0] == '|' && str[*i][1] == '\0')
-	{
-		if (add_command(commands, command))
-			return (NULL);
-		new_command = init_command();
-		if (!new_command)
-			return (NULL);
-		return (new_command);
-	}
-	if (command->argc == 0 && is_builtin(str[*i], command))
-		return (command);
-	if (add_arg(&command, str[*i]))
-		return (NULL);
-	return (command);
-}
-
-static int	parse_commands(char **str, t_cmds **commands)
+t_cmds	*init_command()
 {
 	t_cmds	*command;
+
+	command = (t_cmds *)malloc(sizeof(t_cmds));
+	if (!command)
+		return (NULL);
+	command->fd.fd_in = STDIN_FILENO;
+	command->fd.fd_out = STDOUT_FILENO;
+	command->args = NULL;
+	command->argc = 0;
+	command->builtin = NO_BUILTIN;
+	command->redir = NULL;
+	command->next = NULL;
+	command->prev = NULL;
+	return (command);
+}
+
+int add_arg(t_cmds **command, char *arg)
+{
+	char	**tmp;
 	int		i;
 
-	command = init_command();
-	if (!command)
-		return (ERROR);
 	i = 0;
-	while (str[i])
-	{
-		command = parse_arg(commands, command, str, &i);
-		if (!command)
-			return (ERROR);
-		i++;
-		printf("i = %d\n", i);
-	}
-	if (add_command(commands, command))
+	tmp = (char **)malloc(sizeof(char *) * ((*command)->argc + 2));
+	if (!tmp)
 		return (ERROR);
+	while (i < (*command)->argc)
+	{
+		tmp[i] = (*command)->args[i];
+		i++;
+	}
+	tmp[i] = ft_strdup(arg);
+	tmp[i + 1] = NULL;
+	if ((*command)->args)
+		free((*command)->args);
+	(*command)->args = tmp;
+	(*command)->argc++;
 	return (SUCCESS);
 }
 
-t_cmds	*init_commands(char **str)
+int	add_command(t_cmds **commands, t_cmds *command)
 {
-	t_cmds	*commands;
+	t_cmds	*tmp;
 
-	commands = NULL;
-	if (parse_commands(str, &commands))
-		return (NULL);
-	return (commands);
+	if (!commands || !command)
+		return (ERROR);
+	if (!*commands)
+	{
+		*commands = command;
+		return (SUCCESS);
+	}
+	tmp = *commands;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = command;
+	command->prev = tmp;
+	return (SUCCESS);
+}
+
+int	init_redir(t_redir **redir, t_redir_type type, char *file)
+{
+	*redir = (t_redir *)malloc(sizeof(t_redir));
+	if (!*redir)
+		return (ERROR);
+	(*redir)->type = type;
+	(*redir)->file = ft_strdup(file);
+	(*redir)->next = NULL;
+	return (SUCCESS);
+}
+
+int	add_redir(t_cmds **command, t_redir *redir)
+{
+	t_redir	*tmp;
+
+	if (!command || !redir)
+		return (ERROR);
+	if (!(*command)->redir)
+	{
+		(*command)->redir = redir;
+		return (SUCCESS);
+	}
+	tmp = (*command)->redir;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = redir;
+	return (SUCCESS);
 }

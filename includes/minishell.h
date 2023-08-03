@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:03:22 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 20:53:45 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/02 21:59:17 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <signal.h>
 # include <stdbool.h>
 # include <errno.h>
+# include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 

@@ -3,45 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:21:34 by egervais          #+#    #+#             */
-/*   Updated: 2023/07/18 19:32:11 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/02 22:58:42 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-char *echo(char **args)
+int		echo(t_cmds *cmds)
 {
     int i;
-    int mode;
-    char *temp;
-    char *temp2;
+    int n;
 
-    i = 0;
-    mode = 0;
-    temp = NULL;
-    if(ft_strncmp(args[1], "-n", 3) == 0)
+    i = 1;
+    n = 0;
+    if (cmds->argc > 1)
     {
-        args++;
-        mode = 1;
+        if (ft_strncmp(cmds->args[1], "-n", 3) == 0)
+        {
+            n = 1;
+            i++;
+        }
+        while (i < cmds->argc)
+        {
+            ft_putstr_fd(cmds->args[i], cmds->fd.fd_out);
+            if (i + 1 < cmds->argc)
+                ft_putchar_fd(' ', cmds->fd.fd_out);
+            i++;
+        }
     }
-    args++;
-    while(args[i])
-    {
-        if(!temp)
-            temp = ft_strdup(args[i++]);
-        else
-            temp2 = ft_strjoin(temp, args[i++]);
-        free(temp);
-        if(args[i])
-            temp2 = add_one_char(temp2, ' ', 1);
-        else if(!mode)
-            temp2 = add_one_char(temp2, '\n', 1);
-        if(!temp2)
-            return (NULL);
-        temp = temp2;
-    }
-    return (temp2);
+    if (!n)
+        ft_putchar_fd('\n', cmds->fd.fd_out);
+    return (SUCCESS);
 }

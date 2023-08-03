@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:05:45 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/21 14:33:15 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:29:50 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,22 @@ size_t	ft_count_word(const char *str, const char c)
 			if (str[a - 1] == c && str[a] != c)
 				count++;
 		}
+		a++;
+	}
+	return (count);
+}
+
+
+size_t	ft_count_word_array(const char **args, const char c)
+{
+	size_t	count;
+	int		a;
+
+	count = 0;
+	a = 0;
+	while (args[a])
+	{
+		count += ft_count_word(args[a], c);
 		a++;
 	}
 	return (count);

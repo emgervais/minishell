@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:42:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/26 05:35:10 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:24:16 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,8 @@ void	reset_signals(void);
 // print utils
 void	print_env_var(t_env_var *env_var);
 void	print_commands(t_cmds *commands);
+
+// error utils
+int     error_fd(char *str, char *err, int ret, int fd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/07/31 19:13:55 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:32:40 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 // This function will get the value of the env_var
 // It will return the value of the env_var
-static char	*get_value(char *key, t_env_var *env_var)
+char	*get_env_var_value(char *key, t_env_var *env_var)
 {
 	while (env_var)
 	{
@@ -41,7 +41,7 @@ static char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 	{
 		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ')
 		{
-			new_arg = ft_strjoin(new_arg, get_value(keys[j], env_var));
+			new_arg = ft_strjoin(new_arg, get_env_var_value(keys[j], env_var));
 			i += ft_strlen(keys[j++]) + 1;
 		}
 		else

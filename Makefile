@@ -6,7 +6,7 @@
 #    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/07/26 05:36:57 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/08/02 22:37:53 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,13 +25,13 @@ INCDIR   	:= includes
 
 ################################### SOURCES ####################################
 SRCFILES 	:=  lexer/lexer.c lexer/double_quotes.c \
-				parser/init_cmds_utils.c parser/init_cmds.c parser/parser.c \
+				parser/init_cmds.c parser/parser.c \
 				expander/init_env_vars.c expander/expander.c \
-				executor/executor.c \
+				executor/executor.c executor/fd_utils.c \
 				utils/error.c utils/free.c utils/unix_signals.c utils/print_utils.c \
 				main_loop.c main.c \
-				builtin/env.c builtin/echo.c builtin/cd.c builtin/export.c\
-
+				builtin/env.c builtin/echo.c builtin/cd.c builtin/export.c \
+				builtin/unset.c builtin/pwd.c \
 
 
 SRCFILES 	:= $(addprefix $(SRCDIR)/,$(SRCFILES))

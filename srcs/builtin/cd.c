@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:53:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/07/31 18:22:17 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/02 12:54:37 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void change_var(char *path, t_env_var *var)
     temp->next->value = temp->value;
     temp->value = temp;
 }
+
 int cd(char **args, int ac, t_env_var *var)
 {
     char *temp;
@@ -44,17 +45,4 @@ int cd(char **args, int ac, t_env_var *var)
     change_var(temp, var);
     free(cwd);
     return (0);
-}
-
-char *pwd(int ac)
-{
-    char *a;
-
-    if(ac != 1)
-        return (1);
-    a = malloc(sizeof(char) * 1025);
-    if(!a)
-        return (1);
-    getcwd(a, sizeof(char) * 1025);
-    return (a);
 }

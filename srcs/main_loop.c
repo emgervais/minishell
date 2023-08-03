@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/01 16:16:42 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/02 23:18:52 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,14 @@ static int  lsh_execute(char **args, t_env_var *env_var)
     t_cmds      *cmds;
     int         status;
 
-    cmds = parser(args);
-    if (!cmds)
+    status = 0;
+    if (!args)
+        return (status);
+    if (parser(args, &cmds))
         return (ERROR);
+    if (!cmds)
+        return (status);
     status = executor(cmds, env_var);
-    print_commands(cmds);
-    // print_env_var(env_var);
     free_commands(cmds);
     return (status);
 }
@@ -60,14 +62,15 @@ void    lsh_loop(char **envp)
     char        **args;
     int         status;
 
-    status = 1;
+    status = 0;
     init_signals();
     env_var = init_env_var(envp);
-    while (status)
+    while (status == 0)
     {
         line = lsh_read_line();
         args = lsh_split_line(line);
         status = lsh_execute(args, env_var);
     }
+    free_env_vars(env_var);
     reset_signals();
 }

@@ -6,11 +6,25 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:55:10 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/26 05:02:26 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:03:58 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// This function will return the length of the env_var list
+int env_var_len(t_env_var *env_var)
+{
+    int     len;
+
+    len = 0;
+    while (env_var)
+    {
+        env_var = env_var->next;
+        len++;
+    }
+    return (len);
+}
 
 // This function will create a new env_var
 // It will return the new env_var

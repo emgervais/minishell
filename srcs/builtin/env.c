@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 18:32:20 by egervais          #+#    #+#             */
-/*   Updated: 2023/07/24 21:10:48 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/02 12:39:44 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,33 +35,22 @@ char *add_one_char(char *s1, char c, int malloced)
     return (str);
 }
 
-char *env(t_env_var *list, int ac)
+int env(t_env_var *list, int ac)
 {
     t_env_var *temp;
-    char *env2;
-    char *tmp;
 
     temp = list;
-    if(ac != 1)
-        return (NULL);
-    tmp = add_one_char(temp->key, '=', 0);
-    env2 = ft_strjoin(tmp, temp->value);
-    tmp = add_one_char(env2, '\n', 1);
-    temp = temp->next;
+    if(ac > 1)
+    {
+        ft_putendl_fd("env: too many arguments", STDERR_FILENO);
+        return (ERROR);
+    }
     while(temp)
     {
-        if(!tmp)
-            return (NULL);
-        env2 = ft_strjoin(tmp, temp->key);
-        free(tmp);
-        tmp = add_one_char(env2, '=', 1);
-        env2 = ft_strjoin(tmp, temp->value);
-        free(tmp);
-        if(temp->next)
-            tmp = add_one_char(env2, '\n', 1);
-        else
-            return(env2);
+        ft_putstr_fd(temp->key, STDOUT_FILENO);
+        ft_putchar_fd('=', STDOUT_FILENO);
+        ft_putendl_fd(temp->value, STDOUT_FILENO);
         temp = temp->next;
     }
-    return (tmp);
+    return (SUCCESS);
 }
