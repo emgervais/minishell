@@ -110,14 +110,14 @@ int    exec_cmds(t_cmds *cmds, t_env_var *env_var)
 {
     int     ret;
 
-    if (cmds->redir)
-    {
-        if (handle_redir(cmds) == ERROR)
-            return (ERROR);
-    }
     if (cmds->next)
     {
         if (handle_pipe(cmds) == ERROR)
+            return (ERROR);
+    }
+    if (cmds->redir)
+    {
+        if (handle_redir(cmds) == ERROR)
             return (ERROR);
     }
     if (cmds->builtin != NO_BUILTIN)
