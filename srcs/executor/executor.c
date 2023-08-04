@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 06:03:11 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 09:27:11 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@ int    exec_builtin(t_cmds *cmds, t_env_var *env_var)
     if (cmds->builtin == ECHO)
         return (echo(cmds));
     else if (cmds->builtin == CD)
-        return (cd(cmds->args, cmds->argc, env_var));
+        return (cd(cmds, env_var));
     else if (cmds->builtin == PWD)
-        return (pwd(cmds->argc));
+        return (pwd(cmds));
     else if (cmds->builtin == EXPORT)
-        return (export(cmds->args, env_var));
+        return (export(cmds, env_var));
     else if (cmds->builtin == UNSET)
-        return (unset(env_var, cmds->args));
+        return (unset(cmds, env_var));
     else if (cmds->builtin == ENV)
-        return (env(env_var, cmds->argc));
+        return (env(cmds, env_var));
     return (SUCCESS);
 }
 

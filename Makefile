@@ -6,7 +6,7 @@
 #    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/08/02 22:37:53 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/08/04 09:26:37 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,6 @@ fclean: clean
 	@make fclean -C libft
 	@echo "Minishell deleted."
 
-re: fclean all
+re: fclean $(NAME)
 
-.PHONY: all clean fclean re
+.PHONY: $(NAME) clean fclean re
