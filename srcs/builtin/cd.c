@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:53:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/04 10:36:44 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 11:26:57 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int cd(t_cmds *cmd, t_env_var *env_var)
     set_env_var("OLDPWD", getcwd(NULL, 0), env_var);
     if (cmd->argc > 2)
         return (error_fd(cmd->args[0], "too many arguments", 1, cmd));
+    set_env_var("OLDPWD", getcwd(NULL, 0), env_var);//protect
     if (cmd->argc == 1)
         path = get_env_var_value("HOME", env_var);
     else
@@ -30,6 +31,6 @@ int cd(t_cmds *cmd, t_env_var *env_var)
         else
             return (error_fd(cmd->args[0], strerror(errno), 1, cmd));
     }
-    set_env_var("PWD", getcwd(NULL, 0), env_var);
+    set_env_var("PWD", getcwd(NULL, 0), env_var);//protect
     return (0);
 }

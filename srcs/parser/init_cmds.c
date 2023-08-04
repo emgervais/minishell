@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 12:00:57 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/02 22:04:11 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:21:16 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int add_arg(t_cmds **command, char *arg)
 		tmp[i] = (*command)->args[i];
 		i++;
 	}
-	tmp[i] = ft_strdup(arg);
+	tmp[i] = ft_strdup(arg);//protect
 	tmp[i + 1] = NULL;
 	if ((*command)->args)
 		free((*command)->args);
@@ -78,7 +78,7 @@ int	init_redir(t_redir **redir, t_redir_type type, char *file)
 	if (!*redir)
 		return (ERROR);
 	(*redir)->type = type;
-	(*redir)->file = ft_strdup(file);
+	(*redir)->file = ft_strdup(file);//protect
 	(*redir)->next = NULL;
 	return (SUCCESS);
 }

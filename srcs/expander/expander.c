@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/08/02 15:32:40 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:26:18 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_env_var_value(char *key, t_env_var *env_var)
 }
 
 // This function will expand the variables in the argument
-// It will return the new argument
+// It will return the new argument or NULL when failing
 static char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 {
 	int		i;
@@ -41,19 +41,19 @@ static char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 	{
 		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ')
 		{
-			new_arg = ft_strjoin(new_arg, get_env_var_value(keys[j], env_var));
+			new_arg = ft_strjoin(new_arg, get_env_var_value(keys[j], env_var));//leaks
 			i += ft_strlen(keys[j++]) + 1;
 		}
 		else
-			new_arg = ft_strjoin(new_arg, ft_substr(arg, i++, 1));
+			new_arg = ft_strjoin(new_arg, ft_substr(arg, i++, 1));//leaks
 	}
 	if (new_arg && arg[i])
-		new_arg = ft_strjoin(new_arg, ft_substr(arg, i, ft_strlen(arg) - i));
-	return (new_arg);
+		new_arg = ft_strjoin(new_arg, ft_substr(arg, i, ft_strlen(arg) - i));//leaks
+	return (new_arg);//make sure protected when calling
 }
 
 // This function will get the keys of the argument
-// It will return the keys
+// It will return the keys or NULL if failing
 static char	**get_keys(char *arg, int i, int j)
 {
 	char	**keys;
@@ -61,14 +61,14 @@ static char	**get_keys(char *arg, int i, int j)
 	keys = malloc(sizeof(char *) * (ft_count_word(arg, '$') + 1));
 	if (!keys)
 		return (NULL);
-	keys[0] = ft_strdup("");
+	keys[0] = ft_strdup("");//protect
 	while (arg[i] && keys[j])
 	{
 		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ')
 		{
 			while (arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ')
 				keys[j] = add_one_char(keys[j], arg[++i], 1);
-			keys[++j] = ft_strdup("");
+			keys[++j] = ft_strdup("");//protect
 		}
 		i++;
 	}
@@ -80,7 +80,7 @@ static char	**get_keys(char *arg, int i, int j)
 }
 
 // This function will expand the variables in the arguments
-// It will return the new arguments
+// It will return the new arguments or NULL when failing
 char	**expand_args(char **args, t_env_var *env_var)
 {
 	int		i;
@@ -105,7 +105,7 @@ char	**expand_args(char **args, t_env_var *env_var)
 }
 
 // This function will expand the variables in the cmds
-// It will return the new cmds
+// It will return the new cmds or NULL when failing
 t_cmds	*expander(t_cmds *cmds, t_env_var *env_var)
 {
 	t_cmds	*tmp;
@@ -113,7 +113,7 @@ t_cmds	*expander(t_cmds *cmds, t_env_var *env_var)
 	tmp = cmds;
 	while (tmp)
 	{
-		tmp->args = expand_args(tmp->args, env_var);
+		tmp->args = expand_args(tmp->args, env_var);//protect
 		tmp = tmp->next;
 	}
 	return (cmds);

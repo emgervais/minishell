@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:56:47 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/04 08:30:29 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:46:04 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ int export(t_cmds *cmd, t_env_var *env_var)
 		if (!is_valid_key(cmd->args[i]))
 			return (export_wrong_usage(cmd, i));
 		if (ft_strchr(cmd->args[i], '='))
-			set_env_var(ft_substr(cmd->args[i], 0, ft_int_strchr(cmd->args[i], '=')),
+			set_env_var(ft_substr(cmd->args[i], 0, ft_int_strchr(cmd->args[i], '=')),//protect
 			ft_strchr(cmd->args[i], '=') + 1, env_var);
 		else
-			set_env_var(cmd->args[i], "", env_var);
+			set_env_var(cmd->args[i], "", env_var);//protect
 		i++;
 	}
 	return (SUCCESS);
