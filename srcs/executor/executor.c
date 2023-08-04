@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 09:27:11 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:30:20 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ static char *get_path(char *cmd, t_env_var *env_var)
     i = 0;
     while (path && path[i])
     {
-        path[i] = ft_strjoin(path[i], "/");
+        path[i] = ft_strjoin(path[i], "/");//leaks + protect
         path[i] = ft_strjoin(path[i], cmd);
         if (access(path[i], F_OK) == 0)
         {
-            path_cmd = ft_strdup(path[i]);
+            path_cmd = ft_strdup(path[i]);//protect
             break ;
         }
         i++;
@@ -51,7 +51,7 @@ static char *get_path(char *cmd, t_env_var *env_var)
     if (!path || !path[i])
         path_cmd = NULL;
     ft_free_split(path);
-    return (path_cmd);
+    return (path_cmd);//makesure protected when calling
 }
 
 static char **env_var_to_array(t_env_var *env_var)
@@ -65,7 +65,7 @@ static char **env_var_to_array(t_env_var *env_var)
     i = 0;
     while (env_var)
     {
-        env[i] = ft_strjoin(env_var->key, "=");
+        env[i] = ft_strjoin(env_var->key, "=");//leaks + protect
         env[i] = ft_strjoin(env[i], env_var->value);
         env_var = env_var->next;
         i++;
@@ -126,7 +126,7 @@ int    exec_cmds(t_cmds *cmds, t_env_var *env_var)
         ret = exec_bin(cmds, env_var);
     if (close_fd(cmds) == ERROR)
         return (ERROR);
-    return (ret);
+    return (ret); //orm ake sure its protected when called
 }
 
 int executor(t_cmds *cmds, t_env_var *env_var)

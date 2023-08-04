@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:53:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/04 08:37:29 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:40:09 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 int cd(t_cmds *cmd, t_env_var *env_var)
 {
     char	*path;
-    char	*oldpwd;
 
     if (cmd->argc > 2)
         return (error_fd(cmd->args[0], "too many arguments", 1, cmd));
+    set_env_var("OLDPWD", getcwd(NULL, 0), env_var);//protect
     if (cmd->argc == 1)
         path = get_env_var_value("HOME", env_var);
     else
@@ -30,12 +30,6 @@ int cd(t_cmds *cmd, t_env_var *env_var)
         else
             return (error_fd(cmd->args[0], strerror(errno), 1, cmd));
     }
-    oldpwd = malloc(sizeof(char) * 1025);
-    if (!oldpwd)
-        return (ERROR);
-    getcwd(oldpwd, sizeof(char) * 1025);
-    set_env_var("OLDPWD", oldpwd, env_var);
-    set_env_var("PWD", getcwd(NULL, 0), env_var);
-    free(oldpwd);
+    set_env_var("PWD", getcwd(NULL, 0), env_var);//protect
     return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env_vars.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:55:10 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 09:24:49 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:37:08 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int env_var_len(t_env_var *env_var)
 }
 
 // This function will create a new env_var
-// It will return the new env_var
+// It will return the new env_var or nULL if failing
 t_env_var	*new_env_var(char *key_value)
 {
     t_env_var	*env_var;
@@ -65,6 +65,7 @@ int	add_env_var(t_env_var *env_var, char *key_value)
 // This function will search for the env_var with the key
 // if it finds it, it will set the value
 // if it doesn't find it, it will create a new env_var
+//returns NULL if failing
 int  set_env_var(char *key, char *value, t_env_var *env_var)
 {
     t_env_var	*tmp;
@@ -76,7 +77,7 @@ int  set_env_var(char *key, char *value, t_env_var *env_var)
         if (ft_strncmp(tmp->key, key, ft_strlen(tmp->key) + 1) == 0)
         {
             free(tmp->value);
-            tmp->value = ft_strdup(value);
+            tmp->value = ft_strdup(value);//protect
             return (SUCCESS);
         }
         tmp = tmp->next;

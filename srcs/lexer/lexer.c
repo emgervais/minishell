@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 18:55:45 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/02 12:51:59 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:20:35 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// To do:
 
 static int is_sep(char c)
 {
@@ -24,6 +22,30 @@ static int is_sep(char c)
         if(c == sep[i++])
             return (1);
     return (0);
+}
+
+static int all_sep(char *str)
+{
+    int i;
+    int k;
+    
+    i = 0;
+    while(str[i])
+    {
+        if(str[i] == '\"' || str[i] == '\'')
+        {
+            k = i;
+            while(str[i] && str[i] != str[k])
+                i++;
+            if(!str[i])
+                return (-1);
+            i++;
+        }
+        else if(is_sep(str[i]))
+            return (0);
+        i++;
+    }
+    return (1);
 }
 
 static int llen(char *str)
@@ -47,12 +69,10 @@ static int llen(char *str)
         }
         str++;
         c++;
-        if(*str == '\'' || *str == '\"')
-            return (i + 1);
     }
     if(!c)
     {
-        while(str[i] == '|' || str[i] == '<' || str[i] == '>')// check len
+        while(str[i] == '|' || str[i] == '<' || str[i] == '>')
             i++;
         return (i);
     }
@@ -87,7 +107,9 @@ static int count_args(char *in)
     int count;
     int i;
 
-    count = 0;
+    count = all_sep(in);
+    if(count == -1)
+        exit(1);
     while(*in && *in == ' ')
         in++;
     while(*in)
@@ -100,7 +122,6 @@ static int count_args(char *in)
             if(!in[i])
                 return (0);
             in += i + 1;
-            count++;
         }
         else if(is_sep(*in))
         {
@@ -111,7 +132,7 @@ static int count_args(char *in)
             }
             while(*in && is_sep(*in) && *in == ' ')
                 in++;
-            if(*in && *in != ' ' && is_sep(*in))
+            if(*in || (*in != ' ' && is_sep(*in)))
                 count++;
             while(*in && is_sep(*in))
                 in++;
@@ -120,7 +141,8 @@ static int count_args(char *in)
         {
             while(*in && !is_sep(*in) && *in != '\'' && *in != '\"')
                 in++;
-            count++;
+            if(is_sep(*in))
+                count++;
         }
     }
     return (count);
@@ -138,12 +160,12 @@ char **lexer(char *input)
     len = count_args(input);
     if(!len)
         exit(1);
-    a = malloc(sizeof(char *) * (len + 1));
+    a = malloc(sizeof(char *) * (len + 1));//protect
     a[len] = NULL;
     while(*input)
     {
         i = 0;
-        while(*input == ' ')
+        while(*input && *input == ' ')
             input++;
         len = llen(input);
         line = malloc(sizeof(char) * (len + 1));
