@@ -6,36 +6,56 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:22:23 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/02 12:49:22 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 09:24:44 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int unset(t_env_var *env, char **var)
+static int	unset_wrong_usage(t_cmds *cmd, int i)
 {
-    t_env_var *temp;
-    t_env_var *prev;
-    int i;
+    ft_putstr_fd("minishell: unset: `", STDERR_FILENO);
+    ft_putstr_fd(cmd->args[i], STDERR_FILENO);
+    ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+    return (1);
+}
 
-    i = -1;
-    while(var[++i])
+static void delete_env_var(char *key, t_env_var *env_var)
+{
+    t_env_var	*tmp;
+    t_env_var	*prev;
+
+    tmp = env_var;
+    prev = NULL;
+    while (tmp)
     {
-        temp = env;
-        prev = env;
-        while(temp && ft_strncmp(temp->key, *var, ft_strlen(*var)))
+        if (ft_strncmp(tmp->key, key, ft_strlen(tmp->key) + 1) == 0)
         {
-            if(temp != prev)
-                prev = prev->next;
-            temp = temp->next;
+            if (prev)
+                prev->next = tmp->next;
+            else
+                env_var = tmp->next;
+            free(tmp->key);
+            free(tmp->value);
+            free(tmp);
+            return ;
         }
-        if(temp)
-        {
-            prev->next = temp->next;
-            free(temp->key);
-            free(temp->value);
-            free(temp);
-        }
+        prev = tmp;
+        tmp = tmp->next;
     }
-    return (SUCCESS);
+}
+
+int unset(t_cmds *cmd, t_env_var *env_var)
+{
+    int	i;
+
+    i = 1;
+    while (cmd->args[i])
+    {
+        if (!is_valid_key(cmd->args[i]))
+            return (unset_wrong_usage(cmd, i));
+        delete_env_var(cmd->args[i], env_var);
+        i++;
+    }
+    return (0);
 }

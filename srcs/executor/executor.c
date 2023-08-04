@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/02 23:23:02 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 06:03:11 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int  exec_bin(t_cmds *cmds, t_env_var *env_var)
 
     path_cmd = get_path(cmds->args[0], env_var);
     if (!path_cmd)
-        return (error_fd("command not found", cmds->args[0], 1, STDERR_FILENO));
+        return (error_fd(cmds->args[0], "command not found", 127, cmds));
     env = env_var_to_array(env_var);
     if (!env)
         return (ERROR);
@@ -91,10 +91,10 @@ static int  exec_bin(t_cmds *cmds, t_env_var *env_var)
         if (dup_fd(cmds) == ERROR)
             return (ERROR);
         if (execve(path_cmd, cmds->args, env) == -1)
-            return (error_fd(strerror(errno), NULL, 1, STDERR_FILENO));
+            return (error_fd(cmds->args[0], strerror(errno), 127, cmds));
     }
     else if (cmds->fd.pid < 0)
-        return (error_fd(strerror(errno), NULL, 1, STDERR_FILENO));
+        return (error_fd(cmds->args[0], strerror(errno), 1, cmds));
     else
     {
         waitpid(cmds->fd.pid, &cmds->fd.status, 0);
@@ -144,10 +144,8 @@ int executor(t_cmds *cmds, t_env_var *env_var)
                 return (ERROR);
             ret = exec_cmds(tmp, env_var);
             if (ret == ERROR)
-                return (ERROR);
+                return (ERROR);       
         }
-        else
-            return (SUCCESS);
         tmp = tmp->next;
     }
     return (SUCCESS);

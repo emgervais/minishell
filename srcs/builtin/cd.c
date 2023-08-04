@@ -6,43 +6,36 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:53:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/02 12:54:37 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 08:37:29 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-void change_var(char *path, t_env_var *var)
+int cd(t_cmds *cmd, t_env_var *env_var)
 {
-    t_env_var *temp;
+    char	*path;
+    char	*oldpwd;
 
-    temp = var;
-    while(ft_strncmp(temp->key, "PWD", 4))
-        temp = temp->next;
-    free(temp->next->value);
-    temp->next->value = temp->value;
-    temp->value = temp;
-}
-
-int cd(char **args, int ac, t_env_var *var)
-{
-    char *temp;
-    char *cwd;
-    
-    cwd = malloc(sizeof(char) * 1025);
-    getcwd(cwd, sizeof(char) * 1025);
-    if(args[1][ft_strlen(args[1])] != '/')
-        temp = ft_strjoin(cwd, "/");
+    if (cmd->argc > 2)
+        return (error_fd(cmd->args[0], "too many arguments", 1, cmd));
+    if (cmd->argc == 1)
+        path = get_env_var_value("HOME", env_var);
     else
-        temp = cwd;
-    temp = ft_strjoin(temp, args[1]);
-    if(!temp || ac != 2 || chdir(temp))
+        path = cmd->args[1];
+    if (chdir(path) == -1)
     {
-        free(temp);
-        free(cwd);
-        return (1);
+        if (cmd->argc == 1)
+            return (error_fd(cmd->args[0], "HOME not set", 1, cmd));
+        else
+            return (error_fd(cmd->args[0], strerror(errno), 1, cmd));
     }
-    change_var(temp, var);
-    free(cwd);
+    oldpwd = malloc(sizeof(char) * 1025);
+    if (!oldpwd)
+        return (ERROR);
+    getcwd(oldpwd, sizeof(char) * 1025);
+    set_env_var("OLDPWD", oldpwd, env_var);
+    set_env_var("PWD", getcwd(NULL, 0), env_var);
+    free(oldpwd);
     return (0);
 }

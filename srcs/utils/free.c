@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:04:11 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/02 22:40:45 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 05:28:30 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,16 @@ void	free_commands(t_cmds *commands)
 
 void    free_env_vars(t_env_var *env_var)
 {
-    t_env_var    *tmp;
+	t_env_var   *tmp;
 
-    while (env_var)
-    {
-        tmp = env_var->next;
-        free(env_var->key);
-        free(env_var->value);
-        free(env_var);
-        env_var = tmp;
-    }
+	while (env_var)
+	{
+		tmp = env_var->next;
+		if (env_var->key)
+			free(env_var->key);
+		if (env_var->value)
+			free(env_var->value);
+		free(env_var);
+		env_var = tmp;
+	}
 }

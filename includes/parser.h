@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:01:18 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/02 23:16:28 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 05:52:54 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,21 @@
 
 # include "minishell.h"
 # include "builtin.h"
+
+typedef enum e_exit_status
+{
+    NOT_FOUND = 127,
+    INTERRUPT = 130,
+    QUIT = 131,
+    KILL = 137,
+    PIPE = 141,
+    ALARM = 142,
+    TERMINATED = 143,
+    STOPPED = 146,
+    SUSPENDED = 147,
+    CONTINUED = 148,
+    OUT_OF_RANGE = 255,
+}               t_exit_status;
 
 typedef enum e_builtin
 {
@@ -56,18 +71,19 @@ typedef struct s_fd
 	int	fd_in;
 	int	fd_out;
     int	pid;
-    int	status;
+	int	status;
 }	t_fd;
 
 typedef struct s_cmds
 {
-    t_fd        	fd;
-	char			**args;
-	int				argc;
-	t_builtin		builtin;
-	t_redir			*redir;
-	struct s_cmds	*next;
-	struct s_cmds	*prev;
+    t_fd        		fd;
+	char				**args;
+	int					argc;
+	t_builtin			builtin;
+	t_redir				*redir;
+	enum e_exit_status	e_status;
+	struct s_cmds		*next;
+	struct s_cmds		*prev;
 }	t_cmds;
 
 

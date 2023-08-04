@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:55:10 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/02 15:03:58 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 09:24:49 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,26 @@ int env_var_len(t_env_var *env_var)
 
 // This function will create a new env_var
 // It will return the new env_var
-t_env_var	*new_env_var(char *key, char *value)
+t_env_var	*new_env_var(char *key_value)
 {
     t_env_var	*env_var;
 
     env_var = (t_env_var *)malloc(sizeof(t_env_var));
     if (!env_var)
         return (NULL);
-    env_var->key = ft_substr(key, 0, ft_int_strchr(key, '='));
-    env_var->value = ft_strdup(value);
+    env_var->key = ft_substr(key_value, 0, ft_int_strchr(key_value, '='));
+    if (!env_var->key)
+        return (NULL);
+    env_var->value = ft_strdup(ft_strchr(key_value, '=') + 1);
+    if (!env_var->value)
+        return (NULL);
     env_var->next = NULL;
     return (env_var);
 }
 
 // This function will add a new env_var to the env_var list
 // It will return SUCCESS or ERROR
-int	add_env_var(t_env_var *env_var, char *envp)
+int	add_env_var(t_env_var *env_var, char *key_value)
 {
     t_env_var	*tmp;
     t_env_var	*new;
@@ -51,26 +55,38 @@ int	add_env_var(t_env_var *env_var, char *envp)
     tmp = env_var;
     while (tmp->next)
         tmp = tmp->next;
-    new = new_env_var(envp, ft_strchr(envp, '=') + 1);
+    new = new_env_var(key_value);
     if (!new)
         return (ERROR);
     tmp->next = new;
     return (SUCCESS);
 }
 
-// This function will initialize the env_var list
-// It will return SUCCESS or ERROR
-static int	init_env_var_list(t_env_var *env_var, char **envp)
+// This function will search for the env_var with the key
+// if it finds it, it will set the value
+// if it doesn't find it, it will create a new env_var
+int  set_env_var(char *key, char *value, t_env_var *env_var)
 {
-    int		i;
+    t_env_var	*tmp;
+    char        *key_value;
 
-    i = 0;
-    while (envp[i])
+    tmp = env_var;
+    while (tmp)
     {
-        if (add_env_var(env_var, envp[i]) == ERROR)
-            return (ERROR);
-        i++;
+        if (ft_strncmp(tmp->key, key, ft_strlen(tmp->key) + 1) == 0)
+        {
+            free(tmp->value);
+            tmp->value = ft_strdup(value);
+            return (SUCCESS);
+        }
+        tmp = tmp->next;
     }
+    key_value = ft_strjoin(ft_strjoin(key, "="), value);
+    if (!key_value)
+        return (ERROR);
+    if (add_env_var(env_var, key_value) == ERROR)
+        return (ERROR);
+    free(key_value);
     return (SUCCESS);
 }
 
@@ -78,11 +94,16 @@ static int	init_env_var_list(t_env_var *env_var, char **envp)
 t_env_var	*init_env_var(char **envp)
 {
     t_env_var	*env_var;
+    int			i;
 
-    env_var = new_env_var(envp[0], ft_strchr(envp[0], '=') + 1);
+    i = 0;
+    env_var = new_env_var(envp[i]);
     if (!env_var)
         return (NULL);
-    if (init_env_var_list(env_var, envp) == ERROR)
-        return (NULL);
-	return (env_var);
+    while (envp[++i])
+    {
+        if (add_env_var(env_var, envp[i]) == ERROR)
+            return (NULL);
+    }
+    return (env_var);
 }

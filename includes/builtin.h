@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:22:47 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/02 20:46:30 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 09:01:22 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,17 @@
 # include <signal.h>
 # include <stdbool.h>
 
-char    *add_one_char(char *s1, char c, int malloced);
-int     open_file(t_cmds *cmds);
+# define MAX_EXIT_POSITIVE "9223372036854775807"
+# define MAX_EXIT_NEGATIVE "-9223372036854775808"
 
-int     env(t_env_var *list, int ac);
-int     echo(t_cmds *cmds);
-int     cd(char **args, int ac, t_env_var *var);
-int     unset(t_env_var *env, char **var);
-int     export(char **args, t_env_var *list);
-int     pwd(int ac);
+char    *add_one_char(char *s1, char c, int malloced);
+
+int     env(t_cmds *cmd, t_env_var *env_var);
+int     echo(t_cmds *cmd);
+int     cd(t_cmds *cmd, t_env_var *env_var);
+int     unset(t_cmds *cmd, t_env_var *env_var);
+int     export(t_cmds *cmd, t_env_var *env_var);
+int     pwd(t_cmds *cmd);
+int     ft_exit(t_cmds *cmd, t_env_var *env_var);
 
 #endif

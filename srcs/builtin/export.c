@@ -3,104 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:56:47 by egervais          #+#    #+#             */
-/*   Updated: 2023/07/31 18:37:35 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/04 08:30:29 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-bool is_var_valid(char *str)
+
+static int	export_no_arg(t_env_var *env_var)
 {
-    int i;
-
-    i = 1;
-    if(!ft_isalpha(str[0]) && str[0] != '_')
-        return (1);
-    while(str[i] && str[i] != '=')
-    {
-        if(!ft_isalnum(str[i]) && str[i] != '_')
-            return (1);
-        i++;
-    }
-    if(!str[i])
-        return (1);
-    return (0);
-    
-}
-
-bool	is_exist(char *arg, t_env_var *list, int l)
-{
-	t_env_var *temp;
-
-	temp = list;
-	while(temp)
+	while(env_var)
 	{
-		if(!ft_strncmp(temp->key, arg, l - 1))
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd(env_var->key, STDOUT_FILENO);
+		if(env_var->value)
 		{
-			free(temp->key);
-			temp->key = ft_strdup(arg + l);
-			return (1);
+			ft_putstr_fd("=\"", STDOUT_FILENO);
+			ft_putstr_fd(env_var->value, STDOUT_FILENO);
+			ft_putstr_fd("\"", STDOUT_FILENO);
 		}
-		temp = temp->next;
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		env_var = env_var->next;
 	}
-	return (0);
+	return (SUCCESS);
 }
 
-void list_swap(t_env_var *list)
+static int	export_wrong_usage(t_cmds *cmd, int i)
 {
-	t_env_var *temp;
-	t_env_var *temp2;
-	t_env_var *temp3;
-
-	temp = list;
-	while(temp->next->next->next)
-		temp = temp->next;
-	temp2 = temp->next;
-	temp3 = temp2->next;
-	temp->next = temp3;
-	temp3->next = temp2;
-	temp2->next = NULL;
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+	ft_putstr_fd(cmd->args[i], STDERR_FILENO);
+	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+	return (ERROR);
 }
 
-int add_var(char *args, t_env_var *list)
+int	is_valid_key(char *key)
 {
-	//char *arg[3] = {"export", "var=mahahahahahahah", NULL};
-	t_env_var *temp;
-	t_env_var *temp2;
-	char *key;
-	int i;
-	int l;
+	int	i;
 
 	i = 0;
-	l = -1;
-	temp2 = list;
-    if(is_var_valid(args))
-        return (4);
-	while(args[i] != '=')
+	if (!ft_isalpha(key[i]) && key[i] != '_')
+		return (0);
+	while (key[i])
+	{
+		if (!ft_isalnum(key[i]) && key[i] != '_')
+			return (0);
 		i++;
-	if(is_exist(args, list, i++))
-		return(2);
-	key = malloc(sizeof(char) * i);
-	while(args[++l] != '=')
-		key[l] = args[l];
-	key[l] = '\0';
-	temp = new_env_var(key, args + i);
-	free(key);
-	while(temp2->next)
-		temp2 = temp2->next;
-	temp2->next = temp;
-	list_swap(list);
-    return (0);
+	}
+	return (1);
 }
 
-int export(char **args, t_env_var *list)
+int export(t_cmds *cmd, t_env_var *env_var)
 {
-	int i;
+	int	i;
 
 	i = 1;
-	while(args[i])
-		add_var(args[i++], list);
+	if (cmd->argc == 1)
+		return (export_no_arg(env_var));
+	while (cmd->args[i])
+	{
+		if (!is_valid_key(cmd->args[i]))
+			return (export_wrong_usage(cmd, i));
+		if (ft_strchr(cmd->args[i], '='))
+			set_env_var(ft_substr(cmd->args[i], 0, ft_int_strchr(cmd->args[i], '=')),
+			ft_strchr(cmd->args[i], '=') + 1, env_var);
+		else
+			set_env_var(cmd->args[i], "", env_var);
+		i++;
+	}
+	return (SUCCESS);
 }
