@@ -6,11 +6,11 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:34:31 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 16:31:54 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 11:19:19 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "utils.h"
 // Document code below
 
 // This function is called when the user presses Ctrl-C
@@ -29,6 +29,8 @@ void	sigint_handler(int sig)
 void	sigquit_handler(int sig)
 {
     (void)sig;
+    free_all(minishell());
+    
     ft_putstr_fd("exit\n", 1);
 }
 

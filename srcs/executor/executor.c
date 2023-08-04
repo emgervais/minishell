@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 09:27:11 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 09:49:04 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int    exec_builtin(t_cmds *cmds, t_env_var *env_var)
         return (unset(cmds, env_var));
     else if (cmds->builtin == ENV)
         return (env(cmds, env_var));
+    else if (cmds->builtin == EXIT)
+        return (ft_exit(cmds, env_var));
     return (SUCCESS);
 }
 

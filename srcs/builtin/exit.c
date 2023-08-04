@@ -6,41 +6,58 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:40:07 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 09:02:46 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 11:20:54 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-static int	ft_isdigit(int c)
+static int	in_range(char *str)
 {
-    if (c >= '0' && c <= '9')
-        return (1);
-    return (0);
-}
-
-int	ft_exit(t_cmds *cmd, t_env_var *env_var)
-{
-    int    i;
-    int    ret;
+    int	i;
 
     i = 0;
-    ret = 0;
-    if (cmd->argc == 1)
+    if (ft_strlen(str) > ft_strlen(MAX_EXIT_CODE))
+        return (0);
+    if (ft_strlen(str) < ft_strlen(MAX_EXIT_CODE))
+        return (1);
+    while (str[i++])
     {
-        cmd->fd.status = 0;
-        return (SUCCESS);
+        if (str[i] >= '0' && str[i] <= '9')
+        {
+            if (str[i] > MAX_EXIT_CODE[i])
+                return (0);
+            else if (str[i] < MAX_EXIT_CODE[i])
+                return (1);
+        }
+        else
+            return (0);
     }
-    if (cmd->argc > 2)
-        return (error_fd(cmd->args[0], "too many arguments", 1, cmd));
+    return (1);
+}
 
-    while (cmd->args[1][i])
+int	ft_exit(t_cmds *cmd)
+{
+    int	i;
+
+    i = 0;
+    ft_putstr_fd("exit\n", STDOUT_FILENO);
+    if (cmd->argc > 2)
     {
-        if (!ft_isdigit(cmd->args[1][i]))
-            return (error_fd(cmd->args[0], "numeric argument required", 255, cmd));
-        i++;
+        ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+        return (1);
     }
-    if (cmd->args[1][i] == '-')
-        return (error_fd(cmd->args[0], "numeric argument required", 255, cmd));
-    ret = ft_atoi(cmd->args[1]);
+    if (cmd->argc == 2)
+    {
+        if (!in_range(cmd->args[1]))
+        {
+            ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+            ft_putstr_fd(cmd->args[1], STDERR_FILENO);
+            ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+            return (2);
+        }
+        i = ft_atoi(cmd->args[1]);
+    }
+    free_all(minishell());
+    exit(i);
 }

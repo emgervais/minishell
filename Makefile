@@ -6,7 +6,7 @@
 #    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/08/04 09:26:37 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/08/04 09:49:21 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRCFILES 	:=  lexer/lexer.c lexer/double_quotes.c \
 				utils/error.c utils/free.c utils/unix_signals.c utils/print_utils.c \
 				main_loop.c main.c \
 				builtin/env.c builtin/echo.c builtin/cd.c builtin/export.c \
-				builtin/unset.c builtin/pwd.c \
+				builtin/unset.c builtin/pwd.c builtin/exit.c \
 
 
 SRCFILES 	:= $(addprefix $(SRCDIR)/,$(SRCFILES))

@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 06:04:50 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 11:21:45 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,8 @@ static char **lsh_split_line(char *line)
     return (agrs);
 }
 
-static int  lsh_execute(char **args, t_env_var *env_var)
+static int  lsh_execute(char **args, t_env_var *env_var, t_cmds *cmds)
 {
-    t_cmds      *cmds;
     int         status;
 
     status = 0;
@@ -64,18 +63,22 @@ static int  lsh_execute(char **args, t_env_var *env_var)
 void    lsh_loop(char **envp)
 {
     t_env_var   *env_var;
+    t_cmds      *cmds;
     char        *line;
     char        **args;
-    int         status;
 
-    status = 0;
     init_signals();
     env_var = init_env_var(envp);
-    while (status == 0)
+    cmds = NULL;
+    minishell()->env_var = env_var;
+    minishell()->cmds = cmds;
+    minishell()->status = 0;
+    while (1)
     {
         line = lsh_read_line();
         args = lsh_split_line(line);
-        status = lsh_execute(args, env_var);
+        minishell()->status = lsh_execute(args, env_var, cmds);
+        printf("status = %d\n", minishell()->status);
     }
     free_env_vars(env_var);
     reset_signals();

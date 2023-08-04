@@ -6,11 +6,11 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 21:10:06 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 05:59:44 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 11:14:38 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "utils.h"
 
 int    error_fd(char *str, char *err, int status, t_cmds *cmds)
 {

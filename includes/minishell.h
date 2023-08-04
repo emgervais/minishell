@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:03:22 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 05:51:36 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 11:16:27 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,14 @@
 # define TRUE 1
 # define FALSE 0
 
-void    lsh_loop(char **envp);
+typedef struct s_minishell
+{
+    t_env_var   *env_var;
+    t_cmds      *cmds;
+    int         status;
+}               t_minishell;
+
+t_minishell *minishell(void);
+void        lsh_loop(char **envp);
 
 # endif

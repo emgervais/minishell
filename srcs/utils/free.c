@@ -6,11 +6,11 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:04:11 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 05:28:30 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 11:11:49 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "utils.h"
 
 void	free_redir(t_redir *redir)
 {
@@ -60,4 +60,11 @@ void    free_env_vars(t_env_var *env_var)
 		free(env_var);
 		env_var = tmp;
 	}
+}
+
+void	free_all(t_minishell *mini)
+{
+	free_commands(mini->cmds);
+	free_env_vars(mini->env_var);
+	free(mini);
 }

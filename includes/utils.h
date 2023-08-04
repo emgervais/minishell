@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:42:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 05:55:36 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 11:17:36 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,15 @@
 
 # include "minishell.h"
 
+typedef struct s_minishell	t_minishell;
+
 // free
 void	free_command(t_cmds *command);
 void	free_commands(t_cmds *commands);
 void    free_env_vars(t_env_var *env_var);
+void	free_all(t_minishell *mini);
 
 // unix signals
-void	sigint_handler(int sig);
-void	sigquit_handler(int sig);
 void	init_signals(void);
 void	reset_signals(void);
 

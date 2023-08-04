@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:55:10 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 09:24:49 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 10:35:19 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int  set_env_var(char *key, char *value, t_env_var *env_var)
         if (ft_strncmp(tmp->key, key, ft_strlen(tmp->key) + 1) == 0)
         {
             free(tmp->value);
-            tmp->value = ft_strdup(value);
+            tmp->value = value;
             return (SUCCESS);
         }
         tmp = tmp->next;
