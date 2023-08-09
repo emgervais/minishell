@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/08/04 10:26:18 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/09 14:29:06 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,18 @@ static char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 			new_arg = ft_strjoin(new_arg, get_env_var_value(keys[j], env_var));//leaks
 			i += ft_strlen(keys[j++]) + 1;
 		}
+		else if (arg[i] == '$' && arg[i + 1] && arg[i + 1] == '$')
+			i++;
 		else
 			new_arg = ft_strjoin(new_arg, ft_substr(arg, i++, 1));//leaks
 	}
-	if (new_arg && arg[i])
-		new_arg = ft_strjoin(new_arg, ft_substr(arg, i, ft_strlen(arg) - i));//leaks
+	while (arg[i] && new_arg)
+	{
+		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] == '$')
+			i++;
+		else
+			new_arg = ft_strjoin(new_arg, ft_substr(arg, i++, 1));//leaks
+	}
 	return (new_arg);//make sure protected when calling
 }
 
@@ -64,9 +71,9 @@ static char	**get_keys(char *arg, int i, int j)
 	keys[0] = ft_strdup("");//protect
 	while (arg[i] && keys[j])
 	{
-		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ')
+		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ' && arg[i + 1] != '/' && arg[i + 1] != '-' && arg[i + 1] != '+')
 		{
-			while (arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ')
+			while (arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ' && arg[i + 1] != '/' && arg[i + 1] != '-' && arg[i + 1] != '+')
 				keys[j] = add_one_char(keys[j], arg[++i], 1);
 			keys[++j] = ft_strdup("");//protect
 		}
@@ -104,6 +111,28 @@ char	**expand_args(char **args, t_env_var *env_var)
 	return (args);
 }
 
+// Remove the single quotes from the argument
+char	**remove_quotes(char **args)
+{
+	int		i;
+	char	*new_arg;
+
+	i = 0;
+	while (args[i])
+	{
+		if (args[i][0] == '\'' && args[i][ft_strlen(args[i]) - 1] == '\'')
+		{
+			new_arg = ft_substr(args[i], 1, ft_strlen(args[i]) - 2);
+			if (!new_arg)
+				return (NULL);
+			free(args[i]);
+			args[i] = new_arg;
+		}
+		i++;
+	}
+	return (args);
+}
+
 // This function will expand the variables in the cmds
 // It will return the new cmds or NULL when failing
 t_cmds	*expander(t_cmds *cmds, t_env_var *env_var)
@@ -114,6 +143,11 @@ t_cmds	*expander(t_cmds *cmds, t_env_var *env_var)
 	while (tmp)
 	{
 		tmp->args = expand_args(tmp->args, env_var);//protect
+		if (!tmp->args)
+			return (NULL);
+		tmp->args = remove_quotes(tmp->args);
+		if (!tmp->args)
+			return (NULL);
 		tmp = tmp->next;
 	}
 	return (cmds);

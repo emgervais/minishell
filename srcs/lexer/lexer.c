@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 18:55:45 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 10:20:35 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/04 12:18:10 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ static int all_sep(char *str)
                 i++;
             if(!str[i])
                 return (-1);
-            i++;
         }
         else if(is_sep(str[i]))
             return (0);
@@ -156,12 +155,13 @@ char **lexer(char *input)
     int i;
     int k;
 
+    if(!input)
+        return (NULL);
     k = 0;
     len = count_args(input);
     if(!len)
         exit(1);
     a = malloc(sizeof(char *) * (len + 1));//protect
-    a[len] = NULL;
     while(*input)
     {
         i = 0;
@@ -179,5 +179,6 @@ char **lexer(char *input)
         }
         a[k++] = line;
     }
+    a[k] = NULL;
     return (a);
 }

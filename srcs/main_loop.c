@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 11:21:45 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/04 12:47:27 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static char *lsh_read_line(void)
     line = readline("\033[1;36mminishell\033[34m$ \033[0m");
     if (!line)
     {
-        ft_putstr_fd("exit\n", 1);
+        ft_putstr_fd("exit\n", STDOUT_FILENO);
+        free_all(minishell());
         exit(0);
     }
     add_history(line);
@@ -78,7 +79,6 @@ void    lsh_loop(char **envp)
         line = lsh_read_line();
         args = lsh_split_line(line);
         minishell()->status = lsh_execute(args, env_var, cmds);
-        printf("status = %d\n", minishell()->status);
     }
     free_env_vars(env_var);
     reset_signals();
