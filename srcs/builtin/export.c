@@ -67,10 +67,12 @@ int export(t_cmds *cmd, t_env_var *env_var)
 		if (!is_valid_key(cmd->args[i]))
 			return (export_wrong_usage(cmd, i));
 		if (ft_strchr(cmd->args[i], '='))
-			set_env_var(ft_substr(cmd->args[i], 0, ft_int_strchr(cmd->args[i], '=')),//protect
-			ft_strchr(cmd->args[i], '=') + 1, env_var);
+			if(!set_env_var(ft_substr(cmd->args[i], 0, ft_int_strchr(cmd->args[i], '=')),
+			ft_strchr(cmd->args[i], '=') + 1, env_var))
+				return(ERROR);
 		else
-			set_env_var(cmd->args[i], "", env_var);//protect
+			if(!set_env_var(cmd->args[i], "", env_var))
+				return(ERROR);
 		i++;
 	}
 	return (SUCCESS);

@@ -50,7 +50,7 @@ static int  lsh_execute(char **args, t_env_var *env_var, t_cmds *cmds)
         return (ERROR);
     if (!cmds)
         return (status);
-    if(executor(cmds, env_var))
+    if(executor(cmds, env_var))//add prot
     {
         if (cmds->fd.status != 0)
             status = cmds->fd.status;

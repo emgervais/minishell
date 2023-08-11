@@ -37,10 +37,17 @@ t_env_var	*new_env_var(char *key_value)
         return (NULL);
     env_var->key = ft_substr(key_value, 0, ft_int_strchr(key_value, '='));
     if (!env_var->key)
+    {
+        free(env_var);
         return (NULL);
+    }
     env_var->value = ft_strdup(ft_strchr(key_value, '=') + 1);
     if (!env_var->value)
+    {
+        free(env_var);
+        free(env_var->key);
         return (NULL);
+    }
     env_var->next = NULL;
     return (env_var);
 }
@@ -82,7 +89,7 @@ int  set_env_var(char *key, char *value, t_env_var *env_var)
         }
         tmp = tmp->next;
     }
-    key_value = ft_strjoin(ft_strjoin(key, "="), value);
+    key_value = ft_strjoinfree(add_one_char(key, "=", 0), value, 1);
     if (!key_value)
         return (ERROR);
     if (add_env_var(env_var, key_value) == ERROR)

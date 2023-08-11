@@ -30,7 +30,7 @@ int    exec_builtin(t_cmds *cmds, t_env_var *env_var)
         return (ft_exit(cmds));
     return (SUCCESS);
 }
-
+//returns NULL if failing
 static char *get_path(char *cmd, t_env_var *env_var)
 {
     char    **path;
@@ -41,11 +41,11 @@ static char *get_path(char *cmd, t_env_var *env_var)
     i = 0;
     while (path && path[i])
     {
-        path[i] = ft_strjoin(path[i], "/");//leaks + protect
-        path[i] = ft_strjoin(path[i], cmd);
-        if (access(path[i], F_OK) == 0)
+        path[i] = ft_strjoin(path[i], "/");
+        path[i] = ft_strjoinfree(path[i], cmd, 1);
+        if (path[i] && access(path[i], F_OK) == 0)
         {
-            path_cmd = ft_strdup(path[i]);//protect
+            path_cmd = ft_strdup(path[i]);
             break ;
         }
         i++;
@@ -53,9 +53,9 @@ static char *get_path(char *cmd, t_env_var *env_var)
     if (!path || !path[i])
         path_cmd = NULL;
     ft_free_split(path);
-    return (path_cmd);//makesure protected when calling
+    return (path_cmd);
 }
-
+//returns null if failing
 static char **env_var_to_array(t_env_var *env_var)
 {
     char    **env;
@@ -67,8 +67,10 @@ static char **env_var_to_array(t_env_var *env_var)
     i = 0;
     while (env_var)
     {
-        env[i] = ft_strjoin(env_var->key, "=");//leaks + protect
-        env[i] = ft_strjoin(env[i], env_var->value);
+        env[i] = ft_strjoin(env_var->key, "=");
+        env[i] = ft_strjoinfree(env[i], env_var->value, 1);
+        if(!env[i])
+            return(ft_free_split(env), NULL);
         env_var = env_var->next;
         i++;
     }
@@ -93,10 +95,10 @@ static int  exec_bin(t_cmds *cmds, t_env_var *env_var)
         if (dup_fd(cmds) == ERROR)
             return (ERROR);
         if (execve(path_cmd, cmds->args, env) == -1)
-            return (error_fd(cmds->args[0], strerror(errno), 127, cmds));
+            return (error_fd(cmds->args[0], strerror(errno), 127, cmds));//free env
     }
     else if (cmds->fd.pid < 0)
-        return (error_fd(cmds->args[0], strerror(errno), 1, cmds));
+        return (error_fd(cmds->args[0], strerror(errno), 1, cmds)); //free env
     else
     {
         waitpid(cmds->fd.pid, &cmds->fd.status, 0);
@@ -128,7 +130,7 @@ int    exec_cmds(t_cmds *cmds, t_env_var *env_var)
         ret = exec_bin(cmds, env_var);
     if (close_fd(cmds) == ERROR)
         return (ERROR);
-    return (ret); //orm ake sure its protected when called
+    return (ret);
 }
 
 int executor(t_cmds *cmds, t_env_var *env_var)
@@ -146,7 +148,7 @@ int executor(t_cmds *cmds, t_env_var *env_var)
                 return (ERROR);
             ret = exec_cmds(tmp, env_var);
             if (ret == ERROR)
-                return (ERROR);       
+                return (ERROR);
         }
         tmp = tmp->next;
     }

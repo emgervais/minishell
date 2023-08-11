@@ -44,7 +44,9 @@ int add_arg(t_cmds **command, char *arg)
 		tmp[i] = (*command)->args[i];
 		i++;
 	}
-	tmp[i] = ft_strdup(arg);//protect
+	tmp[i] = ft_strdup(arg);
+	if(!tmp[i])
+		return (NULL);
 	tmp[i + 1] = NULL;
 	if ((*command)->args)
 		free((*command)->args);
@@ -78,7 +80,9 @@ int	init_redir(t_redir **redir, t_redir_type type, char *file)
 	if (!*redir)
 		return (ERROR);
 	(*redir)->type = type;
-	(*redir)->file = ft_strdup(file);//protect
+	(*redir)->file = ft_strdup(file);
+	if(!(*redir)->file)
+		return(ERROR);
 	(*redir)->next = NULL;
 	return (SUCCESS);
 }

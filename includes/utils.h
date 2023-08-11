@@ -34,4 +34,7 @@ void	print_commands(t_cmds *commands);
 // error utils
 int     error_fd(char *str, char *err, int status, t_cmds *cmds);
 
+//string utils
+char	*ft_strjoinfree(const char *s1, const char *s2, int malloced);
+
 #endif

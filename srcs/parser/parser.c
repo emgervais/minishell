@@ -30,7 +30,8 @@ static int	is_builtin(char *str, t_cmds *command)
 		command->builtin = EXIT;
 	else
 		return (0);
-    add_arg(&command, str);
+    if(!add_arg(&command, str));
+        return (ERROR);//check if protected
 	return (1);
 }
 
@@ -75,7 +76,7 @@ static t_cmds *parse_arg(t_cmds **commands, t_cmds *command, char **str, int *i)
         }
         return (command);
     }
-    if (command->argc == 0 && is_builtin(str[*i], command))
+    if (command->argc == 0 && is_builtin(str[*i], command))//check if error
         return (command);
     if (add_arg(&command, str[*i]))
         return (NULL);

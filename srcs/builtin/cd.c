@@ -16,10 +16,10 @@ int cd(t_cmds *cmd, t_env_var *env_var)
 {
     char	*path;
 
-    set_env_var("OLDPWD", getcwd(NULL, 0), env_var);
     if (cmd->argc > 2)
         return (error_fd(cmd->args[0], "too many arguments", 1, cmd));
-    set_env_var("OLDPWD", getcwd(NULL, 0), env_var);//protect
+    if(!set_env_var("OLDPWD", getcwd(NULL, 0), env_var))
+        return(ERROR);
     if (cmd->argc == 1)
         path = get_env_var_value("HOME", env_var);
     else
@@ -31,6 +31,7 @@ int cd(t_cmds *cmd, t_env_var *env_var)
         else
             return (error_fd(cmd->args[0], strerror(errno), 1, cmd));
     }
-    set_env_var("PWD", getcwd(NULL, 0), env_var);//protect
+    if(!set_env_var("PWD", getcwd(NULL, 0), env_var))
+        return(ERROR);
     return (0);
 }

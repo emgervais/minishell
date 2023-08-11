@@ -108,7 +108,7 @@ static int count_args(char *in)
 
     count = all_sep(in);
     if(count == -1)
-        exit(1);
+        return (0);
     while(*in && *in == ' ')
         in++;
     while(*in)
@@ -127,7 +127,7 @@ static int count_args(char *in)
             if(!valid_sep(in))
             {
                 printf("error\n");
-                exit (1);
+                return (0);
             }
             while(*in && is_sep(*in) && *in == ' ')
                 in++;
@@ -160,8 +160,10 @@ char **lexer(char *input)
     k = 0;
     len = count_args(input);
     if(!len)
-        exit(1);
-    a = malloc(sizeof(char *) * (len + 1));//protect
+        return (NULL);
+    a = malloc(sizeof(char *) * (len + 1));
+    if(!a)
+        return (NULL);
     while(*input)
     {
         i = 0;
@@ -170,7 +172,7 @@ char **lexer(char *input)
         len = llen(input);
         line = malloc(sizeof(char) * (len + 1));
         if(!line)
-            exit(1);
+            return (NULL);
         line[len] = '\0';
         while(i < len)
         {
