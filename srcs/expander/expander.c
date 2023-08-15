@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/08/09 14:29:06 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/15 14:47:17 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 
 // This function will get the keys of the argument
 // It will return the keys or NULL if failing
+//arg[i + 1] != '/' && arg[i + 1] != '-' && arg[i + 1] != '+'
+//(ft_isalpha(arg[i + 1]) || arg[i + 1] == '_')
 static char	**get_keys(char *arg, int i, int j)
 {
 	char	**keys;
@@ -71,9 +73,9 @@ static char	**get_keys(char *arg, int i, int j)
 	keys[0] = ft_strdup("");
 	while (arg[i] && keys[j])
 	{
-		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ' && arg[i + 1] != '/' && arg[i + 1] != '-' && arg[i + 1] != '+')
+		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ' && (ft_isalpha(arg[i + 1]) || arg[i + 1] == '_'))
 		{
-			while (arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ' && arg[i + 1] != '/' && arg[i + 1] != '-' && arg[i + 1] != '+')
+			while (arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ' && (ft_isalpha(arg[i + 1]) || arg[i + 1] == '_'))
 				keys[j] = add_one_char(keys[j], arg[++i], 1);
 			keys[++j] = ft_strdup("");
 		}

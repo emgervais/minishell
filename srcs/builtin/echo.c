@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:21:34 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/02 22:58:42 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/15 14:21:52 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
+
+static int echo_option(char *s)
+{
+    int i;
+
+    i = 1;
+    if(s[0] != '-')
+        return (0);
+    while(s[i])
+    {
+        if(s[i] != 'n')
+            return (0);
+        i++;
+    }
+    return (1);
+}
 
 int		echo(t_cmds *cmds)
 {
@@ -18,14 +34,12 @@ int		echo(t_cmds *cmds)
     int n;
 
     i = 1;
-    n = 0;
+    n = 1;
     if (cmds->argc > 1)
     {
-        if (ft_strncmp(cmds->args[1], "-n", 3) == 0)
-        {
-            n = 1;
-            i++;
-        }
+        while(n < cmds->argc && echo_option(cmds->args[n]))
+            n++;
+        i = n;
         while (i < cmds->argc)
         {
             ft_putstr_fd(cmds->args[i], cmds->fd.fd_out);
@@ -34,7 +48,7 @@ int		echo(t_cmds *cmds)
             i++;
         }
     }
-    if (!n)
+    if (n == 1)
         ft_putchar_fd('\n', cmds->fd.fd_out);
     return (SUCCESS);
 }
