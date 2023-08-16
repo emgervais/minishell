@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 18:55:45 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/16 13:58:23 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/16 15:15:35 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,6 @@ static int is_sep(char c)
         if(c == sep[i++])
             return (1);
     return (0);
-}
-
-static int all_sep(char *str)
-{
-    int i;
-    int k;
-    
-    i = 0;
-    while(str[i])
-    {
-        if(str[i] == '\"' || str[i] == '\'')
-        {
-            k = i;
-            while(str[i] && str[i] != str[k])
-                i++;
-            if(!str[i])
-                return (-1);
-        }
-        else if(is_sep(str[i]))
-            return (0);
-        i++;
-    }
-    return (1);
 }
 
 static int llen(char *str)
@@ -106,7 +83,7 @@ static int count_args(char *in)
     int count;
     int i;
 
-    count = all_sep(in);
+    count = 0;
     if(count == -1)
         return (0);
     while(*in && *in == ' ')
@@ -121,17 +98,19 @@ static int count_args(char *in)
             if(!in[i])
                 return (0);
             in += i + 1;
+            if(!*in)
+                count++;
         }
-        else if(is_sep(*in))
+        else if(is_sep(*in))//bob \"hey\"h
         {
             if(!valid_sep(in))
             {
                 printf("error\n");
                 return (0);
             }
-            while(*in && is_sep(*in) && *in == ' ')
+            while(*in && *in == ' ')
                 in++;
-            if(*in || (*in != ' ' && is_sep(*in)))
+            if(is_sep(*in))
                 count++;
             while(*in && is_sep(*in))
                 in++;
@@ -140,7 +119,7 @@ static int count_args(char *in)
         {
             while(*in && !is_sep(*in) && *in != '\'' && *in != '\"')
                 in++;
-            if(is_sep(*in))
+            if(is_sep(*in) || !*in)
                 count++;
         }
     }
