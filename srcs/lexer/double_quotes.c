@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 13:52:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/07/24 14:13:11 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/16 05:13:42 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	check_double_quotes(char **str)
 	int	i;
 
 	i = 0;
-	while (str[i])
+	while (str[i] && str[i][0] != '|')
 	{
 		is_var_in_double_quotes(str[i]);
 		i++;

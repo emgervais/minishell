@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:42:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 11:17:36 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/16 05:01:17 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ int     error_fd(char *str, char *err, int status, t_cmds *cmds);
 
 //string utils
 char	*ft_strjoinfree(const char *s1, const char *s2, int malloced);
+char	*ft_substrfree(char const *s, unsigned int start, size_t len, int malloced);
 
 #endif

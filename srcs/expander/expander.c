@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/08/15 14:47:17 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/16 05:05:27 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 // It will return the value of the env_var
 char	*get_env_var_value(char *key, t_env_var *env_var)
 {
+	if (!ft_strncmp(key, "?", 2))
+		return (ft_itoa(minishell()->status));
 	while (env_var)
 	{
 		if (!ft_strncmp(key, env_var->key, ft_strlen(key) + 1))
@@ -47,22 +49,20 @@ static char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 		else if (arg[i] == '$' && arg[i + 1] && arg[i + 1] == '$')
 			i++;
 		else
-			new_arg = ft_strjoinfree(new_arg, ft_substr(arg, i++, 1), 2);
+			new_arg = add_one_char(new_arg, arg[i++], 1);
 	}
 	while (new_arg && arg[i])
 	{
 		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] == '$')
 			i++;
 		else
-			new_arg = ft_strjoinfree(new_arg, ft_substr(arg, i++, 1), 2);
+			new_arg = add_one_char(new_arg, arg[i++], 1);
 	}
 	return (new_arg);
 }
 
 // This function will get the keys of the argument
 // It will return the keys or NULL if failing
-//arg[i + 1] != '/' && arg[i + 1] != '-' && arg[i + 1] != '+'
-//(ft_isalpha(arg[i + 1]) || arg[i + 1] == '_')
 static char	**get_keys(char *arg, int i, int j)
 {
 	char	**keys;
@@ -73,7 +73,13 @@ static char	**get_keys(char *arg, int i, int j)
 	keys[0] = ft_strdup("");
 	while (arg[i] && keys[j])
 	{
-		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ' && (ft_isalpha(arg[i + 1]) || arg[i + 1] == '_'))
+		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] == '?')
+		{
+			keys[j] = ft_strdup("?");
+			keys[++j] = ft_strdup("");
+			i++;
+		}
+		else if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ' && (ft_isalpha(arg[i + 1]) || arg[i + 1] == '_'))
 		{
 			while (arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' ' && (ft_isalpha(arg[i + 1]) || arg[i + 1] == '_'))
 				keys[j] = add_one_char(keys[j], arg[++i], 1);

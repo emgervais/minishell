@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/15 16:13:00 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/16 12:49:36 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char *lsh_read_line(void)
         exit(0);
     }
     add_history(line);
-    return (ft_strtrim(line, " "));
+    return (line);
 }
 
 static char **lsh_split_line(char *line)
@@ -35,6 +35,7 @@ static char **lsh_split_line(char *line)
     free(line);
     if (!agrs)
         return (NULL);
+    printf("agrs[0] = %s\n", agrs[0]);
     check_double_quotes(agrs);
     return (agrs);
 }

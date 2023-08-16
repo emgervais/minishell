@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strjoinfree.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 13:46:17 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/15 13:46:18 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/16 05:01:01 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,28 @@ char	*ft_strjoinfree(const char *s1, const char *s2, int malloced)
 	}
 	str[a + b] = '\0';
     freejoin(s1, s2, malloced);
+	return (str);
+}
+
+//remake of substr but can free the passed string
+//malloced 1 to free string, 0 to not free it
+char	*ft_substrfree(char const *s, unsigned int start, size_t len, int malloced)
+{
+	char	*str;
+	size_t	i;
+
+	if (!s)
+		return (NULL);
+	if (start > ft_strlen(s))
+		len = 0;
+	str = malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	while (s[start] && i < len)
+		str[i++] = s[start++];
+	str[i] = '\0';
+	if(malloced)
+		free((char*)s);
 	return (str);
 }
