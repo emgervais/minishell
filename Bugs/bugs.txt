@@ -1,0 +1,25 @@
+----------------- heap-buffer-overflow -----------------
+echo '$USER' \$USER "$USER" $USER       lexer.c line:161
+echo 'foo " \' bar                      lexer.c line:163
+echo -n -n                              lexer.c line:163
+
+
+
+--------------------- Failed tests ---------------------
+------------------------ test 1 ------------------------
+bash$ echo "foo \" bar ' "   baz
+foo " bar '  baz
+bash$
+
+minishell$ echo "foo \" bar ' "   baz
+minishell$
+
+------------------------ Test 2 ------------------------
+bash$ echo - n
+- n
+bash$
+
+minishell$ echo - n
+nminishell$
+
+

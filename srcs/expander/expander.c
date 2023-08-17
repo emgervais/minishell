@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/08/16 05:05:27 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/17 14:30:11 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,29 @@ static char	**get_keys(char *arg, int i, int j)
 	return (keys);
 }
 
+// Remove the single quotes from the argument
+char	**remove_quotes(char **args)
+{
+	int		i;
+	char	*new_arg;
+
+	i = 0;
+	while (args[i])
+	{
+		if (args[i][0] == '\'' && args[i][ft_strlen(args[i]) - 1] == '\'')
+		{
+			new_arg = ft_substr(args[i], 1, ft_strlen(args[i]) - 2);
+			if (!new_arg)
+				return (NULL);
+			free(args[i]);
+			args[i] = new_arg;
+		}
+		i++;
+	}
+	return (args);
+}
+
+
 // This function will expand the variables in the arguments
 // It will return the new arguments or NULL when failing
 char	**expand_args(char **args, t_env_var *env_var)
@@ -119,29 +142,7 @@ char	**expand_args(char **args, t_env_var *env_var)
 		}
 		i++;
 	}
-	return (args);
-}
-
-// Remove the single quotes from the argument
-char	**remove_quotes(char **args)
-{
-	int		i;
-	char	*new_arg;
-
-	i = 0;
-	while (args[i])
-	{
-		if (args[i][0] == '\'' && args[i][ft_strlen(args[i]) - 1] == '\'')
-		{
-			new_arg = ft_substr(args[i], 1, ft_strlen(args[i]) - 2);
-			if (!new_arg)
-				return (NULL);
-			free(args[i]);
-			args[i] = new_arg;
-		}
-		i++;
-	}
-	return (args);
+	return (remove_quotes(args));
 }
 
 // This function will expand the variables in the cmds

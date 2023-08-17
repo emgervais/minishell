@@ -1,2 +1,0 @@
-cd ./path_not_found : add error message
-echo > : segfault
