@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:48:35 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/15 16:06:35 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/17 10:27:40 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_builtin(char *str, t_cmds *command)
+static void is_builtin(char *str, t_cmds *command)
 {
 	if (ft_strncmp(str, "echo", 5) == 0)
 		command->builtin = ECHO;
@@ -28,14 +28,9 @@ static int	is_builtin(char *str, t_cmds *command)
 		command->builtin = ENV;
 	else if (ft_strncmp(str, "exit", 5) == 0)
 		command->builtin = EXIT;
-	else
-		return (0);
-    if(!add_arg(&command, str));
-        return (ERROR);//check if protected
-	return (1);
 }
 
-static t_cmds *is_redir(t_cmds *command, char **str, int *i)
+static int is_redir(t_cmds *command, char **str, int *i)
 {
     t_redir_type    type;
 	t_redir         *redir;
@@ -49,12 +44,14 @@ static t_cmds *is_redir(t_cmds *command, char **str, int *i)
     else if (ft_strncmp(str[*i], "<", 2) == 0)
         type = IN;
     else
-        return (NULL);
-	if (init_redir(&redir, type, str[++(*i)]))
-		return (NULL);
-	if (add_redir(&command, redir))
-		return (NULL);
-    return (command);
+        return (0);
+    if (str[*i + 1] == NULL)
+        return (1);
+    if(init_redir(&redir, type, str[++(*i)]))
+        return (1);
+    if (add_redir(&command, redir))
+        return (1);
+    return (1);
 }
 
 static t_cmds *parse_arg(t_cmds **commands, t_cmds *command, char **str, int *i)
@@ -63,7 +60,7 @@ static t_cmds *parse_arg(t_cmds **commands, t_cmds *command, char **str, int *i)
 
     if (is_redir(command, str, i))
         return (command);
-    if (str[*i][0] == '|' && str[*i][1] == '\0')
+    if (str[*i] && str[*i][0] == '|' && str[*i][1] == '\0')
     {
         if (add_command(commands, command))
             return (NULL);
@@ -76,11 +73,11 @@ static t_cmds *parse_arg(t_cmds **commands, t_cmds *command, char **str, int *i)
         }
         return (command);
     }
-    if (command->argc == 0 && is_builtin(str[*i], command))//check if error
-        return (command);
+    if (command->argc == 0)
+        is_builtin(str[*i], command);
     if (add_arg(&command, str[*i]))
         return (NULL);
-	return (command);
+    return (command);
 }
 
 static int  parse_commands(char **str, t_cmds **commands)
@@ -104,19 +101,39 @@ static int  parse_commands(char **str, t_cmds **commands)
     return (SUCCESS);
 }
 
+int     is_syntax_error(char **str)
+{
+    char    **tmp;
+
+    tmp = str;
+    if (ft_ischarset(*tmp[0], "|<>"))
+        return (error_fd("syntax error near unexpected token `|'", NULL, 258, NULL));
+    while (*(tmp + 1))
+        tmp++;
+    if (ft_ischarset(*tmp[0], "|<>"))
+        return (error_fd("syntax error near unexpected token `newline'", NULL, 258, NULL));
+    return (SUCCESS);
+}
+
 int		parser(char **str, t_cmds **cmds)
 {
 	t_cmds	*commands;
     int     ret;
 
-	commands = NULL;
     ret = SUCCESS;
-	if (parse_commands(str, &commands))
-        ret = ERROR;
+    if (is_syntax_error(str))
+        ret = 258;
+	commands = NULL;
+    if (ret == SUCCESS)
+        ret = parse_commands(str, &commands);
     ft_free_split(str);
     if (ret == SUCCESS)
         *cmds = commands;
     else
+    {
+        minishell()->status = ret;
         free_commands(commands);
+        return (ret);
+    }
     return (ret);
 }

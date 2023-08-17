@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 12:00:57 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 10:21:16 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/17 09:06:35 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int add_arg(t_cmds **command, char *arg)
 	}
 	tmp[i] = ft_strdup(arg);
 	if(!tmp[i])
-		return (NULL);
+		return (ERROR);
 	tmp[i + 1] = NULL;
 	if ((*command)->args)
 		free((*command)->args);

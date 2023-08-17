@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/16 12:49:36 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/17 10:30:51 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,31 +35,28 @@ static char **lsh_split_line(char *line)
     free(line);
     if (!agrs)
         return (NULL);
-    printf("agrs[0] = %s\n", agrs[0]);
     check_double_quotes(agrs);
     return (agrs);
 }
 
-static int  lsh_execute(char **args, t_env_var *env_var, t_cmds *cmds)
+static void  lsh_execute(char **args, t_env_var *env_var, t_cmds *cmds)
 {
-    int         status;
-
-    status = 0;
     if (!args)
-        return (status);
-    if (parser(args, &cmds))
-        return (ERROR);
-    if (!cmds)
-        return (status);
+        return ;
+    if(parser(args, &cmds))
+    {
+        free_commands(cmds);
+        return ;
+    }
     if(executor(cmds, env_var))//add prot
     {
         if (cmds->fd.status != 0)
-            status = cmds->fd.status;
-        else
-            status = 1;
+            minishell()->status = cmds->fd.status;
+        free_commands(cmds);
+        return ;
     }
+    minishell()->status = 0;
     free_commands(cmds);
-    return (status);
 }
 
 void    lsh_loop(char **envp)
@@ -79,7 +76,7 @@ void    lsh_loop(char **envp)
     {
         line = lsh_read_line();
         args = lsh_split_line(line);
-        minishell()->status = lsh_execute(args, env_var, cmds);
+        lsh_execute(args, env_var, cmds);
     }
     free_env_vars(env_var);
     reset_signals();
