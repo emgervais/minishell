@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:56:47 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/15 15:50:47 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/17 17:19:03 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ int export(t_cmds *cmd, t_env_var *env_var)
 				return(ERROR);
 		i++;
 	}
-	return (SUCCESS);
+	return (SUCCESS);//"allo" "allo"
+	//'allo""allo'
 }

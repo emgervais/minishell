@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:21:34 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/15 14:21:52 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/17 18:04:48 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int echo_option(char *s)
     int i;
 
     i = 1;
-    if(s[0] != '-')
+    if(s[0] != '-' || !s[i])
         return (0);
     while(s[i])
     {

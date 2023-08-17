@@ -29,6 +29,7 @@ echo;
 echo ;
 echo -nnnnnnnnnnnnnnnnnnnnn bonjour
 echo -nnnnnnnnnnnnnnnnnnnnn -n -n -n bonjour -n -n
+
 Echo bonjour
 eCho bonjour
 ecHo bonjour
@@ -37,6 +38,7 @@ EchO bonjour
 eCHo bonjour
 EcHo bonjour
 eChO bonjour
+
 [SETUP mkdir d] echo $PWD; echo $OLDPWD
 [EXPORTS HOME='/Users/emma'] echo $PWD; echo $OLDPWD
 echo "$wfjwefielwhfhlwefkhwefwe" a
