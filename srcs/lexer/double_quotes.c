@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 13:52:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/17 18:01:50 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:43:49 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,6 @@ void remove_double_quotes(char **args)
 			{
 				j++;
 				while(args[i][j] && args[i][j] != '\"')
-					args[i][k++] = args[i][j++];
-				j++;
-			}
-			else if(args[i][j] == '\'')
-			{
-				j++;
-				while(args[i][j] && args[i][j] != '\'')
 					args[i][k++] = args[i][j++];
 				j++;
 			}

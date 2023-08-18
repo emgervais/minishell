@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/17 17:54:28 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:17:46 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ static char *lsh_read_line(void)
     char    *line;
 
     line = readline("\033[1;36mminishell\033[34m$ \033[0m");
+    
     if (!line)
     {
-        ft_putstr_fd("exit\n", STDOUT_FILENO);
+        if (isatty(STDIN_FILENO))
+            write(2, "exit\n", 6);
         free_all(minishell());
         exit(0);
     }

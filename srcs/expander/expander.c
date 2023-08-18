@@ -6,11 +6,48 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/08/17 14:30:11 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/18 18:55:35 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// Remove the single quotes from the argument
+char	**remove_single_quotes(char **args)
+{
+	int		i;
+	int		j;
+	char	*new_arg;
+
+	i = 0;
+	while (args[i])
+	{
+		j = 0;
+		new_arg = ft_strdup("");
+		while (args[i][j])
+		{
+			if (args[i][j] == '\'')
+				j++;
+			else
+				new_arg = add_one_char(new_arg, args[i][j++], 1);
+		}
+		free(args[i]);
+		args[i] = new_arg;
+		i++;
+	}
+	return (args);
+}
+
+char	*skip_quotes(char *arg, int *i)
+{
+	if (arg[*i] == '\'')
+	{
+		(*i)++;
+		while (arg[*i] && arg[*i] != '\'')
+			(*i)++;
+	}
+	return (arg);
+}
 
 
 // This function will get the value of the env_var
@@ -73,6 +110,8 @@ static char	**get_keys(char *arg, int i, int j)
 	keys[0] = ft_strdup("");
 	while (arg[i] && keys[j])
 	{
+		if (arg[i] == '\'')
+			arg = skip_quotes(arg, &i);
 		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] == '?')
 		{
 			keys[j] = ft_strdup("?");
@@ -93,29 +132,6 @@ static char	**get_keys(char *arg, int i, int j)
 		return (NULL);
 	return (keys);
 }
-
-// Remove the single quotes from the argument
-char	**remove_quotes(char **args)
-{
-	int		i;
-	char	*new_arg;
-
-	i = 0;
-	while (args[i])
-	{
-		if (args[i][0] == '\'' && args[i][ft_strlen(args[i]) - 1] == '\'')
-		{
-			new_arg = ft_substr(args[i], 1, ft_strlen(args[i]) - 2);
-			if (!new_arg)
-				return (NULL);
-			free(args[i]);
-			args[i] = new_arg;
-		}
-		i++;
-	}
-	return (args);
-}
-
 
 // This function will expand the variables in the arguments
 // It will return the new arguments or NULL when failing
@@ -142,25 +158,6 @@ char	**expand_args(char **args, t_env_var *env_var)
 		}
 		i++;
 	}
-	return (remove_quotes(args));
+	return (remove_single_quotes(args));
 }
 
-// This function will expand the variables in the cmds
-// It will return the new cmds or NULL when failing
-t_cmds	*expander(t_cmds *cmds, t_env_var *env_var)
-{
-	t_cmds	*tmp;
-
-	tmp = cmds;
-	while (tmp)
-	{
-		tmp->args = expand_args(tmp->args, env_var);
-		if (!tmp->args)
-			return (NULL);
-		tmp->args = remove_quotes(tmp->args);
-		if (!tmp->args)
-			return (NULL);
-		tmp = tmp->next;
-	}
-	return (cmds);
-}
