@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/21 16:32:18 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:02:01 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ static char **lsh_split_line(char *line)
 {
     char    **agrs;
 
+    if (ft_ischarset(*line, "|<>"))
+    {
+        syntax_error(*line);
+        return (NULL);
+    }
     line = ft_strtrim(line, " ");
     agrs = lexer(line);
     free(line);
@@ -80,7 +85,8 @@ void    lsh_loop(char **envp)
     {
         line = lsh_read_line();
         args = lsh_split_line(line);
-        lsh_execute(args, env_var, cmds);
+        if (args)
+            lsh_execute(args, env_var, cmds);
     }
     free_env_vars(env_var);
     reset_signals();

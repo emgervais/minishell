@@ -6,14 +6,12 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:40:07 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/21 17:14:02 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:41:12 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-// str is a number that as to be between -9223372036854775808 and 9223372036854775807
-// str can start with a + or a -
 static int	in_range(char *str)
 {
     int	i;

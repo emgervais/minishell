@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:48:35 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/17 10:27:40 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:41:32 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,11 @@ int     is_syntax_error(char **str)
 
     tmp = str;
     if (ft_ischarset(*tmp[0], "|<>"))
-        return (error_fd("syntax error near unexpected token `|'", NULL, 258, NULL));
+        return (!syntax_error(*tmp[0]));
     while (*(tmp + 1))
         tmp++;
     if (ft_ischarset(*tmp[0], "|<>"))
-        return (error_fd("syntax error near unexpected token `newline'", NULL, 258, NULL));
+        return (!syntax_error(*tmp[0]));
     return (SUCCESS);
 }
 
@@ -122,7 +122,7 @@ int		parser(char **str, t_cmds **cmds)
 
     ret = SUCCESS;
     if (is_syntax_error(str))
-        ret = 258;
+        return (ERROR);
 	commands = NULL;
     if (ret == SUCCESS)
         ret = parse_commands(str, &commands);

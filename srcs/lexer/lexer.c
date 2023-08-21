@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 18:55:45 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/21 15:53:56 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/21 19:01:13 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,7 @@ static int count_args(char *in)
         else if(is_sep(*in))
         {
             if(!valid_sep(in))
-            {
-                printf("error\n");
-                return (0);
-            }
+                return (syntax_error(*in));
             while(*in && *in == ' ')
                 in++;
             if(is_sep(*in))

@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:42:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/16 05:01:17 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:35:47 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ void	print_commands(t_cmds *commands);
 
 // error utils
 int     error_fd(char *str, char *err, int status, t_cmds *cmds);
+int     syntax_error(char token);
 
 //string utils
 char	*ft_strjoinfree(const char *s1, const char *s2, int malloced);

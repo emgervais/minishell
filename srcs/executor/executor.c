@@ -6,11 +6,25 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/21 16:45:32 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:20:52 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int    wait_pid(t_cmds *cmds)
+{
+    int     status;
+
+    status = 0;
+    if (waitpid(cmds->fd.pid, &status, 0) == -1)
+        return (error_fd(cmds->args[0], strerror(errno), 1, cmds));
+    if (WIFEXITED(status))
+        cmds->fd.status = WEXITSTATUS(status);
+    else if (WIFSIGNALED(status))
+        cmds->fd.status = WTERMSIG(status) + 128;
+    return (SUCCESS);
+}
 
 int    exec_builtin(t_cmds *cmds, t_env_var *env_var)
 {
@@ -100,11 +114,7 @@ static int  exec_bin(t_cmds *cmds, t_env_var *env_var)
     else if (cmds->fd.pid < 0)
         return (error_fd(cmds->args[0], strerror(errno), 1, cmds)); //free env
     else
-    {
-        waitpid(cmds->fd.pid, &cmds->fd.status, 0);
-        if (WIFEXITED(cmds->fd.status))
-            cmds->fd.status = WEXITSTATUS(cmds->fd.status);
-    }
+        wait_pid(cmds);
     ft_free_split(env);
     free(path_cmd);
     return (SUCCESS);
@@ -145,6 +155,8 @@ int executor(t_cmds *cmds, t_env_var *env_var)
         if (tmp->argc != 0)
         {
             tmp->args = expand_args(tmp->args, env_var);
+            if (remove_quotes_redir(tmp->redir) == ERROR)
+                return (ERROR);
             if (!tmp->args)
                 return (ERROR);
             ret = exec_cmds(tmp, env_var);

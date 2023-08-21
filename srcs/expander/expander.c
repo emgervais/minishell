@@ -6,48 +6,80 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/08/18 18:55:35 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/21 18:09:42 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// Remove the single quotes from the argument
-char	**remove_single_quotes(char **args)
+static char	*remove_quotes_arg(char *args, char *new_arg)
 {
 	int		i;
-	int		j;
-	int dquote;
-	int squote;
-	char	*new_arg;
+	int		dquote;
+	int		squote;
 
 	i = 0;
 	dquote = 0;
 	squote = 0;
 	while (args[i])
 	{
-		j = 0;
-		new_arg = ft_strdup("");
-		while (args[i][j])
+		if(args[i] == '\"' && squote == 0)
 		{
-			if(args[i][j] == '\"' && squote == 0)
-			{
-				j++;
-				dquote = !dquote;
-			}
-			else if (args[i][j] == '\'' && dquote == 0)
-			{
-				squote = !squote;
-				j++;
-			}
-			else
-				new_arg = add_one_char(new_arg, args[i][j++], 1);
+			i++;
+			dquote = !dquote;
 		}
+		else if (args[i] == '\'' && dquote == 0)
+		{
+			squote = !squote;
+			i++;
+		}
+		else
+			new_arg = add_one_char(new_arg, args[i++], 1);
+	}
+	return (new_arg);
+}
+
+// Remove the single quotes and double quotes from the arguments
+static char	**remove_quotes(char **args)
+{
+	int		i;
+	char	*new_arg;
+
+	i = 0;
+	while (args[i])
+	{
+		new_arg = ft_strdup("");
+		if (!new_arg)
+			return (NULL);
+		new_arg = remove_quotes_arg(args[i], new_arg);
+		if (!new_arg)
+			return (NULL);
 		free(args[i]);
 		args[i] = new_arg;
 		i++;
 	}
 	return (args);
+}
+
+int	remove_quotes_redir(t_redir *redir)
+{
+	int		i;
+	char	*new_arg;
+
+	i = 0;
+	while (redir)
+	{
+		new_arg = ft_strdup("");
+		if (!new_arg)
+			return (ERROR);
+		new_arg = remove_quotes_arg(redir->file, new_arg);
+		if (!new_arg)
+			return (ERROR);
+		free(redir->file);
+		redir->file = new_arg;
+		redir = redir->next;
+	}
+	return (SUCCESS);
 }
 
 char	*skip_quotes(char *arg, int *i)
@@ -171,6 +203,6 @@ char	**expand_args(char **args, t_env_var *env_var)
 		ft_free_split(keys);
 		i++;
 	}
-	return (remove_single_quotes(args));
+	return (remove_quotes(args));
 }
 
