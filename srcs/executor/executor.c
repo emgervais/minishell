@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/16 05:10:30 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:45:32 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ int executor(t_cmds *cmds, t_env_var *env_var)
     int		ret;
 
     tmp = cmds;
+    ret = 0;
     while (tmp)
     {
         if (tmp->argc != 0)
@@ -150,5 +151,6 @@ int executor(t_cmds *cmds, t_env_var *env_var)
         }
         tmp = tmp->next;
     }
-    return (SUCCESS);
+    cmds->e_status = ret;
+    return (ret);
 }

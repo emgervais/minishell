@@ -6,14 +6,14 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:56:47 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/17 17:19:03 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:30:49 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
 
-static int	export_no_arg(t_env_var *env_var)
+static int	export_no_arg(t_env_var *env_var, t_cmds *cmd)
 {
 	while(env_var)
 	{
@@ -28,6 +28,7 @@ static int	export_no_arg(t_env_var *env_var)
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		env_var = env_var->next;
 	}
+	cmd->e_status = 0;
 	return (SUCCESS);
 }
 
@@ -36,6 +37,7 @@ static int	export_wrong_usage(t_cmds *cmd, int i)
 	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 	ft_putstr_fd(cmd->args[i], STDERR_FILENO);
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+	cmd->e_status = 1;
 	return (ERROR);
 }
 
@@ -44,6 +46,8 @@ int	is_valid_key(char *key)
 	int	i;
 
 	i = 0;
+	if (!ft_isalpha(key[i]) && key[i] != '_')
+		return (0);
 	while (key[i] && key[i] != '=')
 	{
 		if (!ft_isalnum(key[i]) && key[i] != '_')
@@ -61,7 +65,7 @@ int export(t_cmds *cmd, t_env_var *env_var)
 
 	i = 1;
 	if (cmd->argc == 1)
-		return (export_no_arg(env_var));
+		return (export_no_arg(env_var, cmd));
 	while (cmd->args[i])
 	{
 		if (!is_valid_key(cmd->args[i]))
@@ -72,11 +76,7 @@ int export(t_cmds *cmd, t_env_var *env_var)
 				ft_strchr(cmd->args[i], '=') + 1, env_var))
 					return(ERROR);
 		}
-		else
-			if(set_env_var(cmd->args[i], "", env_var))
-				return(ERROR);
 		i++;
 	}
-	return (SUCCESS);//"allo" "allo"
-	//'allo""allo'
+	return (SUCCESS);
 }

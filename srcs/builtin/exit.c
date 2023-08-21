@@ -6,31 +6,35 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:40:07 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 11:20:54 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/21 17:14:02 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
+// str is a number that as to be between -9223372036854775808 and 9223372036854775807
+// str can start with a + or a -
 static int	in_range(char *str)
 {
     int	i;
 
     i = 0;
-    if (ft_strlen(str) > ft_strlen(MAX_EXIT_CODE))
-        return (0);
-    if (ft_strlen(str) < ft_strlen(MAX_EXIT_CODE))
-        return (1);
-    while (str[i++])
+    if (str[i] == '+' || str[i] == '-')
+        i++;
+    while (str[i])
     {
-        if (str[i] >= '0' && str[i] <= '9')
-        {
-            if (str[i] > MAX_EXIT_CODE[i])
-                return (0);
-            else if (str[i] < MAX_EXIT_CODE[i])
-                return (1);
-        }
-        else
+        if (!ft_isdigit(str[i]))
+            return (0);
+        i++;
+    }
+    if (str[0] == '-')
+    {
+        if (ft_strncmp(str, "-9223372036854775808", 20) > 0)
+            return (0);
+    }
+    else
+    {
+        if (ft_strncmp(str, "9223372036854775807", 19) > 0)
             return (0);
     }
     return (1);
@@ -54,7 +58,7 @@ int	ft_exit(t_cmds *cmd)
             ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
             ft_putstr_fd(cmd->args[1], STDERR_FILENO);
             ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-            return (2);
+            return (255);
         }
         i = ft_atoi(cmd->args[1]);
     }

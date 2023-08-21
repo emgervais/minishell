@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/18 18:17:46 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:32:18 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,12 @@ static void  lsh_execute(char **args, t_env_var *env_var, t_cmds *cmds)
     }
     if(executor(cmds, env_var))//add prot
     {
-        if (cmds->fd.status != 0)
-            minishell()->status = cmds->fd.status;
+        if (cmds->e_status != 0)
+            minishell()->status = cmds->e_status;
         free_commands(cmds);
         return ;
     }
+    cmds->e_status = 0;
     minishell()->status = 0;
     free_commands(cmds);
 }

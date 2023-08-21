@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env_vars.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:55:10 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/15 15:49:33 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/21 16:58:14 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int  set_env_var(char *key, char *value, t_env_var *env_var)
     char        *key_value;
 
     tmp = env_var;
-    printf("%s %s\n", key, value);
     while (tmp)
     {
         if (ft_strncmp(tmp->key, key, ft_strlen(tmp->key) + 1) == 0)
