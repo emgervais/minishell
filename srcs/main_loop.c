@@ -33,6 +33,7 @@ static char **lsh_split_line(char *line)
 {
     char    **agrs;
 
+    line = ft_strtrim(line, " ");
     agrs = lexer(line);
     free(line);
     if (!agrs)
