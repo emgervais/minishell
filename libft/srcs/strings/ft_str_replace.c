@@ -17,9 +17,7 @@ char	*ft_str_replace(char *str, char *old, char *new, size_t len)
     char	*tmp;
     char	*tmp2;
     char	*tmp3;
-    size_t	i;
 
-    i = 0;
     tmp = ft_strnstr(str, old, len);
     if (!tmp)
         return (str);

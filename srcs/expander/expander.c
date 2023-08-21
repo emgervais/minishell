@@ -17,17 +17,29 @@ char	**remove_single_quotes(char **args)
 {
 	int		i;
 	int		j;
+	int dquote;
+	int squote;
 	char	*new_arg;
 
 	i = 0;
+	dquote = 0;
+	squote = 0;
 	while (args[i])
 	{
 		j = 0;
 		new_arg = ft_strdup("");
 		while (args[i][j])
 		{
-			if (args[i][j] == '\'')
+			if(args[i][j] == '\"' && squote == 0)
+			{
 				j++;
+				dquote = !dquote;
+			}
+			else if (args[i][j] == '\'' && dquote == 0)
+			{
+				squote = !squote;
+				j++;
+			}
 			else
 				new_arg = add_one_char(new_arg, args[i][j++], 1);
 		}
@@ -103,14 +115,18 @@ static char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 static char	**get_keys(char *arg, int i, int j)
 {
 	char	**keys;
+	int 	dquote;
 
+	dquote = 0;
 	keys = malloc(sizeof(char *) * (ft_count_word(arg, '$') + 1));
 	if (!keys)
 		return (NULL);
 	keys[0] = ft_strdup("");
 	while (arg[i] && keys[j])
 	{
-		if (arg[i] == '\'')
+		if(arg[i] == '\"')
+			dquote = !dquote;
+		if (arg[i] == '\'' && !dquote)
 			arg = skip_quotes(arg, &i);
 		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] == '?')
 		{
@@ -143,19 +159,16 @@ char	**expand_args(char **args, t_env_var *env_var)
 	i = 0;
 	while (args[i])
 	{
-		if (args[i][0] != '\'')
+		keys = get_keys(args[i], 0, 0);
+		if (!keys)
+			return (NULL);
+		args[i] = expand_arg(args[i], env_var, keys);
+		if (!args[i])
 		{
-			keys = get_keys(args[i], 0, 0);
-			if (!keys)
-				return (NULL);
-			args[i] = expand_arg(args[i], env_var, keys);
-			if (!args[i])
-			{
-				ft_free_split(keys);
-				return (NULL);
-			}
 			ft_free_split(keys);
+			return (NULL);
 		}
+		ft_free_split(keys);
 		i++;
 	}
 	return (remove_single_quotes(args));

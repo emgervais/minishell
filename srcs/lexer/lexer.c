@@ -101,7 +101,7 @@ static int count_args(char *in)
             if(!*in || is_sep(*in))
                 count++;
         }
-        else if(is_sep(*in))//bob \"hey\"h
+        else if(is_sep(*in))
         {
             if(!valid_sep(in))
             {

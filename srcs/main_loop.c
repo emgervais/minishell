@@ -37,7 +37,7 @@ static char **lsh_split_line(char *line)
     free(line);
     if (!agrs)
         return (NULL);
-    remove_double_quotes(agrs);
+    //remove_double_quotes(agrs);
     return (agrs);
 }
 
