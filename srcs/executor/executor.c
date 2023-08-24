@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/21 18:20:52 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:22:48 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@ static int    wait_pid(t_cmds *cmds)
 
     status = 0;
     if (waitpid(cmds->fd.pid, &status, 0) == -1)
-        return (error_fd(cmds->args[0], strerror(errno), 1, cmds));
+        return (error_fd(strerror(errno), 1, cmds));
     if (WIFEXITED(status))
         cmds->fd.status = WEXITSTATUS(status);
-    else if (WIFSIGNALED(status))
-        cmds->fd.status = WTERMSIG(status) + 128;
     return (SUCCESS);
 }
 
@@ -44,7 +42,7 @@ int    exec_builtin(t_cmds *cmds, t_env_var *env_var)
         return (ft_exit(cmds));
     return (SUCCESS);
 }
-//returns NULL if failing
+
 static char *get_path(char *cmd, t_env_var *env_var)
 {
     char    **path;
@@ -69,7 +67,7 @@ static char *get_path(char *cmd, t_env_var *env_var)
     ft_free_split(path);
     return (path_cmd);
 }
-//returns null if failing
+
 static char **env_var_to_array(t_env_var *env_var)
 {
     char    **env;
@@ -96,10 +94,12 @@ static int  exec_bin(t_cmds *cmds, t_env_var *env_var)
 {
     char    *path_cmd;
     char    **env;
+    int     ret;
 
+    ret = 0;
     path_cmd = get_path(cmds->args[0], env_var);
     if (!path_cmd)
-        return (error_fd(cmds->args[0], "command not found", 127, cmds));
+        return (error_fd("command not found", 127, cmds));
     env = env_var_to_array(env_var);
     if (!env)
         return (ERROR);
@@ -107,17 +107,17 @@ static int  exec_bin(t_cmds *cmds, t_env_var *env_var)
     if (cmds->fd.pid == 0)
     {
         if (dup_fd(cmds) == ERROR)
-            return (ERROR);
+            ret = ERROR;
         if (execve(path_cmd, cmds->args, env) == -1)
-            return (error_fd(cmds->args[0], strerror(errno), 127, cmds));//free env
+        {
+            ret = error_fd(strerror(errno), 127, cmds);
+        }
     }
     else if (cmds->fd.pid < 0)
-        return (error_fd(cmds->args[0], strerror(errno), 1, cmds)); //free env
-    else
-        wait_pid(cmds);
+        ret = error_fd(strerror(errno), 1, cmds);
     ft_free_split(env);
     free(path_cmd);
-    return (SUCCESS);
+    return (ret);
 }
 
 int    exec_cmds(t_cmds *cmds, t_env_var *env_var)
@@ -131,7 +131,7 @@ int    exec_cmds(t_cmds *cmds, t_env_var *env_var)
     }
     if (cmds->redir)
     {
-        if (handle_redir(cmds) == ERROR)
+        if (handle_redir(cmds))
             return (ERROR);
     }
     if (cmds->builtin != NO_BUILTIN)
@@ -161,6 +161,8 @@ int executor(t_cmds *cmds, t_env_var *env_var)
                 return (ERROR);
             ret = exec_cmds(tmp, env_var);
         }
+        if (!tmp->next && tmp->builtin == NO_BUILTIN && !ret)
+            wait_pid(tmp);
         tmp = tmp->next;
     }
     cmds->e_status = ret;

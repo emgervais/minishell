@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: egervais <egervais@student.42.fr>          +#+  +:+       +#+         #
+#    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/08/15 13:46:05 by egervais         ###   ########.fr        #
+#    Updated: 2023/08/23 11:00:30 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ INCDIR   	:= includes
 
 
 ################################### SOURCES ####################################
-SRCFILES 	:=  lexer/lexer.c lexer/double_quotes.c \
+SRCFILES 	:=  lexer/lexer.c \
 				parser/init_cmds.c parser/parser.c \
 				expander/init_env_vars.c expander/expander.c \
 				executor/executor.c executor/fd_utils.c \

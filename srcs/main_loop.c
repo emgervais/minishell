@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/21 19:02:01 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:02:13 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static char **lsh_split_line(char *line)
     free(line);
     if (!agrs)
         return (NULL);
-    //remove_double_quotes(agrs);
     return (agrs);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:34:31 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 12:26:10 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/23 11:12:53 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	sigint_handler(int sig)
     rl_on_new_line();
     rl_replace_line("", 0);
     rl_redisplay();
+    minishell()->status = 1;
 }
 
 // This function is called when the user presses Ctrl-D
