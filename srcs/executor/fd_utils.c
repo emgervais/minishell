@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:08:05 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/23 17:25:24 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/26 14:50:09 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int     ft_here_doc(t_cmds *cmds)
 int     handle_redir(t_cmds *cmds)
 {
     t_redir *tmp;
+    int temp;
 
     tmp = cmds->redir;
     while (tmp)
@@ -92,27 +93,30 @@ int     handle_redir(t_cmds *cmds)
         }
         else if (tmp->type == IN)
         {
+            temp = open(tmp->file, O_RDONLY);
+            if (temp == -1)
+                return (error_fd("no such file or directory", 1, cmds));
             if (cmds->fd.fd_in != STDIN_FILENO)
                 close(cmds->fd.fd_in);
-            cmds->fd.fd_in = open(tmp->file, O_RDONLY);
-            if (cmds->fd.fd_in == -1)
-                return (error_fd(NULL, 1, cmds));
+            cmds->fd.fd_in = temp;
         }
         else if (tmp->type == OUT)
         {
             if (cmds->fd.fd_out != STDOUT_FILENO)
                 close(cmds->fd.fd_out);
-            cmds->fd.fd_out = open(tmp->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-            if (cmds->fd.fd_out == -1)
-                return (error_fd(NULL, 1, cmds));
+            temp = open(tmp->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            if (temp == -1)
+                return (error_fd("no such file or directory", 1, cmds));
+            cmds->fd.fd_out = temp;
         }
         else if (tmp->type == APPEND)
         {
             if (cmds->fd.fd_out != STDOUT_FILENO)
                 close(cmds->fd.fd_out);
-            cmds->fd.fd_out = open(tmp->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-            if (cmds->fd.fd_out == -1)
-                return (error_fd(NULL, 1, cmds));
+            temp = open(tmp->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+            if (temp == -1)
+                return (error_fd("no such file or directory", 1, cmds));
+            cmds->fd.fd_out = temp;
         }
         tmp = tmp->next;
     }

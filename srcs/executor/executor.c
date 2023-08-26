@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/23 17:22:48 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:01:38 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int    exec_builtin(t_cmds *cmds, t_env_var *env_var)
         return (unset(cmds, env_var));
     else if (cmds->builtin == ENV)
         return (env(cmds, env_var));
-    else if (cmds->builtin == EXIT)
+    else if (cmds->builtin == EXIT)//cant do that here
         return (ft_exit(cmds));
     return (SUCCESS);
 }
@@ -108,10 +108,8 @@ static int  exec_bin(t_cmds *cmds, t_env_var *env_var)
     {
         if (dup_fd(cmds) == ERROR)
             ret = ERROR;
-        if (execve(path_cmd, cmds->args, env) == -1)
-        {
-            ret = error_fd(strerror(errno), 127, cmds);
-        }
+        execve(path_cmd, cmds->args, env);
+        ret = error_fd(strerror(errno), 127, cmds);
     }
     else if (cmds->fd.pid < 0)
         ret = error_fd(strerror(errno), 1, cmds);
@@ -130,10 +128,12 @@ int    exec_cmds(t_cmds *cmds, t_env_var *env_var)
             return (ERROR);
     }
     if (cmds->redir)
-    {
-        if (handle_redir(cmds))
+        if(handle_redir(cmds) == ERROR)
+        {
+            if(cmds->next)
+                close(cmds->fd.fd_out);
             return (ERROR);
-    }
+        }
     if (cmds->builtin != NO_BUILTIN)
         ret = exec_builtin(cmds, env_var);
     else
@@ -161,7 +161,7 @@ int executor(t_cmds *cmds, t_env_var *env_var)
                 return (ERROR);
             ret = exec_cmds(tmp, env_var);
         }
-        if (!tmp->next && tmp->builtin == NO_BUILTIN && !ret)
+        if(!tmp->next && tmp->builtin == NO_BUILTIN && !ret)
             wait_pid(tmp);
         tmp = tmp->next;
     }
