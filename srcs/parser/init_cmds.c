@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 12:00:57 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/18 17:49:33 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/25 00:30:33 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	init_redir(t_redir **redir, t_redir_type type, char *file)
 	if (!*redir)
 		return (ERROR);
 	(*redir)->type = type;
-	(*redir)->file = ft_strdup(file);
+	(*redir)->file = remove_quotes_arg(file, ft_strdup(""));
 	if(!(*redir)->file)
 		return(ERROR);
 	(*redir)->next = NULL;

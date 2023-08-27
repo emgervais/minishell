@@ -6,13 +6,13 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/08/21 18:09:42 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/26 22:15:14 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*remove_quotes_arg(char *args, char *new_arg)
+char	*remove_quotes_arg(char *args, char *new_arg)
 {
 	int		i;
 	int		dquote;
@@ -203,6 +203,15 @@ char	**expand_args(char **args, t_env_var *env_var)
 		ft_free_split(keys);
 		i++;
 	}
+	if (ft_strncmp(args[0], "", 1) == 0)
+	{
+		i = 1;
+		while (args[i])
+		{
+			args[i - 1] = args[i];
+			i++;
+		}
+		args[i - 1] = NULL;
+	}
 	return (remove_quotes(args));
 }
-

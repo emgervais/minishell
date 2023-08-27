@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 18:22:23 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/04 09:24:44 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/26 22:22:39 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	unset_wrong_usage(t_cmds *cmd, int i)
     return (1);
 }
 
-static void delete_env_var(char *key, t_env_var *env_var)
+void delete_env_var(char *key, t_env_var *env_var)
 {
     t_env_var	*tmp;
     t_env_var	*prev;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/26 17:01:38 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/26 22:16:25 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int    exec_builtin(t_cmds *cmds, t_env_var *env_var)
         return (unset(cmds, env_var));
     else if (cmds->builtin == ENV)
         return (env(cmds, env_var));
-    else if (cmds->builtin == EXIT)//cant do that here
+    else if (cmds->builtin == EXIT)
         return (ft_exit(cmds));
     return (SUCCESS);
 }
@@ -99,10 +99,13 @@ static int  exec_bin(t_cmds *cmds, t_env_var *env_var)
     ret = 0;
     path_cmd = get_path(cmds->args[0], env_var);
     if (!path_cmd)
-        return (error_fd("command not found", 127, cmds));
+        return (error_fd(strerror(errno), 127, cmds));
     env = env_var_to_array(env_var);
     if (!env)
-        return (ERROR);
+    {
+        free(path_cmd);
+        return (error_fd(strerror(errno), 1, cmds));
+    }
     cmds->fd.pid = fork();
     if (cmds->fd.pid == 0)
     {
@@ -155,13 +158,10 @@ int executor(t_cmds *cmds, t_env_var *env_var)
         if (tmp->argc != 0)
         {
             tmp->args = expand_args(tmp->args, env_var);
-            if (remove_quotes_redir(tmp->redir) == ERROR)
-                return (ERROR);
-            if (!tmp->args)
-                return (ERROR);
-            ret = exec_cmds(tmp, env_var);
+            if (tmp->args && tmp->args[0] && tmp->args[0][0])
+                ret = exec_cmds(tmp, env_var);
         }
-        if(!tmp->next && tmp->builtin == NO_BUILTIN && !ret)
+        if(!tmp->next && tmp->builtin == NO_BUILTIN && !ret && tmp->args && tmp->args[0] && tmp->args[0][0])
             wait_pid(tmp);
         tmp = tmp->next;
     }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:08:05 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/26 14:50:09 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/26 19:15:44 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int     handle_redir(t_cmds *cmds)
         {
             temp = open(tmp->file, O_RDONLY);
             if (temp == -1)
-                return (error_fd("no such file or directory", 1, cmds));
+                return (error_fd("No such file or directory", 1, cmds));
             if (cmds->fd.fd_in != STDIN_FILENO)
                 close(cmds->fd.fd_in);
             cmds->fd.fd_in = temp;
@@ -106,7 +106,7 @@ int     handle_redir(t_cmds *cmds)
                 close(cmds->fd.fd_out);
             temp = open(tmp->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
             if (temp == -1)
-                return (error_fd("no such file or directory", 1, cmds));
+                return (error_fd("No such file or directory", 1, cmds));
             cmds->fd.fd_out = temp;
         }
         else if (tmp->type == APPEND)
@@ -115,7 +115,7 @@ int     handle_redir(t_cmds *cmds)
                 close(cmds->fd.fd_out);
             temp = open(tmp->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
             if (temp == -1)
-                return (error_fd("no such file or directory", 1, cmds));
+                return (error_fd("No such file or directory", 1, cmds));
             cmds->fd.fd_out = temp;
         }
         tmp = tmp->next;

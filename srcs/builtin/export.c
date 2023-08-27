@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:56:47 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/21 16:30:49 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/26 22:23:20 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,37 @@ int	is_valid_key(char *key)
 	return (1);
 }
 
+// set OLDPWD to like this: OLDPWD
+static int set_OLDPWD(t_env_var *env_var)
+{
+	t_env_var	*tmp;
+    t_env_var	*new;
+
+	delete_env_var("OLDPWD", env_var);
+    tmp = env_var;
+    while (tmp->next)
+        tmp = tmp->next;
+    new = (t_env_var *)malloc(sizeof(t_env_var));
+    if (!new)
+        return (ERROR);
+    new->key = ft_strdup("OLDPWD");
+    if (!new->key)
+    {
+        free(new);
+        return (ERROR);
+    }
+    new->value = NULL;
+    new->next = NULL;
+	tmp->next = new;
+	return (SUCCESS);
+}
+
 int export(t_cmds *cmd, t_env_var *env_var)
 {
 	int	i;
 
 	i = 1;
+	set_OLDPWD(env_var);
 	if (cmd->argc == 1)
 		return (export_no_arg(env_var, cmd));
 	while (cmd->args[i])

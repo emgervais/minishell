@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:40:07 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/21 17:41:12 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/26 18:18:33 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,23 +43,25 @@ int	ft_exit(t_cmds *cmd)
     int	i;
 
     i = 0;
-    ft_putstr_fd("exit\n", STDOUT_FILENO);
     if (cmd->argc > 2)
     {
-        ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+        ft_putstr_fd("exit\nminishell: exit: too many arguments\n", STDERR_FILENO);
         return (1);
     }
     if (cmd->argc == 2)
     {
         if (!in_range(cmd->args[1]))
         {
-            ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+            ft_putstr_fd("exit\nminishell: exit: ", STDERR_FILENO);
             ft_putstr_fd(cmd->args[1], STDERR_FILENO);
             ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
             return (255);
         }
         i = ft_atoi(cmd->args[1]);
     }
+    if (cmd->next || cmd->prev)
+        return (i % 256);
+    ft_putstr_fd("exit\n", STDERR_FILENO);
     free_all(minishell());
     exit(i);
 }
