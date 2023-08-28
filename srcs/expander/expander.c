@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/08/26 22:15:14 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/27 20:53:47 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ char	*get_env_var_value(char *key, t_env_var *env_var)
 
 // This function will expand the variables in the argument
 // It will return the new argument or NULL when failing
-static char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
+char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 {
 	int		i;
 	int		j;
@@ -144,7 +144,7 @@ static char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 
 // This function will get the keys of the argument
 // It will return the keys or NULL if failing
-static char	**get_keys(char *arg, int i, int j)
+char	**get_keys(char *arg, int i, int j)
 {
 	char	**keys;
 	int 	dquote;

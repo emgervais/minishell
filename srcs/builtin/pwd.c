@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:31:34 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/26 22:22:42 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/27 21:35:14 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int pwd(t_cmds *cmd)
         return (ERROR);
     getcwd(cwd, sizeof(char) * 1025);
     if (!cwd)
-        return (error_fd(strerror(errno), 1, cmd));
+        return (error_fd(cmd->fd.status, cmd));
     ft_putendl_fd(cwd, STDOUT_FILENO);
     free(cwd);
     return (SUCCESS);

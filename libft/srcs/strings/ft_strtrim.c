@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:13:51 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/03/06 10:17:10 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/27 21:44:41 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,27 @@
 
 char	*ft_strtrim(const char *s1, const char *set)
 {
-	const char	*start;
-	const char	*end;
-	char		*str;
+	int		i;
+	int		j;
+	int		len;
+	char	*str;
 
 	if (!s1 || !set)
 		return (NULL);
-	start = s1;
-	end = s1 + ft_strlen(s1) - 1;
-	while (*start && ft_strchr(set, *start))
-		start++;
-	while (end > s1 && ft_strchr(set, *end))
-		end--;
-	if (start >= end)
+	i = 0;
+	j = 0;
+	len = ft_strlen(s1);
+	while (s1[i] && ft_strchr(set, s1[i]))
+		i++;
+	while (len > 0 && ft_strchr(set, s1[len - 1]))
+		len--;
+	if (len < i)
+		len = i;
+	str = (char *)malloc(sizeof(char) * (len - i + 1));
+	if (!str)
 		return (NULL);
-	str = ft_substr(start, 0, end - start + 1);
+	while (i < len)
+		str[j++] = s1[i++];
+	str[j] = '\0';
 	return (str);
 }

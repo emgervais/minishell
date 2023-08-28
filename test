@@ -1,0 +1,23 @@
+# To do pour Test 1-2-3 :
+# Lire tous les redirections avant de return dans la fonction handle_redir,
+# afin d'executer tous les HEREDOC avant de return.
+
+# Test 1 :
+cat <minishell.h <<HERE <missing | ls
+HERE
+
+# Test 2 :
+cat <minishell.h <<HERE | cat
+HERE
+
+# Test 3 :
+cat <minishell.h <<HERE <missing <<DOC | echo oi
+HERE
+DOC
+
+
+# A regler
+<< echo oi
+echo
+
+# Verifier manual_tests/mandatory 

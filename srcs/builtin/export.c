@@ -6,26 +6,34 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:56:47 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/26 22:23:20 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/27 18:01:26 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
 
+static void	print_export(t_env_var *env_var, int fd)
+{
+	ft_putstr_fd("declare -x ", fd);
+	ft_putstr_fd(env_var->key, fd);
+	if(env_var->value)
+	{
+		ft_putstr_fd("=\"", fd);
+		ft_putstr_fd(env_var->value, fd);
+		ft_putstr_fd("\"", fd);
+	}
+	ft_putstr_fd("\n", fd);
+}
+
 static int	export_no_arg(t_env_var *env_var, t_cmds *cmd)
 {
+	if (!ft_strlen(get_env_var_value("OLDPWD", env_var)))
+		ft_putstr_fd("declare -x OLDPWD\n", cmd->fd.fd_out);
 	while(env_var)
 	{
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		ft_putstr_fd(env_var->key, STDOUT_FILENO);
-		if(env_var->value)
-		{
-			ft_putstr_fd("=\"", STDOUT_FILENO);
-			ft_putstr_fd(env_var->value, STDOUT_FILENO);
-			ft_putstr_fd("\"", STDOUT_FILENO);
-		}
-		ft_putstr_fd("\n", STDOUT_FILENO);
+		if (env_var->value)
+			print_export(env_var, cmd->fd.fd_out);
 		env_var = env_var->next;
 	}
 	cmd->e_status = 0;
@@ -59,39 +67,18 @@ int	is_valid_key(char *key)
 	return (1);
 }
 
-// set OLDPWD to like this: OLDPWD
-static int set_OLDPWD(t_env_var *env_var)
-{
-	t_env_var	*tmp;
-    t_env_var	*new;
-
-	delete_env_var("OLDPWD", env_var);
-    tmp = env_var;
-    while (tmp->next)
-        tmp = tmp->next;
-    new = (t_env_var *)malloc(sizeof(t_env_var));
-    if (!new)
-        return (ERROR);
-    new->key = ft_strdup("OLDPWD");
-    if (!new->key)
-    {
-        free(new);
-        return (ERROR);
-    }
-    new->value = NULL;
-    new->next = NULL;
-	tmp->next = new;
-	return (SUCCESS);
-}
-
 int export(t_cmds *cmd, t_env_var *env_var)
 {
 	int	i;
 
 	i = 1;
-	set_OLDPWD(env_var);
 	if (cmd->argc == 1)
 		return (export_no_arg(env_var, cmd));
+	if (cmd->next || cmd->prev)
+	{
+		cmd->e_status = 1;
+		return (ERROR);
+	}
 	while (cmd->args[i])
 	{
 		if (!is_valid_key(cmd->args[i]))

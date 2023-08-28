@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:48:35 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/21 18:41:32 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/27 23:51:05 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int     is_syntax_error(char **str)
     char    **tmp;
 
     tmp = str;
-    if (ft_ischarset(*tmp[0], "|<>"))
+    if (!(*tmp[0] == '<' && *tmp[1] == '<') && (ft_ischarset(*tmp[0], "|<>")))
         return (!syntax_error(*tmp[0]));
     while (*(tmp + 1))
         tmp++;

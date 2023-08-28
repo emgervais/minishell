@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:42:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/23 11:51:51 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/27 22:54:58 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	print_env_var(t_env_var *env_var);
 void	print_commands(t_cmds *commands);
 
 // error utils
-int     error_fd(char *err, int status, t_cmds *cmds);
+int     error_fd(int status, t_cmds *cmds);
 int     syntax_error(char token);
 int     syntax_error_lexer(char token);
 

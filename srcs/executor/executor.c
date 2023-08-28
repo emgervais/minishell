@@ -6,21 +6,22 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/26 22:16:25 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/27 21:40:16 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int    wait_pid(t_cmds *cmds)
+static int wait_pid(t_cmds *cmds)
 {
-    int     status;
+    int status;
 
-    status = 0;
-    if (waitpid(cmds->fd.pid, &status, 0) == -1)
-        return (error_fd(strerror(errno), 1, cmds));
-    if (WIFEXITED(status))
-        cmds->fd.status = WEXITSTATUS(status);
+    if (waitpid(cmds->fd.pid, &status, 0) == -1) // wait for the child process to terminate
+        return (error_fd( 1, cmds));
+    if (WIFEXITED(status)) // return the exit status of the child
+        return (WEXITSTATUS(status));
+    else if (WIFSIGNALED(status)) // return the signal that caused the child process to terminate
+        return(WTERMSIG(status) + 128);
     return (SUCCESS);
 }
 
@@ -99,23 +100,23 @@ static int  exec_bin(t_cmds *cmds, t_env_var *env_var)
     ret = 0;
     path_cmd = get_path(cmds->args[0], env_var);
     if (!path_cmd)
-        return (error_fd(strerror(errno), 127, cmds));
+        return (error_fd(127, cmds));
     env = env_var_to_array(env_var);
     if (!env)
     {
         free(path_cmd);
-        return (error_fd(strerror(errno), 1, cmds));
+        return (error_fd(1, cmds));
     }
     cmds->fd.pid = fork();
     if (cmds->fd.pid == 0)
     {
         if (dup_fd(cmds) == ERROR)
             ret = ERROR;
-        execve(path_cmd, cmds->args, env);
-        ret = error_fd(strerror(errno), 127, cmds);
+        if (!ret)
+            execve(path_cmd, cmds->args, env);
     }
     else if (cmds->fd.pid < 0)
-        ret = error_fd(strerror(errno), 1, cmds);
+        ret = error_fd(1, cmds);
     ft_free_split(env);
     free(path_cmd);
     return (ret);
@@ -126,17 +127,17 @@ int    exec_cmds(t_cmds *cmds, t_env_var *env_var)
     int     ret;
 
     if (cmds->next)
-    {
         if (handle_pipe(cmds) == ERROR)
             return (ERROR);
-    }
     if (cmds->redir)
-        if(handle_redir(cmds) == ERROR)
+    {
+        if (handle_redir(cmds) == ERROR)
         {
             if(cmds->next)
                 close(cmds->fd.fd_out);
             return (ERROR);
         }
+    }
     if (cmds->builtin != NO_BUILTIN)
         ret = exec_builtin(cmds, env_var);
     else
@@ -162,7 +163,7 @@ int executor(t_cmds *cmds, t_env_var *env_var)
                 ret = exec_cmds(tmp, env_var);
         }
         if(!tmp->next && tmp->builtin == NO_BUILTIN && !ret && tmp->args && tmp->args[0] && tmp->args[0][0])
-            wait_pid(tmp);
+            ret = wait_pid(tmp);
         tmp = tmp->next;
     }
     cmds->e_status = ret;

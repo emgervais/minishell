@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 18:55:45 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/23 11:51:54 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/27 21:43:07 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,8 @@ static int llen(char *str)
     return (c);
 }
 
-static int valid_sep(char *in)
+static int valid_sep(char *in, int i)
 {
-    int i;
-
-    i = 0;
     while(*in && *in == ' ')
         in++;
     while(is_sep(in[i]) && in[i] != ' ')
@@ -74,7 +71,7 @@ static int valid_sep(char *in)
     while(*in && *in == ' ')
         in++;
     if(is_sep(*in))
-        return (0);
+        return (syntax_error_lexer(*in));
     return (1);
 }
 
@@ -104,7 +101,7 @@ static int count_args(char *in)
         }
         else if(is_sep(*in))
         {
-            if(!valid_sep(in))
+            if(!valid_sep(in, 0))
                 return (0);
             while(*in && *in == ' ')
                 in++;
