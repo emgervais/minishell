@@ -6,7 +6,7 @@
 /*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:08:05 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/28 15:10:05 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/28 18:33:40 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,20 @@ int    close_fd(t_cmds *cmds)
     return (SUCCESS);
 }
 
+int no_heredoc(t_cmds *cmds)
+{
+    t_redir *tmp;
+
+    tmp = cmds->redir;
+
+    while(tmp)
+    {
+        if(tmp->type == HEREDOC)
+            return(0);
+        tmp = tmp->next;
+    }
+    return (1);
+}
 int     handle_redir(t_cmds *cmds)
 {
     t_redir *tmp;
@@ -58,11 +72,14 @@ int     handle_redir(t_cmds *cmds)
         else if (tmp->type == IN)
         {
             temp = open(tmp->file, O_RDONLY);
-            if (temp == -1)
+            if (temp == -1 && no_heredoc(cmds))
                 return (error_fd(1, cmds));
-            if (cmds->fd.fd_in != STDIN_FILENO)
-                close(cmds->fd.fd_in);
-            cmds->fd.fd_in = temp;
+            if(no_heredoc(cmds))
+            {
+                if (cmds->fd.fd_in != STDIN_FILENO)
+                    close(cmds->fd.fd_in);
+                cmds->fd.fd_in = temp;
+            }
         }
         else if (tmp->type == OUT)
         {
