@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:48:35 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/27 23:51:05 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:17:45 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,15 @@ static t_cmds *parse_arg(t_cmds **commands, t_cmds *command, char **str, int *i)
     return (command);
 }
 
+//void ft_test(t_cmds *tmp, int i)
+//{
+//    t_cmds *temp = tmp;
+//    while(temp)
+//    {
+//        printf("round : %d : %p\n", i, temp);
+//        temp = temp->next;
+//    }
+//}
 static int  parse_commands(char **str, t_cmds **commands)
 {
     t_cmds  *command;
@@ -97,7 +106,7 @@ static int  parse_commands(char **str, t_cmds **commands)
         i++;
     }
     if (add_command(commands, command))
-        return (ERROR);
+        return (ERROR); 
     return (SUCCESS);
 }
 

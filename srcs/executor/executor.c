@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/27 21:40:16 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:41:30 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char *get_path(char *cmd, t_env_var *env_var)
     i = 0;
     while (path && path[i])
     {
-        path[i] = ft_strjoin(path[i], "/");
+        path[i] = add_one_char(path[i], '/', 1);
         path[i] = ft_strjoinfree(path[i], cmd, 1);
         if (path[i] && access(path[i], F_OK) == 0)
         {

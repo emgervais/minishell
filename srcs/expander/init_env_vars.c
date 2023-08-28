@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_env_vars.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:55:10 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/21 16:58:14 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:09:35 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int  set_env_var(char *key, char *value, t_env_var *env_var)
     char        *key_value;
 
     tmp = env_var;
+    if(!key)
+        return (ERROR);
     while (tmp)
     {
         if (ft_strncmp(tmp->key, key, ft_strlen(tmp->key) + 1) == 0)
@@ -91,7 +93,7 @@ int  set_env_var(char *key, char *value, t_env_var *env_var)
         }
         tmp = tmp->next;
     }
-    key_value = ft_strjoinfree(add_one_char(key, '=', 0), value, 1);
+    key_value = ft_strjoinfree(add_one_char(key, '=', 1), value, 1);
     if (!key_value)
         return (ERROR);
     if (add_env_var(env_var, key_value) == ERROR)

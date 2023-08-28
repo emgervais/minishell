@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/27 23:52:25 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:32:02 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,17 @@ static char *lsh_read_line(void)
 static char **lsh_split_line(char *line)
 {
     char    **agrs;
+    char *temp;
 
     if ((!(line[0] == '<' && line[1] == '<') && ft_ischarset(*line, "|<>")))
     {
         syntax_error(*line);
         return (NULL);
     }
-    line = ft_strtrim(line, " ");
-    agrs = lexer(line);
+    temp = ft_strtrim(line, " ");
+    agrs = lexer(temp);
     free(line);
+    free(temp);
     if (!agrs)
         return (NULL);
     return (agrs);
@@ -55,6 +57,7 @@ static void  lsh_execute(char **args, t_env_var *env_var, t_cmds *cmds)
         free_commands(cmds);
         return ;
     }
+    minishell()->cmds = cmds;
     if(executor(cmds, env_var))
     {
         if (cmds->e_status != 0)
@@ -86,6 +89,7 @@ void    lsh_loop(char **envp)
         args = lsh_split_line(line);
         if (args)
             lsh_execute(args, env_var, cmds);
+        minishell()->cmds = NULL;
     }
     free_env_vars(env_var);
     reset_signals();

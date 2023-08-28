@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 12:00:57 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/25 00:30:33 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/28 12:52:42 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ int add_arg(t_cmds **command, char *arg)
 	if(!tmp[i])
 		return (ERROR);
 	tmp[i + 1] = NULL;
+	//i = -1;
+	//while(tmp[++i])
+	//	printf("n %d : %p\n", i, tmp[i]);
 	if ((*command)->args)
 		free((*command)->args);
 	(*command)->args = tmp;

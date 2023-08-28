@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/08/27 20:53:47 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/28 14:57:30 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 		else
 			new_arg = add_one_char(new_arg, arg[i++], 1);
 	}
+	free(arg);
 	return (new_arg);
 }
 
@@ -162,7 +163,7 @@ char	**get_keys(char *arg, int i, int j)
 			arg = skip_quotes(arg, &i);
 		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] == '?')
 		{
-			keys[j] = ft_strdup("?");
+			keys[j] = add_one_char(keys[j], '?', 1);
 			keys[++j] = ft_strdup("");
 			i++;
 		}
@@ -175,10 +176,14 @@ char	**get_keys(char *arg, int i, int j)
 		i++;
 	}
 	if (keys[j])
+	{
+		free(keys[j]);
 		keys[j] = NULL;
-	else
-		return (NULL);
-	return (keys);
+		return (keys);
+	}
+	free(keys[0]);
+	free(keys);
+	return (NULL);
 }
 
 // This function will expand the variables in the arguments

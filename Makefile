@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
+#    By: egervais <egervais@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/08/27 20:48:38 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/08/28 14:32:31 by egervais         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:=	minishell
 CC			:=	gcc
-CFLAGS		:=	-Wall -Wextra -g -fsanitize=address
+CFLAGS		:=	-Wall -Wextra -g #-fsanitize=address
 READLINE_DIR = $(shell brew --prefix readline)
 
 READLINE_LIB = -lreadline -lhistory -L $(READLINE_DIR)/lib
@@ -61,5 +61,9 @@ fclean: clean
 	@echo "Minishell deleted."
 
 re: fclean $(NAME)
+
+val: 
+	@make
+	@valgrind --leak-check=full --trace-children=yes --track-fds=yes --suppressions=suppress --show-leak-kinds=all --log-file="leaks" ./minishell
 
 .PHONY: $(NAME) clean fclean re
