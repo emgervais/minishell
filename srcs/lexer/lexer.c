@@ -6,7 +6,7 @@
 /*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 18:55:45 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/28 10:09:24 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/28 18:12:57 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,13 @@ static int valid_sep(char *in, int i)
         in++;
     while(is_sep(in[i]) && in[i] != ' ')
     {
-        if(in[i] != *in)
-            return (0);
         i++;
-        if(((*in == '<' || *in == '>' )&& i > 2) || (*in == '|' && i > 1))
+        if(((*in == '<' || *in == '>' )&& i > 2) || (*in == '|' && in[i] == '|'))
             return (syntax_error_lexer(*in));
     }
-    in += i;
-    while(*in && *in == ' ')
-        in++;
-    if(is_sep(*in))
+    while(in[i] && in[i] == ' ')
+        i++;
+    if(((*in == '>' || *in == '>') && is_sep(in[i])) || in[i] == '|')
         return (syntax_error_lexer(*in));
     return (1);
 }
@@ -81,10 +78,6 @@ static int count_args(char *in)
     int i;
 
     count = 0;
-    if(count == -1)
-        return (0);
-    while(*in && *in == ' ')
-        in++;
     while(*in)
     {
         if(*in == '\'' || *in == '\"')
@@ -106,7 +99,7 @@ static int count_args(char *in)
                 in++;
             if(is_sep(*in))
                 count++;
-            while(*in && is_sep(*in))
+            while(*in && is_sep(*in) && *in != ' ')
                 in++;
         }
         else
@@ -155,5 +148,8 @@ char **lexer(char *input)
         a[k++] = line;
     }
     a[k] = NULL;
+    //k = -1;
+    //while(a[++k])
+    //    printf("%s\n", a[k]);
     return (a);
 }
