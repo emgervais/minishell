@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:13:51 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/27 21:44:41 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:48:13 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ char	*ft_strtrim(const char *s1, const char *set)
 	while (i < len)
 		str[j++] = s1[i++];
 	str[j] = '\0';
+	free((char *)s1);
 	return (str);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:42:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/28 15:10:09 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/28 20:20:17 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	print_commands(t_cmds *commands);
 int     error_fd(int status, t_cmds *cmds);
 int     syntax_error(char token);
 int     syntax_error_lexer(char token);
+int     error_denied(t_cmds *cmds, char **path);
 
 //string utils
 char	*ft_strjoinfree(const char *s1, const char *s2, int malloced);

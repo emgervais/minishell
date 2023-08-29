@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:48:35 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/28 14:17:45 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/28 18:52:36 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int     is_syntax_error(char **str)
     char    **tmp;
 
     tmp = str;
-    if (!(*tmp[0] == '<' && *tmp[1] == '<') && (ft_ischarset(*tmp[0], "|<>")))
+    if (ft_memcmp(*tmp, "|", 2) == 0)
         return (!syntax_error(*tmp[0]));
     while (*(tmp + 1))
         tmp++;

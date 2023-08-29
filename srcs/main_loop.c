@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/28 14:32:02 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/28 19:39:59 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,10 @@ static char *lsh_read_line(void)
 static char **lsh_split_line(char *line)
 {
     char    **agrs;
-    char *temp;
 
-    if ((!(line[0] == '<' && line[1] == '<') && ft_ischarset(*line, "|<>")))
-    {
-        syntax_error(*line);
-        return (NULL);
-    }
-    temp = ft_strtrim(line, " ");
-    agrs = lexer(temp);
+    line = ft_strtrim(line, " ");
+    agrs = lexer(line);
     free(line);
-    free(temp);
     if (!agrs)
         return (NULL);
     return (agrs);

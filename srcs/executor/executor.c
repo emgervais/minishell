@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/28 14:41:30 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/28 22:34:21 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static int wait_pid(t_cmds *cmds)
 {
     int status;
 
-    if (waitpid(cmds->fd.pid, &status, 0) == -1) // wait for the child process to terminate
-        return (error_fd( 1, cmds));
+    status = 0;
+    waitpid(cmds->fd.pid, &status, 0);
     if (WIFEXITED(status)) // return the exit status of the child
         return (WEXITSTATUS(status));
     else if (WIFSIGNALED(status)) // return the signal that caused the child process to terminate
@@ -44,29 +44,79 @@ int    exec_builtin(t_cmds *cmds, t_env_var *env_var)
     return (SUCCESS);
 }
 
-static char *get_path(char *cmd, t_env_var *env_var)
+int    is_directory(t_cmds *cmds)
+{
+    struct stat sb;
+
+    if (stat(cmds->args[0], &sb) == -1)
+        return (0);
+    if (S_ISDIR(sb.st_mode))
+    {
+        ft_putstr_fd("minishell: ", STDERR_FILENO);
+        ft_putstr_fd(cmds->args[0], STDERR_FILENO);
+        ft_putstr_fd(": is a directory\n", STDERR_FILENO);
+        cmds->fd.status = 126;
+        return (1);
+    }
+    return (0);
+}
+
+static char *get_path(char *cmd, t_env_var *env_var, t_cmds *cmds)
 {
     char    **path;
     char    *path_cmd;
     int     i;
 
-    path = ft_split(get_env_var_value("PATH", env_var), ':');
-    i = 0;
-    while (path && path[i])
+    path_cmd = NULL;
+    if (cmd[0] == '/' || cmd[0] == '.')
     {
-        path[i] = add_one_char(path[i], '/', 1);
-        path[i] = ft_strjoinfree(path[i], cmd, 1);
-        if (path[i] && access(path[i], F_OK) == 0)
+        if (is_directory(cmds))
+            return (NULL);
+        path_cmd = ft_strdup(cmd);
+        if (!path_cmd)
+            return (NULL);
+        if (access(path_cmd, X_OK) == -1)
         {
-            path_cmd = ft_strdup(path[i]);
-            break ;
+            ft_putstr_fd("minishell: ", STDERR_FILENO);
+            ft_putstr_fd(cmd, STDERR_FILENO);
+            ft_putstr_fd(": ", STDERR_FILENO);
+            ft_putstr_fd(strerror(errno), STDERR_FILENO);
+            ft_putstr_fd("\n", STDERR_FILENO);
+            cmds->fd.status = 127;
+            if (strncmp(strerror(errno), "Permission denied", 17) == 0)
+                cmds->fd.status = 126;
+            free(path_cmd);
+            return (NULL);
         }
+        return (path_cmd);
+    }
+    path = ft_split(get_env_var_value("PATH", env_var), ':');
+    if (!path)
+        return (NULL);
+    i = 0;
+    while (path[i])
+    {
+        path_cmd = ft_strjoin(path[i], "/");
+        if (!path_cmd)
+            return (ft_free_split(path), NULL);
+        path_cmd = ft_strjoinfree(path_cmd, cmd, 1);
+        if (!path_cmd)
+            return (ft_free_split(path), NULL);
+        if (access(path_cmd, X_OK) != -1)
+        {
+            ft_free_split(path);
+            return (path_cmd);
+        }
+        free(path_cmd);
         i++;
     }
-    if (!path || !path[i])
-        path_cmd = NULL;
     ft_free_split(path);
-    return (path_cmd);
+    ft_putstr_fd("minishell: ", STDERR_FILENO);
+    ft_putstr_fd(cmd, STDERR_FILENO);
+    ft_putstr_fd(": ", STDERR_FILENO);
+    ft_putstr_fd("command not found\n", STDERR_FILENO);
+    cmds->fd.status = 127;
+    return (NULL);
 }
 
 static char **env_var_to_array(t_env_var *env_var)
@@ -98,9 +148,9 @@ static int  exec_bin(t_cmds *cmds, t_env_var *env_var)
     int     ret;
 
     ret = 0;
-    path_cmd = get_path(cmds->args[0], env_var);
+    path_cmd = get_path(cmds->args[0], env_var, cmds);
     if (!path_cmd)
-        return (error_fd(127, cmds));
+        return (ERROR);
     env = env_var_to_array(env_var);
     if (!env)
     {
@@ -141,7 +191,13 @@ int    exec_cmds(t_cmds *cmds, t_env_var *env_var)
     if (cmds->builtin != NO_BUILTIN)
         ret = exec_builtin(cmds, env_var);
     else
+    {
         ret = exec_bin(cmds, env_var);
+        if (cmds->next)
+            close(cmds->fd.fd_out);
+        if (ret == ERROR)
+            ret = cmds->fd.status;
+    }
     if (close_fd(cmds) == ERROR)
         return (ERROR);
     return (ret);
