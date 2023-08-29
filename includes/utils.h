@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:42:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/28 20:20:17 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/29 04:37:54 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	free_all(t_minishell *mini);
 
 // unix signals
 void	init_signals(void);
-void	reset_signals(void);
+void	sigint_handler(int sig);
+
 
 // print utils
 void	print_env_var(t_env_var *env_var);

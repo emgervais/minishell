@@ -6,14 +6,12 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 20:04:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/27 21:54:19 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/29 05:20:27 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// This function will expand the variables in HEREDOC
-// It will return the new arguments or NULL when failing
 static char	*expand_heredoc(char *args, t_env_var *env_var)
 {
     char	**keys;
@@ -24,8 +22,6 @@ static char	*expand_heredoc(char *args, t_env_var *env_var)
     return (args);
 }
 
-// This function will handle the heredoc
-// It will return the file descriptor of the heredoc or -1 when failing
 int	handle_heredoc(t_redir *redir)
 {
 	int		fd[2];
@@ -41,7 +37,7 @@ int	handle_heredoc(t_redir *redir)
 			free(input);
 			break ;
 		}
-        input = expand_heredoc(input, minishell()->env_var);
+		input = expand_heredoc(input, minishell()->env_var);
 		ft_putendl_fd(input, fd[1]);
 		free(input);
 	}

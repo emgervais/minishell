@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/28 19:39:59 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/29 01:25:36 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static char *lsh_read_line(void)
     
     if (!line)
     {
+        if (rl_end > 0)
+            write(2, "exit\n", 6);
         if (isatty(STDIN_FILENO))
             write(2, "exit\n", 6);
         free_all(minishell());
@@ -70,7 +72,7 @@ void    lsh_loop(char **envp)
     char        *line;
     char        **args;
 
-    init_signals();
+    
     env_var = init_env_var(envp);
     cmds = NULL;
     minishell()->env_var = env_var;
@@ -85,5 +87,4 @@ void    lsh_loop(char **envp)
         minishell()->cmds = NULL;
     }
     free_env_vars(env_var);
-    reset_signals();
 }

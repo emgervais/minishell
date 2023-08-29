@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:08:05 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/28 19:34:10 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/29 05:21:01 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int no_heredoc(t_cmds *cmds)
     }
     return (1);
 }
+
 int     handle_redir(t_cmds *cmds)
 {
     t_redir *tmp;

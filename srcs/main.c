@@ -6,11 +6,12 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 22:18:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/18 18:19:32 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/29 05:13:43 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 
 t_minishell *minishell(void)
 {
@@ -30,7 +31,8 @@ int main(int argc, char **argv, char **envp)
     (void)argc;
     (void)argv;
 
-    //printf("\n\033[1;33mMinishell by egervais and ele-sage\n\n");
+    init_signals();
     lsh_loop(envp);
+    free_all(minishell());
     return (0);
 }

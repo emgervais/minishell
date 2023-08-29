@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:03:22 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/04 11:16:27 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/29 05:19:49 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <stdbool.h>
 # include <errno.h>
 # include <string.h>
+# include <dirent.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
