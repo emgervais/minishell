@@ -6,7 +6,7 @@
 /*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:08:05 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/29 13:15:48 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/29 18:24:51 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int     handle_redir(t_cmds *cmds)
                 cmds->fd.fd_in = temp;
             }
             else if(temp != -1 && tmp_error)
-                close(temp);
+                close(temp);//
         }
         else if (tmp->type == OUT)
         {
