@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:48:35 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/28 18:52:36 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:39:46 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,6 @@ static t_cmds *parse_arg(t_cmds **commands, t_cmds *command, char **str, int *i)
     return (command);
 }
 
-//void ft_test(t_cmds *tmp, int i)
-//{
-//    t_cmds *temp = tmp;
-//    while(temp)
-//    {
-//        printf("round : %d : %p\n", i, temp);
-//        temp = temp->next;
-//    }
-//}
 static int  parse_commands(char **str, t_cmds **commands)
 {
     t_cmds  *command;
@@ -129,20 +120,17 @@ int		parser(char **str, t_cmds **cmds)
 	t_cmds	*commands;
     int     ret;
 
-    ret = SUCCESS;
     if (is_syntax_error(str))
         return (ERROR);
 	commands = NULL;
-    if (ret == SUCCESS)
-        ret = parse_commands(str, &commands);
+    ret = parse_commands(str, &commands);
     ft_free_split(str);
     if (ret == SUCCESS)
-        *cmds = commands;
-    else
     {
-        minishell()->status = ret;
-        free_commands(commands);
+        *cmds = commands;
         return (ret);
     }
+    minishell()->status = ret;
+    free_commands(commands);
     return (ret);
 }

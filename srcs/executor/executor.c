@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/28 22:34:21 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:12:12 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,7 @@ int executor(t_cmds *cmds, t_env_var *env_var)
 {
     t_cmds	*tmp;
     int		ret;
+    char **arg;
 
     tmp = cmds;
     ret = 0;
@@ -214,7 +215,14 @@ int executor(t_cmds *cmds, t_env_var *env_var)
     {
         if (tmp->argc != 0)
         {
-            tmp->args = expand_args(tmp->args, env_var);
+            arg = expand_args(tmp->args, env_var);
+            if(!arg)
+            {
+                tmp = tmp->next;
+                ret = 1;
+                continue ;
+            }
+            tmp->args = arg;
             if (tmp->args && tmp->args[0] && tmp->args[0][0])
                 ret = exec_cmds(tmp, env_var);
         }

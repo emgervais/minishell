@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:08:05 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/29 05:21:01 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:15:48 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int     handle_redir(t_cmds *cmds)
             if (cmds->fd.fd_in != STDIN_FILENO)
                 close(cmds->fd.fd_in);
             cmds->fd.fd_in = temp;
+            if(tmp_error)
+                close(temp);
         }
         else if (tmp->type == IN)
         {
@@ -85,6 +87,8 @@ int     handle_redir(t_cmds *cmds)
                     close(cmds->fd.fd_in);
                 cmds->fd.fd_in = temp;
             }
+            else if(temp != -1 && tmp_error)
+                close(temp);
         }
         else if (tmp->type == OUT)
         {

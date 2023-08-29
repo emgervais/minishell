@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 18:55:45 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/28 19:39:37 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/29 13:22:02 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,8 +148,5 @@ char **lexer(char *input)
         a[k++] = line;
     }
     a[k] = NULL;
-    //k = -1;
-    //while(a[++k])
-    //    printf("%s\n", a[k]);
     return (a);
 }
