@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 12:00:57 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/29 13:38:27 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/30 01:03:42 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_cmds	*init_command()
 	return (command);
 }
 
-int add_arg(t_cmds **command, char *arg)
+int	add_arg(t_cmds **command, char *arg)
 {
 	char	**tmp;
 	int		i;
@@ -45,7 +45,7 @@ int add_arg(t_cmds **command, char *arg)
 		i++;
 	}
 	tmp[i] = ft_strdup(arg);
-	if(!tmp[i])
+	if (!tmp[i])
 		return (ERROR);
 	tmp[i + 1] = NULL;
 	if ((*command)->args)
@@ -81,15 +81,15 @@ int	init_redir(t_redir **redir, t_redir_type type, char *file)
 		return (ERROR);
 	(*redir)->type = type;
 	(*redir)->file = remove_quotes_arg(file, ft_strdup(""));
-	if(!(*redir)->file)
-		return(ERROR);
+	if (!(*redir)->file)
+		return (ERROR);
 	(*redir)->next = NULL;
 	return (SUCCESS);
 }
 
 int	add_redir(t_cmds **command, t_redir *redir)
 {
-	t_redir	*tmp;
+	t_redir *tmp;
 
 	if (!command || !redir)
 		return (ERROR);

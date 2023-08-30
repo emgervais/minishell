@@ -3,21 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:56:47 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/28 15:09:09 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:24:07 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-
 static void	print_export(t_env_var *env_var, int fd)
 {
 	ft_putstr_fd("declare -x ", fd);
 	ft_putstr_fd(env_var->key, fd);
-	if(env_var->value)
+	if (env_var->value)
 	{
 		ft_putstr_fd("=\"", fd);
 		ft_putstr_fd(env_var->value, fd);
@@ -30,7 +29,7 @@ static int	export_no_arg(t_env_var *env_var, t_cmds *cmd)
 {
 	if (!ft_strlen(get_env_var_value("OLDPWD", env_var)))
 		ft_putstr_fd("declare -x OLDPWD\n", cmd->fd.fd_out);
-	while(env_var)
+	while (env_var)
 	{
 		if (env_var->value)
 			print_export(env_var, cmd->fd.fd_out);
@@ -62,14 +61,14 @@ int	is_valid_key(char *key)
 			return (0);
 		i++;
 	}
-	if(!i)
+	if (!i)
 		return (0);
 	return (1);
 }
 
-int export(t_cmds *cmd, t_env_var *env_var)
+int	export(t_cmds *cmd, t_env_var *env_var)
 {
-	int	i;
+	int i;
 
 	i = 1;
 	if (cmd->argc == 1)
@@ -85,9 +84,11 @@ int export(t_cmds *cmd, t_env_var *env_var)
 			return (export_wrong_usage(cmd, i));
 		if (ft_strchr(cmd->args[i], '='))
 		{
-			if(set_env_var(ft_substr(cmd->args[i], 0, ft_int_strchr(cmd->args[i], '=')),
-				ft_strchr(cmd->args[i], '=') + 1, env_var))
-					return(ERROR);
+			if (set_env_var(ft_substr(cmd->args[i], 0,
+						ft_int_strchr(cmd->args[i], '=')),
+							ft_strchr(cmd->args[i], '=') + 1,
+							env_var))
+				return (ERROR);
 		}
 		i++;
 	}

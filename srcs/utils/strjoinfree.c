@@ -6,23 +6,23 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 13:46:17 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/16 05:01:01 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/30 01:04:24 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void freejoin(const char *s1, const char *s2, int malloced)
+static void	freejoin(const char *s1, const char *s2, int malloced)
 {
-    if(!malloced)
-        return ;
-    else if(malloced == 1)
-        free(s1);
-    else
-    {
-        free(s1);
-        free(s2);
-    }
+	if (!malloced)
+		return ;
+	else if (malloced == 1)
+		free((char *)s1);
+	else
+	{
+		free((char *)s1);
+		free((char *)s2);
+	}
 }
 //remake of strjoin but can free the passed strings
 //malloced 1 to free first string, 2 to free both and 0 to not free them
@@ -36,7 +36,7 @@ char	*ft_strjoinfree(const char *s1, const char *s2, int malloced)
 		return (NULL);
 	a = 0;
 	b = 0;
-	str = malloc (sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
 		return (NULL);
 	while (s1[a])
@@ -50,16 +50,17 @@ char	*ft_strjoinfree(const char *s1, const char *s2, int malloced)
 		b++;
 	}
 	str[a + b] = '\0';
-    freejoin(s1, s2, malloced);
+	freejoin(s1, s2, malloced);
 	return (str);
 }
 
 //remake of substr but can free the passed string
 //malloced 1 to free string, 0 to not free it
-char	*ft_substrfree(char const *s, unsigned int start, size_t len, int malloced)
+char	*ft_substrfree(char const *s, unsigned int start, size_t len,
+		int malloced)
 {
-	char	*str;
-	size_t	i;
+	char *str;
+	size_t i;
 
 	if (!s)
 		return (NULL);
@@ -72,7 +73,7 @@ char	*ft_substrfree(char const *s, unsigned int start, size_t len, int malloced)
 	while (s[start] && i < len)
 		str[i++] = s[start++];
 	str[i] = '\0';
-	if(malloced)
-		free((char*)s);
+	if (malloced)
+		free((char *)s);
 	return (str);
 }

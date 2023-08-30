@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:48:35 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/29 13:39:46 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/30 01:03:46 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void is_builtin(char *str, t_cmds *command)
+static void	is_builtin(char *str, t_cmds *command)
 {
 	if (ft_strncmp(str, "echo", 5) == 0)
 		command->builtin = ECHO;
@@ -30,107 +30,106 @@ static void is_builtin(char *str, t_cmds *command)
 		command->builtin = EXIT;
 }
 
-static int is_redir(t_cmds *command, char **str, int *i)
+static int	is_redir(t_cmds *command, char **str, int *i)
 {
-    t_redir_type    type;
-	t_redir         *redir;
+	t_redir_type	type;
+	t_redir			*redir;
 
-    if (ft_strncmp(str[*i], ">>", 3) == 0)
-        type = APPEND;
-    else if (ft_strncmp(str[*i], "<<", 3) == 0)
-        type = HEREDOC;
-    else if (ft_strncmp(str[*i], ">", 2) == 0)
-        type = OUT;
-    else if (ft_strncmp(str[*i], "<", 2) == 0)
-        type = IN;
-    else
-        return (0);
-    if (str[*i + 1] == NULL)
-        return (1);
-    if(init_redir(&redir, type, str[++(*i)]))
-        return (1);
-    if (add_redir(&command, redir))
-        return (1);
-    return (1);
+	if (ft_strncmp(str[*i], ">>", 3) == 0)
+		type = APPEND;
+	else if (ft_strncmp(str[*i], "<<", 3) == 0)
+		type = HEREDOC;
+	else if (ft_strncmp(str[*i], ">", 2) == 0)
+		type = OUT;
+	else if (ft_strncmp(str[*i], "<", 2) == 0)
+		type = IN;
+	else
+		return (0);
+	if (str[*i + 1] == NULL)
+		return (1);
+	if (init_redir(&redir, type, str[++(*i)]))
+		return (1);
+	if (add_redir(&command, redir))
+		return (1);
+	return (1);
 }
 
-static t_cmds *parse_arg(t_cmds **commands, t_cmds *command, char **str, int *i)
+static t_cmds	*parse_arg(t_cmds **commands, t_cmds *command, char **str,
+		int *i)
 {
-    t_cmds  *new_command;
+	t_cmds	*new_command;
 
-    if (is_redir(command, str, i))
-        return (command);
-    if (str[*i] && str[*i][0] == '|' && str[*i][1] == '\0')
-    {
-        if (add_command(commands, command))
-            return (NULL);
-        if (str[*i + 1] != NULL)
-        {
-            new_command = init_command();
-            if (!new_command)
-                return (NULL);
-            return (new_command);
-        }
-        return (command);
-    }
-    if (command->argc == 0)
-        is_builtin(str[*i], command);
-    if (add_arg(&command, str[*i]))
-        return (NULL);
-    return (command);
+	if (is_redir(command, str, i))
+		return (command);
+	if (str[*i] && str[*i][0] == '|' && str[*i][1] == '\0')
+	{
+		if (add_command(commands, command))
+			return (NULL);
+		if (str[*i + 1] != NULL)
+		{
+			new_command = init_command();
+			if (!new_command)
+				return (NULL);
+			return (new_command);
+		}
+		return (command);
+	}
+	if (command->argc == 0)
+		is_builtin(str[*i], command);
+	if (add_arg(&command, str[*i]))
+		return (NULL);
+	return (command);
 }
 
-static int  parse_commands(char **str, t_cmds **commands)
+static int	parse_commands(char **str, t_cmds **commands)
 {
-    t_cmds  *command;
-    int     i;
+	t_cmds	*command;
+	int		i;
 
-    command = init_command();
-    if (!command)
-        return (ERROR);
-    i = 0;
-    while (str[i])
-    {
-        command = parse_arg(commands, command, str, &i);
-        if (!command)
-            return (ERROR);
-        i++;
-    }
-    if (add_command(commands, command))
-        return (ERROR); 
-    return (SUCCESS);
+	command = init_command();
+	if (!command)
+		return (ERROR);
+	i = 0;
+	while (str[i])
+	{
+		command = parse_arg(commands, command, str, &i);
+		if (!command)
+			return (ERROR);
+		i++;
+	}
+	if (add_command(commands, command))
+		return (ERROR);
+	return (SUCCESS);
 }
 
-int     is_syntax_error(char **str)
+int	is_syntax_error(char **str)
 {
-    char    **tmp;
+	char	**tmp;
 
-    tmp = str;
-    if (ft_memcmp(*tmp, "|", 2) == 0)
-        return (!syntax_error(*tmp[0]));
-    while (*(tmp + 1))
-        tmp++;
-    if (ft_ischarset(*tmp[0], "|<>"))
-        return (!syntax_error(*tmp[0]));
-    return (SUCCESS);
+	tmp = str;
+	if (ft_memcmp(*tmp, "|", 2) == 0)
+		return (!syntax_error(*tmp[0]));
+	while (*(tmp + 1))
+		tmp++;
+	if (ft_ischarset(*tmp[0], "|<>"))
+		return (!syntax_error(*tmp[0]));
+	return (SUCCESS);
 }
 
-int		parser(char **str, t_cmds **cmds)
+int	parser(char **str, t_minishell *mini)
 {
-	t_cmds	*commands;
-    int     ret;
+	char	**tmp;
 
-    if (is_syntax_error(str))
-        return (ERROR);
-	commands = NULL;
-    ret = parse_commands(str, &commands);
-    ft_free_split(str);
-    if (ret == SUCCESS)
-    {
-        *cmds = commands;
-        return (ret);
-    }
-    minishell()->status = ret;
-    free_commands(commands);
-    return (ret);
+	tmp = str;
+	if (is_syntax_error(str))
+	{
+		mini->status = 258;
+		return (ERROR);
+	}
+	if (parse_commands(str, &mini->cmds))
+	{
+		mini->status = 258;
+		return (ERROR);
+	}
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:01:18 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/29 01:30:48 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:24:30 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,12 @@ typedef struct s_cmds
 	struct s_cmds		*prev;
 }	t_cmds;
 
+typedef struct s_minishell
+{
+    t_env_var   *env_var;
+    t_cmds      *cmds;
+    int         status;
+}               t_minishell;
 
 // init commands utils
 t_cmds	*init_command();
@@ -80,7 +86,7 @@ int		add_redir(t_cmds **command, t_redir *redir);
 int		init_redir(t_redir **redir, t_redir_type type, char *file);
 
 // init commands
-int		parser(char **str, t_cmds **cmds);
+int		parser(char **str, t_minishell *mini);
 
 
 #endif

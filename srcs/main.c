@@ -3,41 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 22:18:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/29 13:32:08 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/30 01:05:01 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-t_minishell *minishell(void)
+t_minishell	*minishell(void)
 {
-    static t_minishell *ptr_address = NULL;
+	static t_minishell	*ptr_address;
 
-    if (!ptr_address)
-    {
-        ptr_address = malloc(sizeof(t_minishell));
-        if (!ptr_address)
-            return (NULL);
-    }
-    return (ptr_address);
+	ptr_address = NULL;
+	if (!ptr_address)
+	{
+		ptr_address = malloc(sizeof(t_minishell));
+		if (!ptr_address)
+			return (NULL);
+		ptr_address->env_var = NULL;
+		ptr_address->cmds = NULL;
+		ptr_address->status = 0;
+	}
+	return (ptr_address);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-    (void)argc;
-    (void)argv;
+	t_minishell *mini;
+	(void)argc;
+	(void)argv;
 
-    init_signals();
-    if(lsh_loop(envp))
-    {
-        free_env_vars(minishell()->env_var);
-        free(minishell());
-        return (1);
-    }
-    free_all(minishell());
-    return (0);
+	init_signals();
+	mini = minishell();
+	mini->env_var = init_env_var(envp);
+	if (!mini->env_var)
+		return (1);
+	while (1)
+		lsh_loop(mini);
+	return (0);
 }

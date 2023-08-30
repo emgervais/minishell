@@ -3,87 +3,62 @@
 /*                                                        :::      ::::::::   */
 /*   main_loop.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/29 13:34:14 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/30 01:04:37 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char *lsh_read_line(void)
+static char	*lsh_read_line(void)
 {
-    char    *line;
+	char	*line;
 
-    line = readline("\033[1;36mminishell\033[34m$ \033[0m");
-    
-    if (!line)
-    {
-        if (rl_end > 0)
-            write(2, "exit\n", 6);
-        if (isatty(STDIN_FILENO))
-            write(2, "exit\n", 6);
-        free_all(minishell());
-        exit(0);//not one?
-    }
-    add_history(line);
-    return (line);
+	line = readline("\033[1;36mminishell\033[34m$ \033[0m");
+	if (!line)
+	{
+		if (rl_end > 0)
+			write(2, "exit\n", 6);
+		if (isatty(STDIN_FILENO))
+			write(2, "exit\n", 6);
+		free_all(minishell());
+		exit(0);
+	}
+	add_history(line);
+	return (line);
 }
 
-static char **lsh_split_line(char *line)
+static char	**lsh_split_line(char *line)
 {
-    char    **agrs;
+	char	**agrs;
 
-    line = ft_strtrim(line, " ");
-    agrs = lexer(line);
-    free(line);
-    if (!agrs)
-        return (NULL);
-    return (agrs);
+	line = ft_strtrim(line, " ");
+	agrs = lexer(line);
+	free(line);
+	return (agrs);
 }
 
-static void  lsh_execute(char **args, t_env_var *env_var, t_cmds *cmds)
+static void	lsh_execute(char **args, t_minishell *mini)
 {
-    if (!args)
-        return ;
-    if(parser(args, &cmds))
-    {
-        free_commands(cmds);
-        return ;
-    }
-    minishell()->cmds = cmds;
-    if(executor(cmds, env_var))
-    {
-        if (cmds->e_status != 0)
-            minishell()->status = cmds->e_status;
-        free_commands(cmds);
-        return ;
-    }
-    cmds->e_status = 0;
-    minishell()->status = 0;
-    free_commands(cmds);
+	if (!args)
+		return ;
+	if (parser(args, mini) == SUCCESS)
+		if (executor(mini) == SUCCESS)
+			mini->status = 0;
+	ft_free_split(args);
+	free_commands(mini->cmds);
 }
 
-int    lsh_loop(char **envp)
+int	lsh_loop(t_minishell *mini)
 {
-    t_minishell *mini;
-    char        *line;
-    
-    mini = minishell();
-    if(!mini)
-        exit(1);
-    minishell()->env_var = init_env_var(envp);
-    if(!minishell()->env_var)
-        return(1);
-    minishell()->cmds = NULL;
-    minishell()->status = 0;
-    while (1)
-    {
-        line = lsh_read_line();
-        lsh_execute(lsh_split_line(line), minishell()->env_var, minishell()->cmds);
-        minishell()->cmds = NULL;
-    }
-    free_env_vars(minishell()->env_var);
-    return (0);
+	char *line;
+	char **args;
+
+	mini->cmds = NULL;
+	line = lsh_read_line();
+	args = lsh_split_line(line);
+	lsh_execute(args, mini);
+	return (mini->status);
 }

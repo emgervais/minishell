@@ -1,44 +1,76 @@
-==4104== Memcheck, a memory error detector
-==4104== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==4104== Using Valgrind-3.21.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
-==4104== Command: ./minishell
-==4104== Parent PID: 4057
-==4104== 
---4104-- run: /usr/bin/dsymutil "./minishell"
-==4104== 
-==4104== FILE DESCRIPTORS: 10 open (3 std) at exit.
-==4104== Open file descriptor 29:
-==4104==    <inherited from parent>
-==4104== 
-==4104== Open file descriptor 28: /dev/ttys000
-==4104==    <inherited from parent>
-==4104== 
-==4104== Open file descriptor 27: /Applications/Visual Studio Code.app/Contents/Resources/app/node_modules.asar
-==4104==    <inherited from parent>
-==4104== 
-==4104== Open file descriptor 26: /dev/ptmx
-==4104==    <inherited from parent>
-==4104== 
-==4104== Open file descriptor 25: /Users/egervais/Library/Application Support/Code/logs/20230829T150403/ptyhost.log
-==4104==    <inherited from parent>
-==4104== 
-==4104== Open file descriptor 12: /Applications/Visual Studio Code.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/v8_context_snapshot.x86_64.bin
-==4104==    <inherited from parent>
-==4104== 
-==4104== Open file descriptor 3: /Users/egervais/Desktop/minishell/leaks
-==4104==    <inherited from parent>
-==4104== 
-==4104== 
-==4104== HEAP SUMMARY:
-==4104==     in use at exit: 323,978 bytes in 392 blocks
-==4104==   total heap usage: 965 allocs, 573 frees, 356,506 bytes allocated
-==4104== 
-==4104== LEAK SUMMARY:
-==4104==    definitely lost: 0 bytes in 0 blocks
-==4104==    indirectly lost: 0 bytes in 0 blocks
-==4104==      possibly lost: 0 bytes in 0 blocks
-==4104==    still reachable: 0 bytes in 0 blocks
-==4104==         suppressed: 323,978 bytes in 392 blocks
-==4104== 
-==4104== For lists of detected and suppressed errors, rerun with: -s
-==4104== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 28 from 28)
+==31713== Memcheck, a memory error detector
+==31713== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==31713== Using Valgrind-3.22.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==31713== Command: ./minishell
+==31713== Parent PID: 31668
+==31713== 
+==31713== 
+==31713== FILE DESCRIPTORS: 21 open (3 std) at exit.
+==31713== Open file descriptor 40:
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 39: /dev/ttys003
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 38:
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 37:
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 36:
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 35:
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 34:
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 33:
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 32:
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 31:
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 30:
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 29:
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 28:
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 27: /Applications/Visual Studio Code.app/Contents/Resources/app/node_modules.asar
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 26: /dev/ptmx
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 25: /Users/ele-sage/Library/Application Support/Code/logs/20230829T184730/ptyhost.log
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 12: /Applications/Visual Studio Code.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/v8_context_snapshot.x86_64.bin
+==31713==    <inherited from parent>
+==31713== 
+==31713== Open file descriptor 3: /Users/ele-sage/Desktop/minishell/leaks
+==31713==    <inherited from parent>
+==31713== 
+==31713== 
+==31713== HEAP SUMMARY:
+==31713==     in use at exit: 323,842 bytes in 385 blocks
+==31713==   total heap usage: 738 allocs, 353 frees, 346,050 bytes allocated
+==31713== 
+==31713== LEAK SUMMARY:
+==31713==    definitely lost: 0 bytes in 0 blocks
+==31713==    indirectly lost: 0 bytes in 0 blocks
+==31713==      possibly lost: 0 bytes in 0 blocks
+==31713==    still reachable: 0 bytes in 0 blocks
+==31713==         suppressed: 323,842 bytes in 385 blocks
+==31713== 
+==31713== For lists of detected and suppressed errors, rerun with: -s
+==31713== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 4 from 4)

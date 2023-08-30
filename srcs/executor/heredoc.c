@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 20:04:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/29 05:20:27 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:55:22 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 static char	*expand_heredoc(char *args, t_env_var *env_var)
 {
-    char	**keys;
+	char	**keys;
 
-    keys = get_keys(args, 0, 0);
-    args = expand_arg(args, env_var, keys);
-    ft_free_split(keys);
-    return (args);
+	keys = get_keys(args, 0, 0);
+	args = expand_arg(args, env_var, keys);
+	ft_free_split(keys);
+	return (args);
 }
 
 int	handle_heredoc(t_redir *redir)
 {
-	int		fd[2];
-	char	*input;
+	int fd[2];
+	char *input;
 
 	if (pipe(fd) == -1)
 		return (-1);

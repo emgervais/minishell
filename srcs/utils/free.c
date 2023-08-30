@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:04:11 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/28 13:13:05 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/30 01:04:01 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	free_commands(t_cmds *commands)
 	}
 }
 
-void    free_env_vars(t_env_var *env_var)
+void	free_env_vars(t_env_var *env_var)
 {
-	t_env_var   *tmp;
+	t_env_var	*tmp;
 
 	while (env_var)
 	{

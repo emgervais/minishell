@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:03:22 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/29 13:28:19 by egervais         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:24:27 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,7 @@
 # define TRUE 1
 # define FALSE 0
 
-typedef struct s_minishell
-{
-    t_env_var   *env_var;
-    t_cmds      *cmds;
-    int         status;
-}               t_minishell;
-
 t_minishell *minishell(void);
-int        lsh_loop(char **envp);
+int         lsh_loop(t_minishell *mini);
 
 # endif
