@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 13:59:34 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 16:10:49 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,12 @@ static void	wait_child(t_minishell *mini)
 	status = 0;
 	while (cmds)
 	{
-		if (cmds->fd.pid != 0)
+		if (cmds->fd.pid != 0 && cmds->fd.pid != -1)
 		{
 			waitpid(cmds->fd.pid, &status, 0);
-			if (WIFEXITED(status))
-			{
-				if (WEXITSTATUS(status) > mini->status)
-					mini->status = WEXITSTATUS(status);
-			}
-			else if (WIFSIGNALED(status))
+			if (WIFEXITED(status) > mini->status && cmds->builtin == NO_BUILTIN)
+				mini->status = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status) && cmds->builtin == NO_BUILTIN)
 				mini->status = WTERMSIG(status) + 128;
 		}
 		cmds = cmds->next;
@@ -210,8 +207,6 @@ int	executor(t_minishell *mini)
 	t_cmds	*tmp;
 
 	tmp = mini->cmds;
-	if (tmp)
-		tmp->fd.fd_in = STDIN_FILENO;
 	while (tmp)
 	{
 		tmp->args = expand_args(tmp->args, mini->env_var);
@@ -221,7 +216,7 @@ int	executor(t_minishell *mini)
 			continue ;
 		}
 		mini->status = exec_cmds(tmp, mini);
-		if (!tmp->next && tmp->builtin == NO_BUILTIN)
+		if (!tmp->next)
 			wait_child(mini);
 		tmp = tmp->next;
 	}
