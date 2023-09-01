@@ -6,7 +6,7 @@
 #    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/09/01 17:04:15 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/09/01 17:49:31 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,9 @@ INCDIR   	:= includes
 SRCFILES 	:=  lexer/lexer.c \
 				parser/init_cmds.c parser/parser.c \
 				expander/init_env_vars.c expander/expander.c \
-				executor/executor.c executor/fd_utils.c executor/heredoc.c executor/redir.c \
-				utils/error.c utils/free.c utils/unix_signals.c utils/strjoinfree.c\
+				executor/executor.c executor/fd_utils.c executor/heredoc.c \
+				executor/redir.c executor/exec_bin.c \
+				utils/error.c utils/free.c utils/unix_signals.c utils/strjoinfree.c \
 				main_loop.c main.c \
 				builtin/env.c builtin/echo.c builtin/cd.c builtin/export.c \
 				builtin/unset.c builtin/pwd.c builtin/exit.c \

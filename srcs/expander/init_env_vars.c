@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 13:55:10 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/30 01:02:32 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:16:43 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ int	set_env_var(char *key, char *value, t_env_var *env_var)
 
 t_env_var	*init_env_var(char **envp)
 {
-	t_env_var   *env_var;
-	int         i;
+	t_env_var	*env_var;
+	int			i;
 
 	i = 0;
 	env_var = new_env_var(envp[i]);

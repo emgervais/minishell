@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 22:18:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/09/01 16:49:57 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:24:40 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	main(int argc, char **argv, char **envp)
 	init_signals();
 	mini = minishell();
 	mini->env_var = init_env_var(envp);
+	
 	if (!mini->env_var)
 		return (1);
 	while (argc && argv)

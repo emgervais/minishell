@@ -6,11 +6,25 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 20:04:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 15:22:55 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:43:08 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	no_heredoc(t_cmds *cmds)
+{
+	t_redir	*tmp;
+
+	tmp = cmds->redir;
+	while (tmp)
+	{
+		if (tmp->type == HEREDOC)
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
 
 static char	*expand_heredoc(char *args, t_env_var *env_var)
 {

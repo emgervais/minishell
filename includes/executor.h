@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:26:07 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 15:20:36 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:48:40 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 # define EXECUTOR_H
 
 int		executor(t_minishell *mini);
+int		exec_bin(t_cmds *cmds, t_minishell *mini);
 
+void	wait_child(t_minishell *mini);
 int     dup_fd(t_cmds *cmds);
 void    close_fd(t_cmds *cmds);
 int     no_heredoc(t_cmds *cmds);

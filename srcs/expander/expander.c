@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/09/01 16:48:40 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:16:13 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,19 @@ char	*get_env_var_value(char *key, t_env_var *env_var)
 	return ("");
 }
 
+static char	*fill_after_expand(char *arg, char *new_arg, int *i)
+{
+	while (arg[*i])
+	{
+		if (arg[*i] == '$' && arg[*i + 1] && arg[*i + 1] == '$')
+			(*i)++;
+		else
+			new_arg = add_one_char(new_arg, arg[(*i)++], 1);
+	}
+	free(arg);
+	return (new_arg);
+}
+
 // This function will expand the variables in the argument
 // It will return the new argument or NULL when failing
 char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
@@ -133,15 +146,37 @@ char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 		else
 			new_arg = add_one_char(new_arg, arg[i++], 1);
 	}
-	while (new_arg && arg[i])
-	{
-		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] == '$')
-			i++;
-		else
-			new_arg = add_one_char(new_arg, arg[i++], 1);
-	}
-	free(arg);
+	new_arg = fill_after_expand(arg, new_arg, &i);
 	return (new_arg);
+}
+
+static void	retrieve_keys(char **keys, char *arg, int *i, int *j)
+{
+	int	dquote;
+
+	dquote = 0;
+	while (arg[*i] && keys[*j])
+	{
+		if (arg[*i] == '\"')
+			dquote = !dquote;
+		if (arg[*i] == '\'' && !dquote)
+			arg = skip_quotes(arg, i);
+		if (arg[*i] == '$' && arg[*i + 1] && arg[*i + 1] == '?')
+		{
+			keys[*j] = add_one_char(keys[*j], '?', 1);
+			keys[++(*j)] = ft_strdup("");
+			(*i)++;
+		}
+		else if (arg[*i] == '$' && arg[*i + 1] && arg[*i + 1] != '$' && arg[*i
+				+ 1] != ' ' && (ft_isalpha(arg[*i + 1]) || arg[*i + 1] == '_'))
+		{
+			while (arg[*i + 1] && arg[*i + 1] != '$' && arg[*i + 1] != ' '
+				&& (ft_isalpha(arg[*i + 1]) || arg[*i + 1] == '_'))
+				keys[*j] = add_one_char(keys[*j], arg[++(*i)], 1);
+			keys[++(*j)] = ft_strdup("");
+		}
+		(*i)++;
+	}
 }
 
 // This function will get the keys of the argument
@@ -149,35 +184,14 @@ char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 char	**get_keys(char *arg, int i, int j)
 {
 	char	**keys;
-	int		dquote;
 
-	dquote = 0;
 	keys = malloc(sizeof(char *) * (ft_count_word(arg, '$') + 1));
 	if (!keys)
 		return (NULL);
 	keys[0] = ft_strdup("");
-	while (arg[i] && keys[j])
-	{
-		if (arg[i] == '\"')
-			dquote = !dquote;
-		if (arg[i] == '\'' && !dquote)
-			arg = skip_quotes(arg, &i);
-		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] == '?')
-		{
-			keys[j] = add_one_char(keys[j], '?', 1);
-			keys[++j] = ft_strdup("");
-			i++;
-		}
-		else if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '$' && arg[i
-				+ 1] != ' ' && (ft_isalpha(arg[i + 1]) || arg[i + 1] == '_'))
-		{
-			while (arg[i + 1] && arg[i + 1] != '$' && arg[i + 1] != ' '
-				&& (ft_isalpha(arg[i + 1]) || arg[i + 1] == '_'))
-				keys[j] = add_one_char(keys[j], arg[++i], 1);
-			keys[++j] = ft_strdup("");
-		}
-		i++;
-	}
+	if (!keys[0])
+		return (NULL);
+	retrieve_keys(keys, arg, &i, &j);
 	if (keys[j])
 	{
 		free(keys[j]);
@@ -189,14 +203,10 @@ char	**get_keys(char *arg, int i, int j)
 	return (NULL);
 }
 
-static char	**remove_empty_args(char **args)
+static char	**remove_empty_args(char **args, int i, int j)
 {
-	int		i;
-	int		j;
 	char	**new_args;
 
-	i = 0;
-	j = 0;
 	while (args[i])
 	{
 		if (ft_strlen(args[i]))
@@ -223,9 +233,9 @@ static char	**remove_empty_args(char **args)
 // It will return the new arguments or NULL when failing
 char	**expand_args(char **args, t_env_var *env_var)
 {
-	int i;
-	char **keys;
-	
+	int		i;
+	char	**keys;
+
 	i = 0;
 	while (args[i])
 	{
@@ -241,7 +251,7 @@ char	**expand_args(char **args, t_env_var *env_var)
 		ft_free_split(keys);
 		i++;
 	}
-	args = remove_empty_args(args);
+	args = remove_empty_args(args, 0, 0);
 	if (!args)
 		return (NULL);
 	args = remove_quotes(args);

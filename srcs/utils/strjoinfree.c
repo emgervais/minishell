@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 13:46:17 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/30 01:04:24 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:49:44 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static void	freejoin(const char *s1, const char *s2, int malloced)
 		free((char *)s2);
 	}
 }
+
 //remake of strjoin but can free the passed strings
 //malloced 1 to free first string, 2 to free both and 0 to not free them
 char	*ft_strjoinfree(const char *s1, const char *s2, int malloced)

@@ -6,11 +6,38 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:08:05 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 13:58:18 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:45:33 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	wait_child(t_minishell *mini)
+{
+	int		status;
+	t_cmds	*cmds;
+
+	cmds = mini->cmds;
+	status = 0;
+	while (cmds)
+	{
+		if (cmds->builtin == NO_BUILTIN)
+		{
+			waitpid(cmds->fd.pid, &status, 0);
+			if (WIFEXITED(status) > mini->status)
+				mini->status = WEXITSTATUS(status);
+		}
+		cmds = cmds->next;
+	}
+}
+
+void	close_fd(t_cmds *cmds)
+{
+	if (cmds->fd.fd_in != STDIN_FILENO)
+		close(cmds->fd.fd_in);
+	if (cmds->fd.fd_out != STDOUT_FILENO)
+		close(cmds->fd.fd_out);
+}
 
 int	dup_fd(t_cmds *cmds)
 {
@@ -31,28 +58,6 @@ int	dup_fd(t_cmds *cmds)
 	if (cmds->prev && cmds->prev->fd.fd_out != STDOUT_FILENO)
 		close(cmds->prev->fd.fd_out);
 	return (SUCCESS);
-}
-
-void	close_fd(t_cmds *cmds)
-{
-	if (cmds->fd.fd_in != STDIN_FILENO)
-		close(cmds->fd.fd_in);
-	if (cmds->fd.fd_out != STDOUT_FILENO)
-		close(cmds->fd.fd_out);
-}
-
-int	no_heredoc(t_cmds *cmds)
-{
-	t_redir	*tmp;
-
-	tmp = cmds->redir;
-	while (tmp)
-	{
-		if (tmp->type == HEREDOC)
-			return (0);
-		tmp = tmp->next;
-	}
-	return (1);
 }
 
 int	handle_pipe(t_cmds *cmds)

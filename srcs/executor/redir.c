@@ -6,13 +6,13 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 22:25:23 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 16:38:25 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:35:43 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	redir_heredoc(t_redir *tmp, t_redir *tmp_error, t_cmds *cmds)
+static int	redir_heredoc(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds)
 {
 	int	new_fd;
 
@@ -22,27 +22,27 @@ static int	redir_heredoc(t_redir *tmp, t_redir *tmp_error, t_cmds *cmds)
 	if (cmds->fd.fd_in != STDIN_FILENO)
 		close(cmds->fd.fd_in);
 	cmds->fd.fd_in = new_fd;
-	if (tmp_error)
+	if (*tmp_error)
 		close(new_fd);
 	return (SUCCESS);
 }
 
-static int	redir_in(t_redir *tmp, t_redir *tmp_error, t_cmds *cmds)
+static int	redir_in(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds)
 {
 	int	new_fd;
 
 	new_fd = open(tmp->file, O_RDONLY);
 	if (new_fd == -1 && no_heredoc(cmds))
 		return (error_fd_redir(1, cmds));
-	else if (new_fd == -1 && !tmp_error)
-		tmp_error = tmp;
-	else if (new_fd != -1 && !tmp_error)
+	else if (new_fd == -1 && !*tmp_error)
+		*tmp_error = tmp;
+	else if (new_fd != -1 && !*tmp_error)
 	{
 		if (cmds->fd.fd_in != STDIN_FILENO)
 			close(cmds->fd.fd_in);
 		cmds->fd.fd_in = new_fd;
 	}
-	else if (new_fd != -1 && tmp_error)
+	else if (new_fd != -1 && *tmp_error)
 		close(new_fd);
 	return (SUCCESS);
 }
@@ -65,7 +65,7 @@ static int	redir_out(t_redir *tmp, t_cmds *cmds)
 	return (SUCCESS);
 }
 
-static int	redir_loop(t_redir *tmp, t_redir *tmp_error, t_cmds *cmds)
+static int	redir_loop(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds)
 {
 	if (tmp->type == HEREDOC)
 		return (redir_heredoc(tmp, tmp_error, cmds));
@@ -85,7 +85,7 @@ int	handle_redir(t_cmds *cmds)
 	tmp_error = NULL;
 	while (tmp)
 	{
-		if (redir_loop(tmp, tmp_error, cmds) != SUCCESS)
+		if (redir_loop(tmp, &tmp_error, cmds) != SUCCESS)
 			return (ERROR);
 		tmp = tmp->next;
 	}
