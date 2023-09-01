@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 18:55:45 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/29 21:41:04 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:12:52 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ static int llen(char *str)
     }
     if(!c)
     {
-        while(str[i] == '|' || str[i] == '<' || str[i] == '>')
+        i++;
+        while(str[i] == *str)
             i++;
         return (i);
     }
@@ -99,7 +100,9 @@ static int count_args(char *in)
                 in++;
             if(is_sep(*in))
                 count++;
-            while(*in && is_sep(*in) && *in != ' ')
+            if(in[1] == *in && is_sep(*in))
+                in++;
+            else if(is_sep(*in))
                 in++;
         }
         else
@@ -125,6 +128,7 @@ char **lexer(char *input)
         return (NULL);
     k = 0;
     len = count_args(input);
+    //printf("%d\n", len);
     if(!len)
         return (NULL);
     a = malloc(sizeof(char *) * (len + 1));
@@ -136,6 +140,7 @@ char **lexer(char *input)
         while(*input && *input == ' ')
             input++;
         len = llen(input);
+        //printf("%d\n", len);
         line = malloc(sizeof(char) * (len + 1));
         if(!line)
             return (NULL);
@@ -148,5 +153,8 @@ char **lexer(char *input)
         a[k++] = line;
     }
     a[k] = NULL;
+    //k = -1;
+    //while(a[++k])
+    //    printf("%s\n", a[k]);
     return (a);
 }
