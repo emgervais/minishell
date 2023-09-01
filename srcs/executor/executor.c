@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 16:10:49 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:08:48 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,18 @@ static void	wait_child(t_minishell *mini)
 	status = 0;
 	while (cmds)
 	{
-		if (cmds->fd.pid != 0 && cmds->fd.pid != -1)
+		if (cmds->builtin == NO_BUILTIN)
 		{
 			waitpid(cmds->fd.pid, &status, 0);
-			if (WIFEXITED(status) > mini->status && cmds->builtin == NO_BUILTIN)
+			if (WIFEXITED(status) > mini->status)
 				mini->status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status) && cmds->builtin == NO_BUILTIN)
-				mini->status = WTERMSIG(status) + 128;
 		}
 		cmds = cmds->next;
 	}
 }
 
-int	exec_builtin(t_cmds *cmds, t_env_var *env_var)
+
+static int	exec_builtin(t_cmds *cmds, t_env_var *env_var)
 {
 	if (cmds->builtin == ECHO)
 		return (echo(cmds));
@@ -52,7 +51,7 @@ int	exec_builtin(t_cmds *cmds, t_env_var *env_var)
 	return (SUCCESS);
 }
 
-int	is_directory(t_cmds *cmds)
+static int	is_directory(t_cmds *cmds)
 {
 	struct stat	sb;
 
@@ -209,8 +208,9 @@ int	executor(t_minishell *mini)
 	tmp = mini->cmds;
 	while (tmp)
 	{
-		tmp->args = expand_args(tmp->args, mini->env_var);
-		if (!tmp->args || !tmp->args[0])
+		if (tmp->argc)
+			tmp->args = expand_args(tmp->args, mini->env_var);
+		if ((!tmp->args || !tmp->args[0]) && !tmp->redir)
 		{
 			tmp = tmp->next;
 			continue ;

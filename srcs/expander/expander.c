@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/09/01 15:39:46 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 16:48:40 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,7 @@ char	**expand_args(char **args, t_env_var *env_var)
 {
 	int i;
 	char **keys;
-
+	
 	i = 0;
 	while (args[i])
 	{

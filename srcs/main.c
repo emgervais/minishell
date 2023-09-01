@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 22:18:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/09/01 15:27:22 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 16:49:57 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ t_minishell	*minishell(void)
 			return (NULL);
 		ptr_address->env_var = NULL;
 		ptr_address->cmds = NULL;
+		ptr_address->status = 0;
 	}
 	return (ptr_address);
 }

@@ -6,11 +6,23 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 21:10:06 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/30 01:03:52 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 16:23:06 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
+
+int error_fd_redir(int status, t_cmds *cmds)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(cmds->redir->file, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	if (cmds)
+		cmds->fd.status = status;
+	return (status);
+}
 
 int	error_fd(int status, t_cmds *cmds)
 {

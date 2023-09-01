@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 12:00:57 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/30 01:03:42 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:04:07 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_cmds	*init_command()
 		return (NULL);
 	command->fd.fd_in = STDIN_FILENO;
 	command->fd.fd_out = STDOUT_FILENO;
+	command->fd.status = 0;
+	command->fd.pid = 0;
 	command->args = NULL;
 	command->argc = 0;
 	command->builtin = NO_BUILTIN;

@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:42:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/29 23:20:11 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 16:35:34 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,8 @@ void	free_all(t_minishell *mini);
 void	init_signals(void);
 void	sigint_handler(int sig);
 
-
-// print utils
-void	print_env_var(t_env_var *env_var);
-void	print_commands(t_cmds *commands);
-
 // error utils
+int     error_fd_redir(int status, t_cmds *cmds);
 int     error_fd(int status, t_cmds *cmds);
 int     syntax_error(char token);
 int     syntax_error_lexer(char token);
