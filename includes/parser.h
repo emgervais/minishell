@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:01:18 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 18:32:48 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:55:46 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct s_minishell
 }						t_minishell;
 
 // init commands utils
-t_cmds	*init_command();
+t_cmds	*init_command(void);
 int		add_arg(t_cmds **command, char *arg);
 int		add_command(t_cmds **commands, t_cmds *command);
 int		add_redir(t_cmds **command, t_redir *redir);

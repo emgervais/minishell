@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:03:22 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/31 20:05:17 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:56:32 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,13 @@
 # include "executor.h"
 # include "utils.h"
 
-
 # define ERROR 1
 # define SUCCESS 0
 
 # define TRUE 1
 # define FALSE 0
 
-t_minishell *minishell(void);
-void        lsh_loop(t_minishell *mini);
+t_minishell	*minishell(void);
+void		lsh_loop(t_minishell *mini);
 
-# endif
+#endif
