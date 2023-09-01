@@ -6,24 +6,34 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/30 01:01:04 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/31 20:18:05 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	wait_pid(t_cmds *cmds)
+static void	wait_child(t_minishell *mini)
 {
 	int	status;
+	t_cmds	*cmds;
 
+	cmds = mini->cmds;
 	status = 0;
-	waitpid(cmds->fd.pid, &status, 0);
-	if (WIFEXITED(status)) // return the exit status of the child
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
-		// return the signal that caused the child process to terminate
-		return (WTERMSIG(status) + 128);
-	return (SUCCESS);
+	while (cmds)
+	{
+		if (cmds->fd.pid != 0)
+		{
+			waitpid(cmds->fd.pid, &status, 0);
+			if (WIFEXITED(status))
+			{
+				if (WEXITSTATUS(status) > mini->status)
+					mini->status = WEXITSTATUS(status);
+			}
+			else if (WIFSIGNALED(status))
+				mini->status = WTERMSIG(status) + 128;
+		}
+		cmds = cmds->next;
+	}
 }
 
 int	exec_builtin(t_cmds *cmds, t_env_var *env_var)
@@ -132,84 +142,88 @@ static char	**env_var_to_array(t_env_var *env_var)
 	return (env);
 }
 
-static int	exec_bin(t_cmds *cmds, t_env_var *env_var)
+static int	exec_bin(t_cmds *cmds, t_minishell *mini)
 {
 	char	*path_cmd;
 	char	**env;
 	int		ret;
 
 	ret = 0;
-	path_cmd = get_path(cmds->args[0], env_var, cmds);
+	path_cmd = get_path(cmds->args[0], mini->env_var, cmds);
 	if (!path_cmd)
 		return (cmds->fd.status);
-	env = env_var_to_array(env_var);
+	env = env_var_to_array(mini->env_var);
 	if (!env)
 		return (free(path_cmd), error_fd(1, cmds));
 	cmds->fd.pid = fork();
+	if (cmds->fd.pid == -1)
+		return (free(path_cmd), error_fd(1, cmds));
 	if (cmds->fd.pid == 0)
 	{
-		ret = dup_fd(cmds);
-		if (ret == SUCCESS)
-			ret = execve(path_cmd, cmds->args, env);
+		if (dup_fd(cmds) == ERROR)
+			return (free(path_cmd), ft_free_split(env), error_fd(1, cmds));
+		if (execve(path_cmd, cmds->args, env) == -1)
+			return (free(path_cmd), ft_free_split(env), error_fd(1, cmds));
 	}
-	else if (cmds->fd.pid < 0)
-		ret = error_fd(1, cmds);
-	return (ft_free_split(env), free(path_cmd), ret);
+	free(path_cmd);
+	ft_free_split(env);
+	return (ret);
 }
-
-int	exec_cmds(t_cmds *cmds, t_env_var *env_var)
+static int	do_pipe_and_redir(t_cmds *cmds)
 {
 	int	ret;
 
+	ret = 0;
 	if (cmds->next)
+	{
 		if (handle_pipe(cmds) == ERROR)
 			return (ERROR);
+	}
 	if (cmds->redir)
 	{
 		if (handle_redir(cmds) == ERROR)
 		{
-			if (cmds->next)
-				close(cmds->fd.fd_out);
+			close_fd(cmds);
 			return (ERROR);
 		}
 	}
+	return (ret);
+}
+
+static int	exec_cmds(t_cmds *cmds, t_minishell *mini)
+{
+	int	ret;
+
+	ret = 0;
+	if (do_pipe_and_redir(cmds) == ERROR)
+		return (ERROR);
 	if (cmds->builtin != NO_BUILTIN)
-		ret = exec_builtin(cmds, env_var);
+		ret = exec_builtin(cmds, mini->env_var);
 	else
-	{
-		ret = exec_bin(cmds, env_var);
-		if (cmds->next)
-			close(cmds->fd.fd_out);
-	}
+		ret = exec_bin(cmds, mini);
 	close_fd(cmds);
 	return (ret);
 }
 
 int	executor(t_minishell *mini)
 {
-	t_cmds *tmp;
-	char **args;
+	t_cmds	*tmp;
 
 	tmp = mini->cmds;
+	if (tmp)
+		tmp->fd.fd_in = STDIN_FILENO;
 	while (tmp)
 	{
-		if (tmp->argc != 0)
+		tmp->args = expand_args(tmp->args, mini->env_var);
+		if (!tmp->args || !tmp->args[0])
 		{
-			args = expand_args(tmp->args, mini->env_var);
-			if (!args)
-			{
-				tmp = tmp->next;
-				mini->status = 1;
-				continue ;
-			}
-			tmp->args = args;
-			if (tmp->args && tmp->args[0] && tmp->args[0][0])
-				mini->status = exec_cmds(tmp, mini->env_var);
+			tmp = tmp->next;
+			continue ;
 		}
-		if (!tmp->next && tmp->builtin == NO_BUILTIN && !mini->status
-			&& tmp->args && tmp->args[0] && tmp->args[0][0])
-			mini->status = wait_pid(tmp);
+		mini->status = exec_cmds(tmp, mini);
+		if (!tmp->next && tmp->builtin == NO_BUILTIN)
+			wait_child(mini);
 		tmp = tmp->next;
 	}
-	return (mini->status);
+	return (SUCCESS);
 }

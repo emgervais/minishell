@@ -1,76 +1,198 @@
-==31713== Memcheck, a memory error detector
-==31713== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==31713== Using Valgrind-3.22.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
-==31713== Command: ./minishell
-==31713== Parent PID: 31668
-==31713== 
-==31713== 
-==31713== FILE DESCRIPTORS: 21 open (3 std) at exit.
-==31713== Open file descriptor 40:
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 39: /dev/ttys003
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 38:
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 37:
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 36:
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 35:
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 34:
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 33:
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 32:
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 31:
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 30:
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 29:
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 28:
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 27: /Applications/Visual Studio Code.app/Contents/Resources/app/node_modules.asar
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 26: /dev/ptmx
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 25: /Users/ele-sage/Library/Application Support/Code/logs/20230829T184730/ptyhost.log
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 12: /Applications/Visual Studio Code.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/v8_context_snapshot.x86_64.bin
-==31713==    <inherited from parent>
-==31713== 
-==31713== Open file descriptor 3: /Users/ele-sage/Desktop/minishell/leaks
-==31713==    <inherited from parent>
-==31713== 
-==31713== 
-==31713== HEAP SUMMARY:
-==31713==     in use at exit: 323,842 bytes in 385 blocks
-==31713==   total heap usage: 738 allocs, 353 frees, 346,050 bytes allocated
-==31713== 
-==31713== LEAK SUMMARY:
-==31713==    definitely lost: 0 bytes in 0 blocks
-==31713==    indirectly lost: 0 bytes in 0 blocks
-==31713==      possibly lost: 0 bytes in 0 blocks
-==31713==    still reachable: 0 bytes in 0 blocks
-==31713==         suppressed: 323,842 bytes in 385 blocks
-==31713== 
-==31713== For lists of detected and suppressed errors, rerun with: -s
-==31713== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 4 from 4)
+==22928== Memcheck, a memory error detector
+==22928== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==22928== Using Valgrind-3.22.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
+==22928== Command: /bin/ls
+==22928== Parent PID: 22916
+==22928== 
+===22927== 
+==22927== FILE DESCRIPTORS: 19 open (2 std) at exit.
+==22927== Open file descriptor 34:
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 33: /dev/ttys001
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 32:
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 31:
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 30:
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 29:
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 28:
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 27: /Applications/Visual Studio Code.app/Contents/Resources/app/node_modules.asar
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 26: /dev/ptmx
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 25: /Users/ele-sage/Library/Application Support/Code/logs/20230831T122939/ptyhost.log
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 12: /Applications/Visual Studio Code.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/v8_context_snapshot.x86_64.bin
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 8: /Users/ele-sage/Desktop/minishell/leaks
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 7:
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 6:
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 5: /Users/ele-sage/Desktop/minishell/minishell.dSYM/Contents/Resources/DWARF/minishell
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 4:
+==22927==    <inherited from parent>
+==22927== 
+==22927== Open file descriptor 3: /Users/ele-sage/Desktop/minishell/leaks
+==22927==    <inherited from parent>
+==22927== 
+==22927== 
+==22927== HEAP SUMMARY:
+==22927==     in use at exit: 133,604 bytes in 163 blocks
+==22927==   total heap usage: 181 allocs, 18 frees, 145,905 bytes allocated
+==22927== 
+==22927== 16,384 bytes in 1 blocks are still reachable in loss record 37 of 38
+==22927==    at 0x10011E775: malloc (in /Users/ele-sage/goinfre/.brew/Cellar/valgrind/HEAD-8c360fc/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22927==    by 0x1000018C1: ??? (in /bin/cat)
+==22927==    by 0x100001637: ??? (in /bin/cat)
+==22927==    by 0x1002DBCC8: start (in /usr/lib/system/libdyld.dylib)
+==22927== 
+==22927== 103,292 bytes in 1 blocks are still reachable in loss record 38 of 38
+==22927==    at 0x100121C2E: realloc (in /Users/ele-sage/goinfre/.brew/Cellar/valgrind/HEAD-8c360fc/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22927==    by 0x1003E16F9: reallocf (in /usr/lib/system/libsystem_c.dylib)
+==22927==    by 0x1003E4F27: _Read_RuneMagi (in /usr/lib/system/libsystem_c.dylib)
+==22927==    by 0x1003B5E4A: __setrunelocale (in /usr/lib/system/libsystem_c.dylib)
+==22927==    by 0x1003B6314: __wrap_setrunelocale (in /usr/lib/system/libsystem_c.dylib)
+==22927==    by 0x1003B5B08: loadlocale (in /usr/lib/system/libsystem_c.dylib)
+==22927==    by 0x100001543: ??? (in /bin/cat)
+==22927==    by 0x1002DBCC8: start (in /usr/lib/system/libdyld.dylib)
+==22927== 
+==22927== LEAK SUMMARY:
+==22927==    definitely lost: 0 bytes in 0 blocks
+==22927==    indirectly lost: 0 bytes in 0 blocks
+==22927==      possibly lost: 0 bytes in 0 blocks
+==22927==    still reachable: 119,676 bytes in 2 blocks
+==22927==         suppressed: 13,928 bytes in 161 blocks
+==22927== 
+==22927== For lists of detected and suppressed errors, rerun with: -s
+==22927== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 7 from 7)
+y 0x100003374: init_env_var (init_env_vars.c:107)
+==22916==    by 0x100005AA0: main (main.c:40)
+==22916== 
+==22916== 888 bytes in 37 blocks are still reachable in loss record 60 of 110
+==22916==    at 0x10012D775: malloc (in /Users/ele-sage/goinfre/.brew/Cellar/valgrind/HEAD-8c360fc/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22916==    by 0x100003045: new_env_var (init_env_vars.c:32)
+==22916==    by 0x100003170: add_env_var (init_env_vars.c:60)
+==22916==    by 0x100003374: init_env_var (init_env_vars.c:107)
+==22916==    by 0x100005AA0: main (main.c:40)
+==22916== 
+==22916== 1,039 bytes in 37 blocks are still reachable in loss record 69 of 110
+==22916==    at 0x10012D775: malloc (in /Users/ele-sage/goinfre/.brew/Cellar/valgrind/HEAD-8c360fc/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22916==    by 0x100007593: ft_strdup (in ./minishell)
+==22916==    by 0x1000030D2: new_env_var (init_env_vars.c:41)
+==22916==    by 0x100003170: add_env_var (init_env_vars.c:60)
+==22916==    by 0x100003374: init_env_var (init_env_vars.c:107)
+==22916==    by 0x100005AA0: main (main.c:40)
+==22916== 
+==22916== LEAK SUMMARY:
+==22916==    definitely lost: 0 bytes in 0 blocks
+==22916==    indirectly lost: 0 bytes in 0 blocks
+==22916==      possibly lost: 0 bytes in 0 blocks
+==22916==    still reachable: 2,504 bytes in 115 blocks
+==22916==         suppressed: 323,882 bytes in 388 blocks
+==22916== 
+==22916== For lists of detected and suppressed errors, rerun with: -s
+==22916== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 4 from 4)
+2928== 
+==22928== 104 bytes in 1 blocks are still reachable in loss record 26 of 49
+==22928==    at 0x100125C2E: realloc (in /Users/ele-sage/goinfre/.brew/Cellar/valgrind/HEAD-8c360fc/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22928==    by 0x1000035AC: ??? (in /bin/ls)
+==22928==    by 0x100002650: ??? (in /bin/ls)
+==22928==    by 0x100001BC1: ??? (in /bin/ls)
+==22928==    by 0x1000018BB: ??? (in /bin/ls)
+==22928==    by 0x10040ECC8: start (in /usr/lib/system/libdyld.dylib)
+==22928== 
+==22928== 192 bytes in 1 blocks are still reachable in loss record 32 of 49
+==22928==    at 0x100122775: malloc (in /Users/ele-sage/goinfre/.brew/Cellar/valgrind/HEAD-8c360fc/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22928==    by 0x1004E6715: __monetary_load_locale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x1004E8B08: loadlocale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x1004E8806: setlocale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x10000109B: ??? (in /bin/ls)
+==22928==    by 0x10040ECC8: start (in /usr/lib/system/libdyld.dylib)
+==22928== 
+==22928== 231 bytes in 1 blocks are still reachable in loss record 33 of 49
+==22928==    at 0x100122775: malloc (in /Users/ele-sage/goinfre/.brew/Cellar/valgrind/HEAD-8c360fc/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22928==    by 0x1004E8932: currentlocale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x10000109B: ??? (in /bin/ls)
+==22928==    by 0x10040ECC8: start (in /usr/lib/system/libdyld.dylib)
+==22928== 
+==22928== 389 bytes in 1 blocks are still reachable in loss record 39 of 49
+==22928==    at 0x100122775: malloc (in /Users/ele-sage/goinfre/.brew/Cellar/valgrind/HEAD-8c360fc/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22928==    by 0x1004E624A: __part_load_locale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x10050C5A0: __time_load_locale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x1004E8B08: loadlocale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x1004E8806: setlocale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x10000109B: ??? (in /bin/ls)
+==22928==    by 0x10040ECC8: start (in /usr/lib/system/libdyld.dylib)
+==22928== 
+==22928== 488 bytes in 1 blocks are still reachable in loss record 40 of 49
+==22928==    at 0x100122775: malloc (in /Users/ele-sage/goinfre/.brew/Cellar/valgrind/HEAD-8c360fc/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22928==    by 0x10050C544: __time_load_locale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x1004E8B08: loadlocale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x1004E8806: setlocale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x10000109B: ??? (in /bin/ls)
+==22928==    by 0x10040ECC8: start (in /usr/lib/system/libdyld.dylib)
+==22928== 
+==22928== 2,160 bytes in 1 blocks are still reachable in loss record 47 of 49
+==22928==    at 0x100122775: malloc (in /Users/ele-sage/goinfre/.brew/Cellar/valgrind/HEAD-8c360fc/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22928==    by 0x1004E42B4: __collate_load_tables (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x1004E8B08: loadlocale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x1004E8806: setlocale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x10000109B: ??? (in /bin/ls)
+==22928==    by 0x10040ECC8: start (in /usr/lib/system/libdyld.dylib)
+==22928== 
+==22928== 4,096 bytes in 1 blocks are still reachable in loss record 48 of 49
+==22928==    at 0x100122775: malloc (in /Users/ele-sage/goinfre/.brew/Cellar/valgrind/HEAD-8c360fc/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22928==    by 0x1004F2367: __smakebuf (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x100505C4D: __swsetup (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x10050582C: __swbuf (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x1004F55D8: putchar (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x100003D90: ??? (in /bin/ls)
+==22928==    by 0x100002858: ??? (in /bin/ls)
+==22928==    by 0x100003731: ??? (in /bin/ls)
+==22928==    by 0x100002650: ??? (in /bin/ls)
+==22928==    by 0x100001BC1: ??? (in /bin/ls)
+==22928==    by 0x1000018BB: ??? (in /bin/ls)
+==22928==    by 0x10040ECC8: start (in /usr/lib/system/libdyld.dylib)
+==22928== 
+==22928== 103,292 bytes in 1 blocks are still reachable in loss record 49 of 49
+==22928==    at 0x100125C2E: realloc (in /Users/ele-sage/goinfre/.brew/Cellar/valgrind/HEAD-8c360fc/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+==22928==    by 0x1005146F9: reallocf (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x100517F27: _Read_RuneMagi (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x1004E8E4A: __setrunelocale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x1004E9314: __wrap_setrunelocale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x1004E8B08: loadlocale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x1004E8806: setlocale (in /usr/lib/system/libsystem_c.dylib)
+==22928==    by 0x10000109B: ??? (in /bin/ls)
+==22928==    by 0x10040ECC8: start (in /usr/lib/system/libdyld.dylib)
+==22928== 
+==22928== LEAK SUMMARY:
+==22928==    definitely lost: 0 bytes in 0 blocks
+==22928==    indirectly lost: 0 bytes in 0 blocks
+==22928==      possibly lost: 0 bytes in 0 blocks
+==22928==    still reachable: 111,152 bytes in 13 blocks
+==22928==         suppressed: 13,928 bytes in 161 blocks
+==22928== 
+==22928== For lists of detected and suppressed errors, rerun with: -s
+==22928== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 4 from 4)

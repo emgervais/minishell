@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/30 01:04:37 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/31 20:07:55 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,12 @@ static void	lsh_execute(char **args, t_minishell *mini)
 	if (!args)
 		return ;
 	if (parser(args, mini) == SUCCESS)
-		if (executor(mini) == SUCCESS)
-			mini->status = 0;
+		executor(mini);
 	ft_free_split(args);
 	free_commands(mini->cmds);
 }
 
-int	lsh_loop(t_minishell *mini)
+void	lsh_loop(t_minishell *mini)
 {
 	char *line;
 	char **args;
@@ -59,6 +58,6 @@ int	lsh_loop(t_minishell *mini)
 	mini->cmds = NULL;
 	line = lsh_read_line();
 	args = lsh_split_line(line);
-	lsh_execute(args, mini);
-	return (mini->status);
+	if (args)
+		lsh_execute(args, mini);
 }

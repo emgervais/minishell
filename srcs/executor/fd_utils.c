@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:08:05 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/30 00:58:45 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/31 20:23:53 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,12 @@ int	dup_fd(t_cmds *cmds)
 	return (SUCCESS);
 }
 
-int	close_fd(t_cmds *cmds)
+void	close_fd(t_cmds *cmds)
 {
 	if (cmds->fd.fd_in != STDIN_FILENO)
 		close(cmds->fd.fd_in);
 	if (cmds->fd.fd_out != STDOUT_FILENO)
 		close(cmds->fd.fd_out);
-	return (SUCCESS);
 }
 
 int	no_heredoc(t_cmds *cmds)

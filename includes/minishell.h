@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:03:22 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/29 21:24:27 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/31 20:05:17 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,6 @@
 # define FALSE 0
 
 t_minishell *minishell(void);
-int         lsh_loop(t_minishell *mini);
+void        lsh_loop(t_minishell *mini);
 
 # endif

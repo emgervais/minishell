@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/08/30 01:01:58 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/08/31 20:12:43 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,36 @@ char	**get_keys(char *arg, int i, int j)
 	return (NULL);
 }
 
+static char	**remove_empty_args(char **args)
+{
+	int		i;
+	int		j;
+	char	**new_args;
+
+	i = 0;
+	j = 0;
+	while (args[i])
+	{
+		if (ft_strlen(args[i]))
+			j++;
+		i++;
+	}
+	new_args = malloc(sizeof(char *) * (j + 1));
+	if (!new_args)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (args[i])
+	{
+		if (args[i][0])
+			new_args[j++] = args[i];
+		i++;
+	}
+	new_args[j] = NULL;
+	free(args);
+	return (new_args);
+}
+
 // This function will expand the variables in the arguments
 // It will return the new arguments or NULL when failing
 char	**expand_args(char **args, t_env_var *env_var)
@@ -211,15 +241,9 @@ char	**expand_args(char **args, t_env_var *env_var)
 		ft_free_split(keys);
 		i++;
 	}
-	if (ft_strncmp(args[0], "", 1) == 0)
-	{
-		i = 1;
-		while (args[i])
-		{
-			args[i - 1] = args[i];
-			i++;
-		}
-		args[i - 1] = NULL;
-	}
-	return (remove_quotes(args));
+	args = remove_empty_args(args);
+	if (!args)
+		return (NULL);
+	args = remove_quotes(args);
+	return (args);
 }
