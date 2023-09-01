@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 18:49:09 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 18:49:40 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 19:27:10 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*remove_quotes_arg(char *args, char *new_arg)
 }
 
 // Remove the single quotes and double quotes from the arguments
-static char	**remove_quotes(char **args)
+char	**remove_quotes(char **args)
 {
 	int		i;
 	char	*new_arg;
@@ -91,4 +91,19 @@ char	*skip_quotes(char *arg, int *i)
 			(*i)++;
 	}
 	return (arg);
+}
+
+// This function will get the value of the env_var
+// It will return the value of the env_var
+char	*get_env_var_value(char *key, t_env_var *env_var)
+{
+	if (!ft_strncmp(key, "?", 2))
+		return (ft_itoa(minishell()->status));
+	while (env_var)
+	{
+		if (!ft_strncmp(key, env_var->key, ft_strlen(key) + 1))
+			return (env_var->value);
+		env_var = env_var->next;
+	}
+	return ("");
 }

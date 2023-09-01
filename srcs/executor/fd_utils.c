@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:08:05 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 17:45:33 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 19:23:43 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	dup_fd(t_cmds *cmds)
 	if (cmds->fd.fd_in != STDIN_FILENO)
 	{
 		if (dup2(cmds->fd.fd_in, STDIN_FILENO) == -1)
-			return (error_fd(1, cmds));
+			return (error_fd(1, cmds, 0));
 		close(cmds->fd.fd_in);
 	}
 	if (cmds->next && cmds->next->fd.fd_in != STDIN_FILENO)
@@ -52,7 +52,7 @@ int	dup_fd(t_cmds *cmds)
 	if (cmds->fd.fd_out != STDOUT_FILENO)
 	{
 		if (dup2(cmds->fd.fd_out, STDOUT_FILENO) == -1)
-			return (error_fd(1, cmds));
+			return (error_fd(1, cmds, 0));
 		close(cmds->fd.fd_out);
 	}
 	if (cmds->prev && cmds->prev->fd.fd_out != STDOUT_FILENO)
@@ -65,7 +65,7 @@ int	handle_pipe(t_cmds *cmds)
 	int	fd[2];
 
 	if (pipe(fd) == -1)
-		return (error_fd(1, cmds));
+		return (error_fd(1, cmds, 0));
 	cmds->fd.fd_out = fd[1];
 	cmds->next->fd.fd_in = fd[0];
 	return (SUCCESS);

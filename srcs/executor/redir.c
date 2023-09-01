@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 22:25:23 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 18:40:03 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 19:24:17 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	redir_heredoc(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds)
 
 	new_fd = handle_heredoc(tmp);
 	if (new_fd == -1)
-		return (error_fd_redir(1, cmds));
+		return (error_fd(1, cmds, 1));
 	if (cmds->fd.fd_in != STDIN_FILENO)
 		close(cmds->fd.fd_in);
 	cmds->fd.fd_in = new_fd;
@@ -33,7 +33,7 @@ static int	redir_in(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds)
 
 	new_fd = open(tmp->file, O_RDONLY);
 	if (new_fd == -1 && no_heredoc(cmds))
-		return (error_fd_redir(1, cmds));
+		return (error_fd(1, cmds, 1));
 	else if (new_fd == -1 && !*tmp_error)
 		*tmp_error = tmp;
 	else if (new_fd != -1 && !*tmp_error)
@@ -60,7 +60,7 @@ static int	redir_out(t_redir *tmp, t_cmds *cmds)
 	else
 		return (SUCCESS);
 	if (new_fd == -1)
-		return (error_fd_redir(1, cmds));
+		return (error_fd(1, cmds, 1));
 	cmds->fd.fd_out = new_fd;
 	return (SUCCESS);
 }

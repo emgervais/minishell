@@ -6,28 +6,33 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 21:10:06 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 18:36:15 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 19:21:22 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "utils.h"
 
-int	error_fd_redir(int status, t_cmds *cmds)
+int	is_syntax_error(char **str)
 {
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(cmds->redir->file, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
-	ft_putstr_fd(strerror(errno), STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-	if (cmds)
-		cmds->fd.status = status;
-	return (status);
+	char	**tmp;
+
+	tmp = str;
+	if (ft_memcmp(*tmp, "|", 2) == 0)
+		return (!syntax_error(*tmp[0]));
+	while (*(tmp + 1))
+		tmp++;
+	if (ft_ischarset(*tmp[0], "|<>"))
+		return (!syntax_error(*tmp[0]));
+	return (SUCCESS);
 }
 
-int	error_fd(int status, t_cmds *cmds)
+int	error_fd(int status, t_cmds *cmds, int redir)
 {
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(cmds->args[0], STDERR_FILENO);
+	if (redir)
+		ft_putstr_fd(cmds->redir->file, STDERR_FILENO);
+	else
+		ft_putstr_fd(cmds->args[0], STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(strerror(errno), STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);

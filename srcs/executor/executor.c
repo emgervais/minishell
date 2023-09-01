@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 18:40:40 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 19:08:22 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	exec_cmds(t_cmds *cmds, t_minishell *mini)
 	{
 		if (cmds->builtin)
 			ret = exec_builtin(cmds, mini->env_var);
-		else
+		else if (cmds->args && cmds->args[0])
 			ret = exec_bin(cmds, mini);
 	}
 	close_fd(cmds);

@@ -6,26 +6,11 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/09/01 18:49:33 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 19:27:37 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// This function will get the value of the env_var
-// It will return the value of the env_var
-char	*get_env_var_value(char *key, t_env_var *env_var)
-{
-	if (!ft_strncmp(key, "?", 2))
-		return (ft_itoa(minishell()->status));
-	while (env_var)
-	{
-		if (!ft_strncmp(key, env_var->key, ft_strlen(key) + 1))
-			return (env_var->value);
-		env_var = env_var->next;
-	}
-	return ("");
-}
 
 static char	*fill_after_expand(char *arg, char *new_arg, int *i)
 {
@@ -54,10 +39,10 @@ char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 	while (new_arg && arg[i] && keys[j])
 	{
 		if (arg[i] == '$' && arg[i + 1] && arg[i + 1] != '$' && arg[i
-			+ 1] != ' ')
+				+ 1] != ' ')
 		{
 			new_arg = ft_strjoinfree(new_arg, get_env_var_value(keys[j],
-									env_var), 1);
+						env_var), 1);
 			i += ft_strlen(keys[j++]) + 1;
 		}
 		else if (arg[i] == '$' && arg[i + 1] && arg[i + 1] == '$')
@@ -69,29 +54,29 @@ char	*expand_arg(char *arg, t_env_var *env_var, char **keys)
 	return (new_arg);
 }
 
-static void	retrieve_keys(char **keys, char *arg, int *i, int *j)
+static void	retrieve_keys(char **keys, char *a, int *i, int *j)
 {
 	int	dquote;
 
 	dquote = 0;
-	while (arg[*i] && keys[*j])
+	while (a[*i] && keys[*j])
 	{
-		if (arg[*i] == '\"')
+		if (a[*i] == '\"')
 			dquote = !dquote;
-		if (arg[*i] == '\'' && !dquote)
-			arg = skip_quotes(arg, i);
-		if (arg[*i] == '$' && arg[*i + 1] && arg[*i + 1] == '?')
+		if (a[*i] == '\'' && !dquote)
+			a = skip_quotes(a, i);
+		if (a[*i] == '$' && a[*i + 1] && a[*i + 1] == '?')
 		{
 			keys[*j] = add_one_char(keys[*j], '?', 1);
 			keys[++(*j)] = ft_strdup("");
 			(*i)++;
 		}
-		else if (arg[*i] == '$' && arg[*i + 1] && arg[*i + 1] != '$' && arg[*i
-			+ 1] != ' ' && (ft_isalpha(arg[*i + 1]) || arg[*i + 1] == '_'))
+		else if (a[*i] == '$' && a[*i + 1] && a[*i + 1] != '$' && a[*i
+				+ 1] != ' ' && (ft_isalpha(a[*i + 1]) || a[*i + 1] == '_'))
 		{
-			while (arg[*i + 1] && arg[*i + 1] != '$' && arg[*i + 1] != ' '
-				&& (ft_isalpha(arg[*i + 1]) || arg[*i + 1] == '_'))
-				keys[*j] = add_one_char(keys[*j], arg[++(*i)], 1);
+			while (a[*i + 1] && a[*i + 1] != '$' && a[*i + 1] != ' '
+				&& (ft_isalpha(a[*i + 1]) || a[*i + 1] == '_'))
+				keys[*j] = add_one_char(keys[*j], a[++(*i)], 1);
 			keys[++(*j)] = ft_strdup("");
 		}
 		(*i)++;
@@ -120,32 +105,6 @@ char	**get_keys(char *arg, int i, int j)
 	free(keys[0]);
 	free(keys);
 	return (NULL);
-}
-
-static char	**remove_empty_args(char **args, int i, int j)
-{
-	char	**new_args;
-
-	while (args[i])
-	{
-		if (ft_strlen(args[i]))
-			j++;
-		i++;
-	}
-	new_args = malloc(sizeof(char *) * (j + 1));
-	if (!new_args)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (args[i])
-	{
-		if (args[i][0])
-			new_args[j++] = args[i];
-		i++;
-	}
-	new_args[j] = NULL;
-	free(args);
-	return (new_args);
 }
 
 // This function will expand the variables in the arguments

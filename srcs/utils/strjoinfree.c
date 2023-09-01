@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 13:46:17 by egervais          #+#    #+#             */
-/*   Updated: 2023/09/01 18:39:13 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 19:17:56 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,30 @@ char	*ft_substrfree(char const *s, unsigned int start, size_t len,
 	if (malloced)
 		free((char *)s);
 	return (str);
+}
+
+char	**remove_empty_args(char **args, int i, int j)
+{
+	char	**new_args;
+
+	while (args[i])
+	{
+		if (ft_strlen(args[i]))
+			j++;
+		i++;
+	}
+	new_args = malloc(sizeof(char *) * (j + 1));
+	if (!new_args)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (args[i])
+	{
+		if (args[i][0])
+			new_args[j++] = args[i];
+		i++;
+	}
+	new_args[j] = NULL;
+	free(args);
+	return (new_args);
 }

@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:48:35 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/30 01:03:46 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 19:21:13 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,20 +99,6 @@ static int	parse_commands(char **str, t_cmds **commands)
 	}
 	if (add_command(commands, command))
 		return (ERROR);
-	return (SUCCESS);
-}
-
-int	is_syntax_error(char **str)
-{
-	char	**tmp;
-
-	tmp = str;
-	if (ft_memcmp(*tmp, "|", 2) == 0)
-		return (!syntax_error(*tmp[0]));
-	while (*(tmp + 1))
-		tmp++;
-	if (ft_ischarset(*tmp[0], "|<>"))
-		return (!syntax_error(*tmp[0]));
 	return (SUCCESS);
 }
 

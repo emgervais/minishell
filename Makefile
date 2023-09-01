@@ -6,13 +6,13 @@
 #    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/09/01 18:28:06 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/09/01 19:02:11 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:=	minishell
 CC			:=	gcc
-CFLAGS		:=	-Wall -Wextra -g #-fsanitize=address
+CFLAGS		:=	-Wall -Wextra -g -fsanitize=address
 READLINE_DIR = $(shell brew --prefix readline)
 
 READLINE_LIB = -lreadline -lhistory -L $(READLINE_DIR)/lib
@@ -26,7 +26,7 @@ INCDIR   	:= includes
 ################################### SOURCES ####################################
 SRCFILES 	:=  lexer/lexer.c lexer/norm.c\
 				parser/init_cmds.c parser/parser.c \
-				expander/init_env_vars.c expander/expander.c \
+				expander/init_env_vars.c expander/expander.c expander/quotes_utils.c \
 				executor/executor.c executor/fd_utils.c executor/heredoc.c \
 				executor/redir.c executor/exec_bin.c \
 				utils/error.c utils/free.c utils/unix_signals.c utils/strjoinfree.c \

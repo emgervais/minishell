@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 17:47:10 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 18:40:55 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 19:23:30 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static char	*get_path(char *cmd, t_env_var *env_var, t_cmds *cmds)
 	char	*path_cmd;
 
 	path_cmd = NULL;
+	if (!cmd)
+		return (NULL);
 	if (cmd[0] == '/' || cmd[0] == '.')
 	{
 		if (is_directory(cmds))
@@ -111,16 +113,16 @@ int	exec_bin(t_cmds *cmds, t_minishell *mini)
 		return (cmds->fd.status);
 	env = env_var_to_array(mini->env_var);
 	if (!env)
-		return (free(path_cmd), error_fd(1, cmds));
+		return (free(path_cmd), error_fd(1, cmds, 0));
 	cmds->fd.pid = fork();
 	if (cmds->fd.pid == -1)
-		return (free(path_cmd), error_fd(1, cmds));
+		return (free(path_cmd), error_fd(1, cmds, 0));
 	if (cmds->fd.pid == 0)
 	{
 		if (dup_fd(cmds) == ERROR)
-			return (free(path_cmd), ft_free_split(env), error_fd(1, cmds));
+			return (free(path_cmd), ft_free_split(env), error_fd(1, cmds, 0));
 		if (execve(path_cmd, cmds->args, env) == -1)
-			return (free(path_cmd), ft_free_split(env), error_fd(1, cmds));
+			return (free(path_cmd), ft_free_split(env), error_fd(1, cmds, 0));
 	}
 	free(path_cmd);
 	ft_free_split(env);
