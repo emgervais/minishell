@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 18:32:20 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/29 22:23:34 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:43:13 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*add_one_char(char *s1, char c, int malloced)
 
 int	env(t_cmds *cmd, t_env_var *env_var)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (env_var)

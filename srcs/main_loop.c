@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 15:26:57 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:46:06 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ static void	lsh_execute(char **args, t_minishell *mini)
 
 void	lsh_loop(t_minishell *mini)
 {
-	char *line;
-	char **args;
+	char	*line;
+	char	**args;
 
 	mini->cmds = NULL;
 	line = lsh_read_line();

@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 13:46:17 by egervais          #+#    #+#             */
-/*   Updated: 2023/09/01 17:49:44 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:39:13 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ char	*ft_strjoinfree(const char *s1, const char *s2, int malloced)
 char	*ft_substrfree(char const *s, unsigned int start, size_t len,
 		int malloced)
 {
-	char *str;
-	size_t i;
+	char	*str;
+	size_t	i;
 
 	if (!s)
 		return (NULL);

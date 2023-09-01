@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 12:31:34 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/29 22:24:13 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:41:11 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	pwd(t_cmds *cmd)
 {
-	char *cwd;
+	char	*cwd;
 
 	cwd = malloc(sizeof(char) * 1025);
 	if (!cwd)

@@ -6,7 +6,7 @@
 #    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/09/01 17:49:31 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/09/01 18:28:06 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ INCDIR   	:= includes
 
 
 ################################### SOURCES ####################################
-SRCFILES 	:=  lexer/lexer.c \
+SRCFILES 	:=  lexer/lexer.c lexer/norm.c\
 				parser/init_cmds.c parser/parser.c \
 				expander/init_env_vars.c expander/expander.c \
 				executor/executor.c executor/fd_utils.c executor/heredoc.c \

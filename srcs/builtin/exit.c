@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:40:07 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/08/29 22:23:56 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:48:12 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_exit(t_cmds *cmd)
 	if (cmd->argc > 2)
 	{
 		ft_putstr_fd("exit\nminishell: exit: too many arguments\n",
-						STDERR_FILENO);
+			STDERR_FILENO);
 		return (1);
 	}
 	if (cmd->argc == 2)

@@ -6,14 +6,14 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/07 10:13:40 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/03/06 10:19:07 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:47:04 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
-{	
+{
 	size_t	i;	
 	size_t	needle_len;
 

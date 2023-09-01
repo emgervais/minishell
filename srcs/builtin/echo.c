@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:21:34 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/29 22:23:27 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:43:30 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static int	echo_option(char *s)
 
 int	echo(t_cmds *cmds)
 {
-	int i;
-	int n;
+	int	i;
+	int	n;
 
 	i = 1;
 	n = 1;

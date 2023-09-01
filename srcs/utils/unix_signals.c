@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:34:31 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 18:16:55 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:35:34 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	sigint_handler(int sig)
 
 void	init_signals(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sa.sa_handler = sigint_handler;
 	sa.sa_flags = 0;

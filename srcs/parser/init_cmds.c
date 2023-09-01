@@ -6,13 +6,13 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 12:00:57 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 17:04:07 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:39:39 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmds	*init_command()
+t_cmds	*init_command(void)
 {
 	t_cmds	*command;
 
@@ -91,7 +91,7 @@ int	init_redir(t_redir **redir, t_redir_type type, char *file)
 
 int	add_redir(t_cmds **command, t_redir *redir)
 {
-	t_redir *tmp;
+	t_redir	*tmp;
 
 	if (!command || !redir)
 		return (ERROR);

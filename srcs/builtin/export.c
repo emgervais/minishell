@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:56:47 by egervais          #+#    #+#             */
-/*   Updated: 2023/08/29 22:24:07 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:48:16 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	is_valid_key(char *key)
 
 int	export(t_cmds *cmd, t_env_var *env_var)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	if (cmd->argc == 1)
@@ -86,8 +86,7 @@ int	export(t_cmds *cmd, t_env_var *env_var)
 		{
 			if (set_env_var(ft_substr(cmd->args[i], 0,
 						ft_int_strchr(cmd->args[i], '=')),
-							ft_strchr(cmd->args[i], '=') + 1,
-							env_var))
+					ft_strchr(cmd->args[i], '=') + 1, env_var))
 				return (ERROR);
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 22:25:23 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 17:35:43 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:40:03 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ static int	redir_loop(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds)
 
 int	handle_redir(t_cmds *cmds)
 {
-	t_redir *tmp;
-	t_redir *tmp_error;
+	t_redir	*tmp;
+	t_redir	*tmp_error;
 
 	tmp = cmds->redir;
 	tmp_error = NULL;

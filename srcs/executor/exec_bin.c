@@ -6,12 +6,11 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 17:47:10 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 17:48:15 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:40:55 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 static int	is_directory(t_cmds *cmds)
 {

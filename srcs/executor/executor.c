@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 17:48:34 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/01 18:40:40 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	exec_cmds(t_cmds *cmds, t_minishell *mini)
 
 int	executor(t_minishell *mini)
 {
-	t_cmds *tmp;
+	t_cmds	*tmp;
 
 	tmp = mini->cmds;
 	while (tmp)
