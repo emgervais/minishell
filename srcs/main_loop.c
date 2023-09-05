@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 18:46:06 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:27:30 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*lsh_read_line(void)
 		if (isatty(STDIN_FILENO))
 			write(2, "exit\n", 6);
 		free_all(minishell());
-		exit(0);
+		exit(EXIT_SUCCESS);
 	}
 	add_history(line);
 	return (line);

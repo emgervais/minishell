@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:56:47 by egervais          #+#    #+#             */
-/*   Updated: 2023/09/01 18:48:16 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/05 09:35:33 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int	export_no_arg(t_env_var *env_var, t_cmds *cmd)
 			print_export(env_var, cmd->fd.fd_out);
 		env_var = env_var->next;
 	}
-	cmd->e_status = 0;
 	return (SUCCESS);
 }
 
@@ -44,7 +43,6 @@ static int	export_wrong_usage(t_cmds *cmd, int i)
 	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 	ft_putstr_fd(cmd->args[i], STDERR_FILENO);
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
-	cmd->e_status = 1;
 	return (ERROR);
 }
 
@@ -74,10 +72,7 @@ int	export(t_cmds *cmd, t_env_var *env_var)
 	if (cmd->argc == 1)
 		return (export_no_arg(env_var, cmd));
 	if (cmd->next || cmd->prev)
-	{
-		cmd->e_status = 1;
 		return (ERROR);
-	}
 	while (cmd->args[i])
 	{
 		if (!is_valid_key(cmd->args[i]))

@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:01:18 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/04 22:56:26 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/05 09:35:47 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ typedef struct s_cmds
 	int					argc;
 	t_builtin			builtin;
 	t_redir				*redir;
-	int					e_status;
 	struct s_cmds		*next;
 	struct s_cmds		*prev;
 }						t_cmds;

@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 22:25:23 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 19:24:17 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/05 09:36:12 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int	handle_redir(t_cmds *cmds)
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putstr_fd(tmp_error->file, STDERR_FILENO);
 		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-		cmds->e_status = 1;
 		return (1);
 	}
 	return (SUCCESS);

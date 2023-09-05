@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:53:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/09/04 23:18:48 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:27:55 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ static int	error_cd(t_cmds *cmd)
 		ft_putstr_fd(strerror(errno), STDERR_FILENO);
 		ft_putstr_fd("\n", STDERR_FILENO);
 	}
-	cmd->e_status = 1;
-	return (1);
+	return (ERROR);
 }
 
 static int	change_dir(char *path, t_cmds *cmd)
@@ -61,6 +60,5 @@ int	cd(t_cmds *cmd, t_env_var *env_var)
 		return (ERROR);
 	if (set_env_var("PWD", getcwd(NULL, 0), env_var))
 		return (ERROR);
-	cmd->e_status = 0;
-	return (0);
+	return (SUCCESS);
 }

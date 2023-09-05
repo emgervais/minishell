@@ -6,14 +6,18 @@
 #    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/09/04 18:11:27 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/09/05 09:38:44 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
+# How to install readline:
+# 1. brew install readline
+# 2. brew link --force readline
 
 NAME		:=	minishell
 CC			:=	gcc
 CFLAGS		:=	-Wall -Wextra -Werror -g -fsanitize=address
-READLINE_DIR = $(shell brew --prefix readline)
+READLINE_DIR = $$HOME/goinfre/.brew/opt/readline
 
 READLINE_LIB = -lreadline -lhistory -L $(READLINE_DIR)/lib
 
