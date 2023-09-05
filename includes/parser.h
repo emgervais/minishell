@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:01:18 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 18:55:46 by egervais         ###   ########.fr       */
+/*   Updated: 2023/09/04 22:56:26 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct s_minishell
 	t_env_var			*env_var;
 	t_cmds				*cmds;
 	int					status;
+	int					waiting_child;
 }						t_minishell;
 
 // init commands utils

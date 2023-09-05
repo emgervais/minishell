@@ -6,14 +6,14 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 13:13:14 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 19:19:41 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/05 00:09:15 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
 #ifndef EXPANDER_H
 # define EXPANDER_H
+
+# include "minishell.h"
 
 int			is_valid_key(char *key);
 int			set_env_var(char *key, char *value, t_env_var *env_var);

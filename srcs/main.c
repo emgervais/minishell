@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 22:18:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/09/01 18:46:34 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/05 00:07:16 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ t_minishell	*minishell(void)
 		ptr_address->env_var = NULL;
 		ptr_address->cmds = NULL;
 		ptr_address->status = 0;
+		ptr_address->waiting_child = 0;
 	}
 	return (ptr_address);
 }
@@ -32,6 +33,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	*mini;
 
+	disable_echoctl();
 	init_signals();
 	mini = minishell();
 	if (!mini)

@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:08:05 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 19:23:43 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/04 22:56:59 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	wait_child(t_minishell *mini)
 	t_cmds	*cmds;
 
 	cmds = mini->cmds;
+	mini->waiting_child = 1;
 	status = 0;
 	while (cmds)
 	{
@@ -29,6 +30,7 @@ void	wait_child(t_minishell *mini)
 		}
 		cmds = cmds->next;
 	}
+	mini->waiting_child = 0;
 }
 
 void	close_fd(t_cmds *cmds)

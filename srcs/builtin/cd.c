@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:53:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/09/01 18:45:42 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/04 23:18:48 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,7 @@ int	cd(t_cmds *cmd, t_env_var *env_var)
 		path = get_env_var_value("HOME", env_var);
 	else
 	{
-		if (ft_strncmp(cmd->args[1], "", 1) == 0 || get_env_var_value("PWD",
-				env_var) == NULL)
+		if (ft_strncmp(cmd->args[1], "", 1) == 0)
 			path = get_env_var_value("HOME", env_var);
 		else if (ft_strncmp(cmd->args[1], "-", 2) == 0)
 			path = get_env_var_value("OLDPWD", env_var);

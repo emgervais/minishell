@@ -6,13 +6,13 @@
 #    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/09/01 19:02:11 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/09/04 18:11:27 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:=	minishell
 CC			:=	gcc
-CFLAGS		:=	-Wall -Wextra -g -fsanitize=address
+CFLAGS		:=	-Wall -Wextra -Werror -g -fsanitize=address
 READLINE_DIR = $(shell brew --prefix readline)
 
 READLINE_LIB = -lreadline -lhistory -L $(READLINE_DIR)/lib

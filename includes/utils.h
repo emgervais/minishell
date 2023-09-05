@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:42:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 19:22:08 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/05 00:08:29 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	free_all(t_minishell *mini);
 // unix signals
 void	init_signals(void);
 void	sigint_handler(int sig);
+void	sigquit_handler(int sig);
+void	disable_echoctl(void);
 // error utils
 int		is_syntax_error(char **str);
 int		error_fd(int status, t_cmds *cmds, int redir);
