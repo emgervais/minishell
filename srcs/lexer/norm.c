@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   norm.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/01 18:08:41 by egervais          #+#    #+#             */
-/*   Updated: 2023/09/05 10:12:16 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:32:50 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ char	*norm(char *in, int mode)
 	if (mode == 0)
 	{
 		if (in[1] == *in && is_sep(*in))
-			in++;
-		else if (is_sep(*in))
+			in += 2;
+		else
 			in++;
 		return (in);
 	}

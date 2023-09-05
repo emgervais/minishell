@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 18:55:45 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/05 10:12:26 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:32:14 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,10 @@ static int	count_args(char *in, int count)
 		}
 		else if (is_sep(*in))
 		{
-			in = norm(in, 0);
 			if (!valid_sep(in))
 				return (0);
 			count += skip(in, 1);
+			in = norm(in, 0);
 			in = norm(in, 1);
 		}
 		else
