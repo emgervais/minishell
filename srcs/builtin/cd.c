@@ -6,15 +6,15 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:53:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/09/05 12:27:55 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/05 12:38:17 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-static int	error_cd(t_cmds *cmd)
+static int	error_cd(t_cmds *cmd, int is_home)
 {
-	if (cmd->argc == 1)
+	if (is_home)
 		ft_putstr_fd("minishell: cd: HOME not set\n", STDERR_FILENO);
 	else
 	{
@@ -29,12 +29,21 @@ static int	error_cd(t_cmds *cmd)
 
 static int	change_dir(char *path, t_cmds *cmd)
 {
-	if (chdir(path) == -1)
+	struct stat	buf;
+
+	if (stat(path, &buf) == -1)
+		return (error_cd(cmd, 0));
+	if (S_ISDIR(buf.st_mode))
 	{
-		if (cmd->argc == 1)
-			return (error_cd(cmd));
-		else
-			return (error_cd(cmd));
+		if (chdir(path) == -1)
+			return (error_cd(cmd, 0));
+	}
+	else
+	{
+		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(path, STDERR_FILENO);
+		ft_putstr_fd(": Not a directory\n", STDERR_FILENO);
+		return (ERROR);
 	}
 	return (SUCCESS);
 }

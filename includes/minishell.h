@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:03:22 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 18:56:32 by egervais         ###   ########.fr       */
+/*   Updated: 2023/09/05 13:21:57 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <readline/history.h>
 
 # include "../libft/include/libft.h"
-
+# include "../readline/include/readline/readline.h"
 # include "builtin.h"
 # include "lexer.h"
 # include "parser.h"

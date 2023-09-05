@@ -6,7 +6,7 @@
 #    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/09/05 09:38:44 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/09/05 13:37:31 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,8 @@
 NAME		:=	minishell
 CC			:=	gcc
 CFLAGS		:=	-Wall -Wextra -Werror -g -fsanitize=address
-READLINE_DIR = $$HOME/goinfre/.brew/opt/readline
-
-READLINE_LIB = -lreadline -lhistory -L $(READLINE_DIR)/lib
+READLINE_DIR = $(shell brew --prefix readline)
+READLINE_LIB = -lreadline -lhistory -ltermcap -L$(READLINE_DIR)/lib
 
 # Directories
 SRCDIR   	:= srcs
