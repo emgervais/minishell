@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 19:08:22 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/05 20:40:23 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,16 @@ static int	exec_cmds(t_cmds *cmds, t_minishell *mini)
 	return (ret);
 }
 
+int	adjust_ac(char **args)
+{
+	int	i;
+
+	i = 0;
+	while (args[i])
+		i++;
+	return (i);
+}
+
 int	executor(t_minishell *mini)
 {
 	t_cmds	*tmp;
@@ -67,6 +77,7 @@ int	executor(t_minishell *mini)
 			tmp = tmp->next;
 			continue ;
 		}
+		tmp->argc = adjust_ac(tmp->args);
 		mini->status = exec_cmds(tmp, mini);
 		if (!tmp->next)
 			wait_child(mini);
