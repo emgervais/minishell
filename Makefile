@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: egervais <egervais@student.42.fr>          +#+  +:+       +#+         #
+#    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/09/05 14:39:16 by egervais         ###   ########.fr        #
+#    Updated: 2023/09/06 18:04:36 by ele-sage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +17,8 @@
 NAME		:=	minishell
 CC			:=	gcc
 CFLAGS		:=	-Wall -Wextra -Werror -g -fsanitize=address
-READLINE_DIR = readline
-READLINE_LIB = -lreadline -lhistory -ltermcap -L$(READLINE_DIR)/lib
+READLINE_DIR = $(shell brew --prefix readline)
+READLINE_LIB = -L$(READLINE_DIR)/lib -lreadline
 
 # Directories
 SRCDIR   	:= srcs
@@ -44,6 +44,14 @@ INCS    	:= -Iincludes -I$(READLINE_DIR)/include -Ilibft/include -I$(INCDIR)
 
 # Rules
 # Compilation
+ifeq ($(shell brew list | grep readline),)
+all:
+	@echo "Installing readline..."
+	@brew install readline
+	@brew link --force readline
+	@echo "Readline installed."
+	@make $(NAME)
+endif
 $(NAME): $(OBJFILES)
 	@make -C libft
 	@$(CC) $(CFLAGS) $(OBJFILES) -L libft -lft $(READLINE_LIB) -o $(NAME)
