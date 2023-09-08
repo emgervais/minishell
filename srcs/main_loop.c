@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/07 22:23:28 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/08 19:53:54 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static char	**lsh_split_line(char *line)
 {
 	char	**agrs;
 
+	ft_replace_char(line, '\t', ' ');
 	line = ft_strtrim(line, " ");
 	agrs = lexer(line);
 	free(line);

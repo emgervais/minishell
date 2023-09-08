@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/08 12:33:41 by egervais         ###   ########.fr       */
+/*   Updated: 2023/09/08 19:55:00 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,19 @@
 
 static int	exec_builtin(t_cmds *cmds, t_env_var *env_var)
 {
-	if (cmds->builtin == EC)
+	if (cmds->builtin == _ECHO)
 		return (echo(cmds));
-	else if (cmds->builtin == CD)
+	else if (cmds->builtin == _CD)
 		return (cd(cmds, env_var));
-	else if (cmds->builtin == PWD)
+	else if (cmds->builtin == _PWD)
 		return (pwd(cmds));
-	else if (cmds->builtin == EXPORT)
+	else if (cmds->builtin == _EXPORT)
 		return (export(cmds, env_var));
-	else if (cmds->builtin == UNSET)
+	else if (cmds->builtin == _UNSET)
 		return (unset(cmds, env_var));
-	else if (cmds->builtin == ENV)
+	else if (cmds->builtin == _ENV)
 		return (env(cmds, env_var));
-	else if (cmds->builtin == EXIT)
+	else if (cmds->builtin == _EXIT)
 		return (ft_exit(cmds));
 	return (SUCCESS);
 }

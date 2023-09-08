@@ -6,13 +6,14 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 22:25:23 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/07 20:57:07 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/08 19:56:38 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	redir_heredoc(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds, t_minishell *mini)
+static int	redir_heredoc(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds,
+					t_minishell *mini)
 {
 	int	new_fd;
 
@@ -65,7 +66,8 @@ static int	redir_out(t_redir *tmp, t_cmds *cmds)
 	return (SUCCESS);
 }
 
-static int	redir_loop(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds, t_minishell *mini)
+static int	redir_loop(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds,
+				t_minishell *mini)
 {
 	if (tmp->type == HEREDOC)
 		return (redir_heredoc(tmp, tmp_error, cmds, mini));

@@ -6,12 +6,11 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:34:31 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/07 22:32:37 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/08 19:54:11 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	disable_echoctl(void)
 {
@@ -29,7 +28,6 @@ void	disable_echoctl(void)
 		exit(EXIT_FAILURE);
 	}
 }
-
 
 // This function is called when the user presses Ctrl-\ (SIGQUIT)
 // Will do nothing for Ctrl-\ (SIGQUIT)

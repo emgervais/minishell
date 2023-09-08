@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:01:18 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/08 12:33:17 by egervais         ###   ########.fr       */
+/*   Updated: 2023/09/08 19:54:46 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@
 typedef enum e_builtin
 {
 	NO_BUILTIN,
-	EC,
-	CD,
-	PWD,
-	EXPORT,
-	UNSET,
-	ENV,
-	EXIT
+	_ECHO,
+	_CD,
+	_PWD,
+	_EXPORT,
+	_UNSET,
+	_ENV,
+	_EXIT
 }						t_builtin;
 
 typedef struct s_env_var

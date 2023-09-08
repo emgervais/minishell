@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 20:04:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/07 21:56:43 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/08 19:56:31 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	handle_heredoc(t_redir *redir, t_minishell *mini)
 	while (1)
 	{
 		input = readline("> ");
-		if (!input || !ft_strncmp(input, redir->file, ft_strlen(redir->file) + 1) || mini->ctrl_c)
+		if (!input || mini->ctrl_c
+			|| !ft_strncmp(input, redir->file, ft_strlen(redir->file) + 1))
 			break ;
 		input = expand_heredoc(input, minishell()->env_var);
 		ft_putendl_fd(input, fd[1]);

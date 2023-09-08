@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:48:35 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/08 12:33:33 by egervais         ###   ########.fr       */
+/*   Updated: 2023/09/08 19:54:28 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 static void	is_builtin(char *str, t_cmds *command)
 {
 	if (ft_strncmp(str, "echo", 5) == 0)
-		command->builtin = EC;
+		command->builtin = _ECHO;
 	else if (ft_strncmp(str, "cd", 3) == 0)
-		command->builtin = CD;
+		command->builtin = _CD;
 	else if (ft_strncmp(str, "pwd", 4) == 0)
-		command->builtin = PWD;
+		command->builtin = _PWD;
 	else if (ft_strncmp(str, "export", 7) == 0)
-		command->builtin = EXPORT;
+		command->builtin = _EXPORT;
 	else if (ft_strncmp(str, "unset", 6) == 0)
-		command->builtin = UNSET;
+		command->builtin = _UNSET;
 	else if (ft_strncmp(str, "env", 4) == 0)
-		command->builtin = ENV;
+		command->builtin = _ENV;
 	else if (ft_strncmp(str, "exit", 5) == 0)
-		command->builtin = EXIT;
+		command->builtin = _EXIT;
 }
 
 static int	is_redir(t_cmds *command, char **str, int *i)
