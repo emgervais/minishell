@@ -1,8 +1,0 @@
-$EMPTY echo hi
-$EMPTY
-
-echo hi | >./outfiles/outfile01 echo bye >./test_files/invalid_permission
-grep hi "<infile" <         ./test_files/infile
-
-export GHOST=123 | env | grep GHOST
-export | sort | grep -v SHLVL | grep -v "declare -x _" | grep -v "PS.="
