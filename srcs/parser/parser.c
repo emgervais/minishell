@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:48:35 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 19:21:13 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/07 17:05:22 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,17 +105,20 @@ static int	parse_commands(char **str, t_cmds **commands)
 int	parser(char **str, t_minishell *mini)
 {
 	char	**tmp;
+	int		ret;
 
 	tmp = str;
+	ret = SUCCESS;
 	if (is_syntax_error(str))
 	{
 		mini->status = 258;
-		return (ERROR);
+		ret = ERROR;
 	}
-	if (parse_commands(str, &mini->cmds))
+	if (ret == SUCCESS && parse_commands(str, &mini->cmds))
 	{
 		mini->status = 258;
-		return (ERROR);
+		ret = ERROR;
 	}
-	return (SUCCESS);
+	ft_free_split(str);
+	return (ret);
 }

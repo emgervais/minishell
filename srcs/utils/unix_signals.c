@@ -6,12 +6,12 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/21 11:34:31 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/05 13:38:12 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/07 22:32:37 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "utils.h"
-#include <termios.h>
+#include "minishell.h"
+
 
 void	disable_echoctl(void)
 {
@@ -30,13 +30,17 @@ void	disable_echoctl(void)
 	}
 }
 
+
 // This function is called when the user presses Ctrl-\ (SIGQUIT)
 // Will do nothing for Ctrl-\ (SIGQUIT)
 void	sigquit_handler(int sig)
 {
 	(void)sig;
 	if (minishell()->waiting_child)
+	{
+		minishell()->status = 131;
 		ft_putstr_fd("Quit: 3\n", 2);
+	}
 	else
 	{
 		rl_on_new_line();
@@ -44,9 +48,16 @@ void	sigquit_handler(int sig)
 	}
 }
 
+// This function is called when the user presses Ctrl-C (SIGINT)
 void	sigint_handler(int sig)
 {
 	(void)sig;
+	if (minishell()->heredoc)
+	{
+		minishell()->ctrl_c = 1;
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");
+		return ;
+	}
 	ft_putstr_fd("\n", 2);
 	rl_on_new_line();
 	rl_replace_line("", 0);

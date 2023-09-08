@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 22:08:05 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/04 22:56:59 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/07 22:27:53 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,12 @@
 
 void	wait_child(t_minishell *mini)
 {
-	int		status;
-	t_cmds	*cmds;
+	int	status;
 
-	cmds = mini->cmds;
 	mini->waiting_child = 1;
-	status = 0;
-	while (cmds)
-	{
-		if (cmds->builtin == NO_BUILTIN)
-		{
-			waitpid(cmds->fd.pid, &status, 0);
-			if (WIFEXITED(status) > mini->status)
-				mini->status = WEXITSTATUS(status);
-		}
-		cmds = cmds->next;
-	}
+	while (waitpid(-1, &status, 0) != -1)
+		if (WIFEXITED(status))
+			mini->status = WEXITSTATUS(status);
 	mini->waiting_child = 0;
 }
 

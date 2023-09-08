@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 15:21:34 by egervais          #+#    #+#             */
-/*   Updated: 2023/09/05 16:07:25 by egervais         ###   ########.fr       */
+/*   Updated: 2023/09/07 22:12:36 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,6 @@ int	echo(t_cmds *cmds)
 	}
 	if (n == 1)
 		ft_putchar_fd('\n', cmds->fd.fd_out);
+	minishell()->status = 0;
 	return (SUCCESS);
 }

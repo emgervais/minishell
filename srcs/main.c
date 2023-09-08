@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 22:18:18 by egervais          #+#    #+#             */
-/*   Updated: 2023/09/05 20:42:12 by egervais         ###   ########.fr       */
+/*   Updated: 2023/09/07 22:32:58 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ t_minishell	*minishell(void)
 		ptr_address->cmds = NULL;
 		ptr_address->status = 0;
 		ptr_address->waiting_child = 0;
+		ptr_address->ctrl_c = 0;
+		ptr_address->heredoc = 0;
 	}
 	return (ptr_address);
 }

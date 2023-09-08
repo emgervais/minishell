@@ -6,17 +6,17 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 22:25:23 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/05 09:36:12 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/07 20:57:07 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	redir_heredoc(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds)
+static int	redir_heredoc(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds, t_minishell *mini)
 {
 	int	new_fd;
 
-	new_fd = handle_heredoc(tmp);
+	new_fd = handle_heredoc(tmp, mini);
 	if (new_fd == -1)
 		return (error_fd(1, cmds, 1));
 	if (cmds->fd.fd_in != STDIN_FILENO)
@@ -65,10 +65,10 @@ static int	redir_out(t_redir *tmp, t_cmds *cmds)
 	return (SUCCESS);
 }
 
-static int	redir_loop(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds)
+static int	redir_loop(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds, t_minishell *mini)
 {
 	if (tmp->type == HEREDOC)
-		return (redir_heredoc(tmp, tmp_error, cmds));
+		return (redir_heredoc(tmp, tmp_error, cmds, mini));
 	else if (tmp->type == IN)
 		return (redir_in(tmp, tmp_error, cmds));
 	else if (tmp->type == OUT || tmp->type == APPEND)
@@ -76,7 +76,7 @@ static int	redir_loop(t_redir *tmp, t_redir **tmp_error, t_cmds *cmds)
 	return (SUCCESS);
 }
 
-int	handle_redir(t_cmds *cmds)
+int	handle_redir(t_cmds *cmds, t_minishell *mini)
 {
 	t_redir	*tmp;
 	t_redir	*tmp_error;
@@ -85,7 +85,7 @@ int	handle_redir(t_cmds *cmds)
 	tmp_error = NULL;
 	while (tmp)
 	{
-		if (redir_loop(tmp, &tmp_error, cmds) != SUCCESS)
+		if (redir_loop(tmp, &tmp_error, cmds, mini) != SUCCESS)
 			return (ERROR);
 		tmp = tmp->next;
 	}

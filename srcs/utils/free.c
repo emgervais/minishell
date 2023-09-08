@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:04:11 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 18:33:31 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/07 22:00:52 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,8 @@ void	free_env_vars(t_env_var *env_var)
 	while (env_var)
 	{
 		tmp = env_var->next;
-		if (env_var->key)
-			free(env_var->key);
-		if (env_var->value)
-			free(env_var->value);
+		free(env_var->key);
+		free(env_var->value);
 		free(env_var);
 		env_var = tmp;
 	}

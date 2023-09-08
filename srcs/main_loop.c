@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:09:13 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/05 12:27:30 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/07 22:23:28 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static void	lsh_execute(char **args, t_minishell *mini)
 		return ;
 	if (parser(args, mini) == SUCCESS)
 		executor(mini);
-	ft_free_split(args);
 	free_commands(mini->cmds);
 }
 

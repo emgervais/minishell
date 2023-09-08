@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 20:04:32 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 18:40:21 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/07 21:56:43 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,28 @@ static char	*expand_heredoc(char *args, t_env_var *env_var)
 	return (args);
 }
 
-int	handle_heredoc(t_redir *redir)
+// If the user presses Ctrl-C (SIGINT) while the heredoc is being read,
+// the heredoc will be terminated
+int	handle_heredoc(t_redir *redir, t_minishell *mini)
 {
 	int		fd[2];
 	char	*input;
 
+	mini->heredoc = 1;
 	if (pipe(fd) == -1)
 		return (-1);
 	while (1)
 	{
 		input = readline("> ");
-		if (!input || !ft_memcmp(input, redir->file, ft_strlen(input) + 1))
-		{
-			free(input);
+		if (!input || !ft_strncmp(input, redir->file, ft_strlen(redir->file) + 1) || mini->ctrl_c)
 			break ;
-		}
 		input = expand_heredoc(input, minishell()->env_var);
 		ft_putendl_fd(input, fd[1]);
 		free(input);
 	}
+	if (input)
+		free(input);
+	mini->heredoc = 0;
+	mini->ctrl_c = 0;
 	return (close(fd[1]), fd[0]);
 }
