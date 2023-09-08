@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:01:18 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/05 09:35:47 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/07 21:52:17 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ typedef struct s_minishell
 	t_cmds				*cmds;
 	int					status;
 	int					waiting_child;
+	int					ctrl_c;
+	int					heredoc;
 }						t_minishell;
 
 // init commands utils

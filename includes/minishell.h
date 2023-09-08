@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 14:03:22 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/05 13:21:57 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/07 22:32:49 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@
 # include <errno.h>
 # include <string.h>
 # include <dirent.h>
+# include <termios.h>
+# include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
 # include "../libft/include/libft.h"
-# include "../readline/include/readline/readline.h"
 # include "builtin.h"
 # include "lexer.h"
 # include "parser.h"

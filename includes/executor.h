@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:26:07 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 18:58:46 by egervais         ###   ########.fr       */
+/*   Updated: 2023/09/07 20:26:11 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	wait_child(t_minishell *mini);
 int		dup_fd(t_cmds *cmds);
 void	close_fd(t_cmds *cmds);
 int		no_heredoc(t_cmds *cmds);
-int		handle_redir(t_cmds *cmds);
+int		handle_redir(t_cmds *cmds, t_minishell *mini);
 int		handle_pipe(t_cmds *cmds);
-int		handle_heredoc(t_redir *redir);
+int		handle_heredoc(t_redir *redir, t_minishell *mini);
 
 #endif
