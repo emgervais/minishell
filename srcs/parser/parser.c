@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 15:48:35 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/07 17:05:22 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/08 12:33:33 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	is_builtin(char *str, t_cmds *command)
 {
 	if (ft_strncmp(str, "echo", 5) == 0)
-		command->builtin = ECHO;
+		command->builtin = EC;
 	else if (ft_strncmp(str, "cd", 3) == 0)
 		command->builtin = CD;
 	else if (ft_strncmp(str, "pwd", 4) == 0)

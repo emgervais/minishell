@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+         #
+#    By: egervais <egervais@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/12 12:33:49 by ele-sage          #+#    #+#              #
-#    Updated: 2023/09/06 18:04:36 by ele-sage         ###   ########.fr        #
+#    Updated: 2023/09/08 13:05:53 by egervais         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 
 NAME		:=	minishell
 CC			:=	gcc
-CFLAGS		:=	-Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		:=	-Wall -Wextra -Werror -g #-fsanitize=address
 READLINE_DIR = $(shell brew --prefix readline)
 READLINE_LIB = -L$(READLINE_DIR)/lib -lreadline
 

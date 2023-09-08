@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/24 12:16:55 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/07 17:20:26 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/08 12:33:41 by egervais         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	exec_builtin(t_cmds *cmds, t_env_var *env_var)
 {
-	if (cmds->builtin == ECHO)
+	if (cmds->builtin == EC)
 		return (echo(cmds));
 	else if (cmds->builtin == CD)
 		return (cd(cmds, env_var));
