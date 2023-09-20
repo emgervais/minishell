@@ -37,9 +37,7 @@ char	*add_one_char(char *s1, char c, int malloced)
 
 int	env(t_cmds *cmd, t_env_var *env_var)
 {
-	int	i;
 
-	i = 0;
 	while (env_var)
 	{
 		ft_putstr_fd(env_var->key, cmd->fd.fd_out);

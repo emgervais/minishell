@@ -78,13 +78,15 @@ int	set_env_var(char *key, char *value, t_env_var *env_var)
 		{
 			free(tmp->value);
 			tmp->value = ft_strdup(value);
+			free(key);
+			free(value);
 			if (!tmp->value)
-				return (free(key), ERROR);
+				return (ERROR);
 			return (SUCCESS);
 		}
 		tmp = tmp->next;
 	}
-	key_value = ft_strjoinfree(add_one_char(key, '=', 1), value, 1);
+	key_value = ft_strjoinfree(add_one_char(key, '=', 1), value, 2);
 	if (!key_value)
 		return (ERROR);
 	if (add_env_var(env_var, key_value) == ERROR)

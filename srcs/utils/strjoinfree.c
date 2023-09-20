@@ -98,6 +98,8 @@ char	**remove_empty_args(char **args, int i, int j)
 	{
 		if (args[i][0])
 			new_args[j++] = args[i];
+		else
+			free(args[i]);
 		i++;
 	}
 	new_args[j] = NULL;

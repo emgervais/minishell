@@ -104,10 +104,8 @@ static int	parse_commands(char **str, t_cmds **commands)
 
 int	parser(char **str, t_minishell *mini)
 {
-	char	**tmp;
 	int		ret;
 
-	tmp = str;
 	ret = SUCCESS;
 	if (is_syntax_error(str))
 	{

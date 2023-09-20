@@ -1,62 +1,33 @@
-==5864== Memcheck, a memory error detector
-==5864== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
-==5864== Using Valgrind-3.22.0.GIT-lbmacos and LibVEX; rerun with -h for copyright info
-==5864== Command: /usr/bin/grep ahaha
-==5864== Parent PID: 585==58==5856== 
-==5856== FILE DESCRIPTORS: 10 open (3 std) at exit.
-==5856== Open file descriptor 29:
-==5856==    <inherited from parent>
-==5856== 
-==5856== Open file descriptor 28: /dev/ttys000
-==5856==    <inherited from parent>
-==5856== 
-==5856== Open file descriptor 27: /Applications/Visual Studio Code.app/Contents/Resources/app/node_modules.asar
-==5856==    <inherited from parent>
-==5856== 
-==5856== Open file descriptor 26: /dev/ptmx
-==5856==    <inherited from parent>
-==5856== 
-==5856== Open file descriptor 25: /Users/egervais/Library/Application Support/Code/logs/20230908T135317/ptyhost.log
-==5856==    <inherited from parent>
-==5856== 
-==5856== Open file descriptor 12: /Applications/Visual Studio Code.app/Contents/Frameworks/Electron Framework.framework/Versions/A/Resources/v8_context_snapshot.x86_64.bin
-==5856==    <inherited from parent>
-==5856== 
-==5856== Open file descriptor 3: /Users/egervais/Desktop/minishell/leaks
-==5856==    <inherited from parent>
-==5856== 
-==5856== 
-==5856== HEAP SUMMARY:
-==5856==     in use at exit: 323,984 bytes in 386 blocks
-==5856==   total heap usage: 1,195 allocs, 809 frees, 358,743 bytes allocated
-==5856== 
-==5856== LEAK SUMMARY:
-==5856==    definitely lost: 0 bytes in 0 blocks
-==5856==    indirectly lost: 0 bytes in 0 blocks
-==5856==      possibly lost: 0 bytes in 0 blocks
-==5856==    still reachable: 0 bytes in 0 blocks
-==5856==         suppressed: 323,984 bytes in 386 blocks
-==5856== 
-==5856== For lists of detected and suppressed errors, rerun with: -s
-==5856== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 5 from 5)
-s of detected and suppressed errors, rerun with: -s
-==5864== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 8 from 8)
-in /usr/lib/libobjc.A.dylib)
-==5863==    by 0x100757742: property_copyAttributeList (in /usr/lib/libobjc.A.dylib)
-==5863==    by 0x10074D1E7: NXMapRemove (in /usr/lib/libobjc.A.dylib)
-==5863==    by 0x10075FBD2: attachCategories(objc_class*, locstamped_category_t const*, unsigned int, int) (in /usr/lib/libobjc.A.dylib)
-==5863==    by 0x10075F6C6: objc_class::mangledName() (in /usr/lib/libobjc.A.dylib)
-==5863==    by 0x10075F69F: objc_class::mangledName() (in /usr/lib/libobjc.A.dylib)
-==5863==    by 0x10075F69F: objc_class::mangledName() (in /usr/lib/libobjc.A.dylib)
-==5863==    by 0x10075F69F: objc_class::mangledName() (in /usr/lib/libobjc.A.dylib)
-==5863==    by 0x10074B406: objc_opt::objc_stringhash_t::getIndex(char const*) const (in /usr/lib/libobjc.A.dylib)
-==5863== 
-==5863== LEAK SUMMARY:
-==5863==    definitely lost: 2,048 bytes in 1 blocks
-==5863==    indirectly lost: 0 bytes in 0 blocks
-==5863==      possibly lost: 0 bytes in 0 blocks
-==5863==    still reachable: 0 bytes in 0 blocks
-==5863==         suppressed: 170,161 bytes in 219 blocks
-==5863== 
-==5863== For lists of detected and suppressed errors, rerun with: -s
-==5863== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 8 from 8)
+==9977== Memcheck, a memory error detector
+==9977== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==9977== Using Valgrind-3.21.0 and LibVEX; rerun with -h for copyright info
+==9977== Command: /usr/bin/echo lol__
+==9977== Parent PID: 9248
+====9248== 
+==9248== FILE DESCRIPTORS: 7 open (3 std) at exit.
+==9248== Open file descriptor 23: /home/egervais/.vscode-server/data/logs/20230920T145818/network.log
+==9248==    <inherited from parent>
+==9248== 
+==9248== Open file descriptor 20: /home/egervais/.vscode-server/data/logs/20230920T145818/ptyhost.log
+==9248==    <inherited from parent>
+==9248== 
+==9248== Open file descriptor 19: /home/egervais/.vscode-server/data/logs/20230920T145818/remoteagent.log
+==9248==    <inherited from parent>
+==9248== 
+==9248== Open file descriptor 3: /home/egervais/code/minishell/leaks
+==9248==    <inherited from parent>
+==9248== 
+==9248== 
+==9248== HEAP SUMMARY:
+==9248==     in use at exit: 208,721 bytes in 255 blocks
+==9248==   total heap usage: 1,640 allocs, 1,385 frees, 273,178 bytes allocated
+==9248== 
+==9248== LEAK SUMMARY:
+==9248==    definitely lost: 0 bytes in 0 blocks
+==9248==    indirectly lost: 0 bytes in 0 blocks
+==9248==      possibly lost: 0 bytes in 0 blocks
+==9248==    still reachable: 0 bytes in 0 blocks
+==9248==         suppressed: 208,721 bytes in 255 blocks
+==9248== 
+==9248== For lists of detected and suppressed errors, rerun with: -s
+==9248== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

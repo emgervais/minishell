@@ -63,10 +63,8 @@ char	**remove_quotes(char **args)
 
 int	remove_quotes_redir(t_redir *redir)
 {
-	int		i;
 	char	*new_arg;
 
-	i = 0;
 	while (redir)
 	{
 		new_arg = ft_strdup("");

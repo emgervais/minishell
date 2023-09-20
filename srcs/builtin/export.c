@@ -81,7 +81,7 @@ int	export(t_cmds *cmd, t_env_var *env_var)
 		{
 			if (set_env_var(ft_substr(cmd->args[i], 0,
 						ft_int_strchr(cmd->args[i], '=')),
-					ft_strchr(cmd->args[i], '=') + 1, env_var))
+					ft_substr(cmd->args[i], ft_int_strchr(cmd->args[i], '=') + 1, ft_strlen(cmd->args[i])), env_var))
 				return (ERROR);
 		}
 		i++;
