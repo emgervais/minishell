@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: egervais <egervais@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 13:35:26 by fpolycar          #+#    #+#             */
-/*   Updated: 2023/09/05 20:28:49 by egervais         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:59:40 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	retrieve_keys(char **keys, char *a, int *i, int *j)
 				+ 1] != ' ' && (ft_isalpha(a[*i + 1]) || a[*i + 1] == '_'))
 		{
 			while (a[*i + 1] && a[*i + 1] != '$' && a[*i + 1] != ' '
-				&& (ft_isalpha(a[*i + 1]) || a[*i + 1] == '_'))
+				&& (ft_isalnum(a[*i + 1]) || a[*i + 1] == '_'))
 				keys[*j] = add_one_char(keys[*j], a[++(*i)], 1);
 			keys[++(*j)] = ft_strdup("");
 		}
