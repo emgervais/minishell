@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/04 08:40:07 by ele-sage          #+#    #+#             */
-/*   Updated: 2023/09/01 18:48:12 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/22 12:07:00 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_exit(t_cmds *cmd)
 	}
 	if (cmd->argc == 2)
 	{
-		if (!in_range(cmd->args[1]))
+		if (ft_strlen(cmd->args[1]) > 19 || !in_range(cmd->args[1]))
 		{
 			ft_putstr_fd("exit\nminishell: exit: ", STDERR_FILENO);
 			ft_putstr_fd(cmd->args[1], STDERR_FILENO);

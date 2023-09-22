@@ -6,7 +6,7 @@
 /*   By: ele-sage <ele-sage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 22:56:47 by egervais          #+#    #+#             */
-/*   Updated: 2023/09/05 09:35:33 by ele-sage         ###   ########.fr       */
+/*   Updated: 2023/09/22 11:55:00 by ele-sage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int	export(t_cmds *cmd, t_env_var *env_var)
 		{
 			if (set_env_var(ft_substr(cmd->args[i], 0,
 						ft_int_strchr(cmd->args[i], '=')),
-					ft_substr(cmd->args[i], ft_int_strchr(cmd->args[i], '=') + 1, ft_strlen(cmd->args[i])), env_var))
+					ft_substr(cmd->args[i], ft_int_strchr(cmd->args[i], '=')
+						+ 1, ft_strlen(cmd->args[i])), env_var))
 				return (ERROR);
 		}
 		i++;
