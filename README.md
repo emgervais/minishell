@@ -1,7 +1,7 @@
   <h1>Minishell</h1>
 
   <h2>Description</h2>
-  <p>Minishell is a simple shell program developed as part of a project. It functions as a basic command-line interpreter, providing users with a prompt to enter commands and execute them.</p>
+  <p>Minishell is a simple shell program developed as part of a project. It functions as a basic command-line interpreter, providing users with a prompt to enter commands and execute them. A mini recreation of bash.</p>
 
   <h2>Features</h2>
   <ul>
